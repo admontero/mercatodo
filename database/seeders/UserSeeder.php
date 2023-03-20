@@ -16,15 +16,15 @@ class UserSeeder extends Seeder
         User::factory(800)->create();
 
         User::factory()->admin()->create([
-            'name' => 'Admin',
-            'lastname' => 'User',
+            'first_name' => 'Admin',
+            'last_name' => 'User',
             'email' => 'admin@test.com',
             'password' => bcrypt('12345678'),
         ]);
 
         User::factory()->customer()->unverified()->create([
-            'name' => 'Customer',
-            'lastname' => 'User',
+            'first_name' => 'Customer',
+            'last_name' => 'User',
             'email' => 'customer@test.com',
             'password' => bcrypt('12345678'),
         ]);
