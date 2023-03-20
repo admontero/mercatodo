@@ -30,7 +30,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->post(route('register'), $userData);
 
-        $response->assertRedirect('/home');
+        $response->assertRedirect('/');
 
         $this->assertDatabaseHas('users', [
             'first_name' => 'Arantxa',
