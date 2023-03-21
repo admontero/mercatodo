@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\UserStatuses\ActiveStatus;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,7 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'first_name',
         'last_name',
         'email',
-        'password',
+        'password'
     ];
 
     /**
@@ -43,4 +44,25 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $attributes = [
+        'status' => ActiveStatus::class,
+    ];
+
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            $user->update(['status' => \App\Models\UserStatuses\ActiveStatus::class]);
+        });
+    }
+
+    public function changeStatus() : void
+    {
+        $this->status->handle();
+    }
+
+    public function getStatusAttribute($status)
+    {
+        return new $status($this);
+    }
 }

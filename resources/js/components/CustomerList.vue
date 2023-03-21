@@ -6,21 +6,21 @@
                     <tr>
                     <th scope="col">Nombre</th>
                     <th scope="col">Correo</th>
+                    <th scope="col">Estado</th>
                     <th scope="col">Creado hace</th>
                     <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="customer in customers.data" :key="customer.id">
-                        <th scope="row">{{ customer.first_name }} {{ customer.last_name }}</th>
-                        <td>{{ customer.email }}</td>
-                        <td>{{ customer.ago }}</td>
-                        <td></td>
-                    </tr>
+                    <customer-list-item
+                        v-for="customer in customers.data"
+                        :key="customer.id"
+                        :customer="customer"
+                    ></customer-list-item>
                 </tbody>
             </table>
             <Bootstrap5Pagination
-                class="mt-4 admin-pagination"
+                class="mt-4"
                 :data="customers"
                 @pagination-change-page="getCustomers"
                 :limit="2"
@@ -28,7 +28,7 @@
             />
         </div>
         <div class="d-flex justify-content-center align-items-center" v-else>
-            <div class="spinner-border text-dark mt-4" role="status">
+            <div class="spinner-border text-primary mt-4" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
@@ -36,11 +36,13 @@
 </template>
 
 <script>
+    import CustomerListItem from './CustomerListItem.vue';
     import { Bootstrap5Pagination } from 'laravel-vue-pagination';
 
     export default {
         components: {
-            Bootstrap5Pagination
+            Bootstrap5Pagination,
+            CustomerListItem,
         },
         data() {
             return {
