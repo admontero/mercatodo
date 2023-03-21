@@ -2,6 +2,7 @@ import './bootstrap';
 
 import { createApp } from 'vue';
 import HelloWorld from '@/components/HelloWorld.vue';
+import CustomerList from '@/components/CustomerList.vue';
 
 window.app = createApp({
     setup() {
@@ -10,6 +11,7 @@ window.app = createApp({
         };
     },
     components: {
-        HelloWorld
+        HelloWorld,
+        CustomerList,
     },
 }).mount('#app');
