@@ -23,6 +23,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('/customers', [App\Http\Controllers\CustomerController::class, 'index'])
         ->name('customers.index');
+
+    Route::post('/customers/{user}/status', App\Http\Controllers\CustomerStatusController::class)
+        ->name('customers.status-update');
 });
 
 Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'admin'], function () {

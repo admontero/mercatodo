@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\UserStatuses\ActiveStatus;
+use App\Models\UserStatuses\InactiveStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -81,5 +83,33 @@ class UserFactory extends Factory
     public function customer(): UserFactory
     {
         return $this->assignRole('customer');
+    }
+
+    /**
+     * Indicate that the user is a activated.
+     *
+     * @return UserFactory
+     */
+    public function activated(): UserFactory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => ActiveStatus::class,
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the user is a inactivated.
+     *
+     * @return UserFactory
+     */
+    public function inactivated(): UserFactory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => InactiveStatus::class,
+            ];
+        });
     }
 }

@@ -24,9 +24,11 @@ class UserResourceTest extends TestCase
 
         $userResource = UserResource::make($user)->resolve();
 
+        $this->assertEquals($user->id, $userResource['id']);
         $this->assertEquals($user->first_name, $userResource['first_name']);
         $this->assertEquals($user->last_name, $userResource['last_name']);
         $this->assertEquals($user->email, $userResource['email']);
+        $this->assertEquals((string) $user->status, $userResource['status']);
         $this->assertEquals($user->created_at->diffForHumans(), $userResource['ago']);
     }
 }
