@@ -20,18 +20,13 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         ->name('home');
 });
 
-Route::group(['middleware' => ['auth', 'role:admin']], function () {
-    Route::get('/customers', [App\Http\Controllers\CustomerController::class, 'index'])
-        ->name('customers.index');
-
-    Route::post('/customers/{user}/status', App\Http\Controllers\CustomerStatusController::class)
-        ->name('customers.status-update');
-});
-
 Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'admin'], function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])
         ->name('admin.dashboard');
 
     Route::get('/customers', [App\Http\Controllers\Admin\CustomerController::class, 'index'])
         ->name('admin.customers.index');
+
+    Route::get('/customers/{customer}/edit', [App\Http\Controllers\Admin\CustomerController::class, 'edit'])
+        ->name('admin.customers.edit');
 });

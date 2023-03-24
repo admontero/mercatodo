@@ -17,10 +17,15 @@ return new class extends Migration
             $table->string('first_name', 60);
             $table->string('last_name', 80);
             $table->string('email', 100)->unique();
+            $table->enum('document_type', ['CC', 'CE', 'P'])->nullable();
+            $table->string('document', 30)->nullable();
+            $table->string('address', 120)->nullable();
+            $table->string('phone', 20)->nullable();
+            $table->string('cell_phone', 25)->nullable();
+            $table->string('status')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

@@ -6,9 +6,10 @@ use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class UserStatusUpdateTest extends TestCase
+class UpdateUserStatusTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -25,8 +26,9 @@ class UserStatusUpdateTest extends TestCase
 
         $customer = User::factory()->activated()->create();
 
-        $this->actingAs($admin)
-                        ->postJson(route('customers.status-update', $customer));
+        Passport::actingAs($admin);
+
+        $this->postJson("/api/customers/{$customer->id}/status");
 
         $customer->refresh();
 
@@ -46,8 +48,9 @@ class UserStatusUpdateTest extends TestCase
 
         $customer = User::factory()->inactivated()->create();
 
-        $this->actingAs($admin)
-                        ->postJson(route('customers.status-update', $customer));
+        Passport::actingAs($admin);
+
+        $this->postJson("/api/customers/{$customer->id}/status");
 
         $customer->refresh();
 
@@ -63,7 +66,7 @@ class UserStatusUpdateTest extends TestCase
 
         $customer = User::factory()->activated()->create();
 
-        $response = $this->postJson(route('customers.status-update', $customer));
+        $response = $this->postJson("/api/customers/{$customer->id}/status");
 
         $response->assertStatus(401);
 
@@ -79,7 +82,9 @@ class UserStatusUpdateTest extends TestCase
 
         $customer = User::factory()->activated()->create();
 
-        $response = $this->actingAs($customer)->postJson(route('customers.status-update', $customer));
+        Passport::actingAs($customer);
+
+        $response = $this->postJson("/api/customers/{$customer->id}/status");
 
         $response->assertStatus(403);
 

@@ -6,6 +6,7 @@ use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class ListUsersTest extends TestCase
@@ -28,8 +29,9 @@ class ListUsersTest extends TestCase
         $user4 = User::factory()->create(['created_at' => now()->subDays(1)]);
         $user5 = User::factory()->create();
 
-        $response = $this->actingAs($admin)
-                                    ->getJson(route('customers.index'));
+        Passport::actingAs($admin);
+
+        $response = $this->getJson('/api/customers');
 
         $response->assertSuccessful();
 
@@ -53,7 +55,7 @@ class ListUsersTest extends TestCase
 
         User::factory(10)->create();
 
-        $response = $this->getJson(route('customers.index'));
+        $response = $this->getJson('/api/customers');
 
         $response->assertStatus(401);
     }
@@ -69,8 +71,10 @@ class ListUsersTest extends TestCase
 
         User::factory(10)->create();
 
+        Passport::actingAs($customer);
+
         $response = $this->actingAs($customer)
-                                    ->getJson(route('customers.index'));
+                                    ->getJson('/api/customers');
 
         $response->assertStatus(403);
     }

@@ -25,8 +25,8 @@
             </li>
             <li class="nav-item">
                 <a
-                    class="nav-link @if (request()->routeIs('admin.customers.index')) active @endif"
-                    @if (request()->routeIs('admin.customers.index')) aria-current="page" @endif
+                    class="nav-link @if (request()->routeIs('admin.customers.*')) active @endif"
+                    @if (request()->routeIs('admin.customers.*')) aria-current="page" @endif
                     href="{{ route('admin.customers.index') }}"
                 >
                     <span data-feather="users" class="align-text-bottom"></span>

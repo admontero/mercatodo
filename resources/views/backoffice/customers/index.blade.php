@@ -1,5 +1,9 @@
 @extends('layouts.backoffice.app')
 
+@section('breadcrumb')
+    <li class="breadcrumb-item active">Customers</li>
+@endsection
+
 @section('header')
     @include('partials.header', ['title' => 'Customers'])
 @endsection
