@@ -18,6 +18,9 @@ Auth::routes(['verify' => true]);
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])
         ->name('home');
+
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])
+        ->name('profile.edit');
 });
 
 Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'admin'], function () {

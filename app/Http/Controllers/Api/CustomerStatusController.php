@@ -13,6 +13,8 @@ class CustomerStatusController extends Controller
      */
     public function __invoke(Request $request, User $user)
     {
+        $this->authorize('update-status', $user);
+
         $user->changeStatus();
 
         return response()->json(['status' => (string) $user->status]);

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\UserStatuses\ActiveStatus;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -69,5 +70,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getStatusAttribute($status)
     {
         return new $status($this);
+    }
+
+    public function scopeCustomer(Builder $query): void
+    {
+        $query->whereRelation('roles', 'name', 'customer');
     }
 }
