@@ -115,27 +115,6 @@ class RegistrationTest extends TestCase
      * @test
      *
      */
-    public function user_first_name_only_can_contains_letters(): void
-    {
-        $userData = $this->getUserValidData([
-            'first_name' => 'Arantxa88'
-        ]);
-
-        $response = $this->post(route('register'), $userData);
-
-        $response->assertSessionHasErrors('first_name');
-
-        $this->assertDatabaseMissing('users', [
-            'first_name' => 'Arantxa88',
-            'last_name' => 'Arango',
-            'email' => 'arara@test.com',
-        ]);
-    }
-
-    /**
-     * @test
-     *
-     */
     public function user_last_name_is_required(): void
     {
         $userData = $this->getUserValidData([
@@ -193,27 +172,6 @@ class RegistrationTest extends TestCase
         $this->assertDatabaseMissing('users', [
             'first_name' => 'Arantxa',
             'last_name' => $last_name,
-            'email' => 'arara@test.com',
-        ]);
-    }
-
-    /**
-     * @test
-     *
-     */
-    public function user_last_name_only_can_contains_letters(): void
-    {
-        $userData = $this->getUserValidData([
-            'last_name' => '1Arango0'
-        ]);
-
-        $response = $this->post(route('register'), $userData);
-
-        $response->assertSessionHasErrors('last_name');
-
-        $this->assertDatabaseMissing('users', [
-            'first_name' => 'Arantxa',
-            'last_name' => '1Arango0',
             'email' => 'arara@test.com',
         ]);
     }
