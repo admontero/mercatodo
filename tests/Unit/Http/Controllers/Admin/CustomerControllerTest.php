@@ -15,8 +15,9 @@ class CustomerControllerTest extends TestCase
     /**
      * @test
      */
-    public function admin_customer_controller_index_must_returns_the_customer_index_view(): void
+    public function index_method_must_returns_the_customer_index_view(): void
     {
+        $this->withoutVite();
         $this->seed(RoleSeeder::class);
 
         $admin = User::factory()->admin()->create();
@@ -33,8 +34,9 @@ class CustomerControllerTest extends TestCase
     /**
      * @test
      */
-    public function admin_customer_controller_edit_must_returns_the_customer_edit_view(): void
+    public function edit_method_must_returns_the_customer_edit_view(): void
     {
+        $this->withoutVite();
         $this->seed(RoleSeeder::class);
 
         $admin = User::factory()->admin()->create();
