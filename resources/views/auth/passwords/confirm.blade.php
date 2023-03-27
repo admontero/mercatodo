@@ -27,7 +27,7 @@
                                             id="password"
                                             type="password"
                                             name="password"
-                                            placeholder="Password"
+                                            placeholder="{{ __('Password') }}"
                                             autocomplete="current-password"
                                         >
                                         @error('password')

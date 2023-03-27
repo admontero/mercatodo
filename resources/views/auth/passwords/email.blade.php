@@ -57,7 +57,7 @@
                                     </h3>
                                 </div>
 
-                                <p class="text-muted mt-2 mb-5">Enter your email address to reset password.</p>
+                                <p class="text-muted mt-2 mb-5">{{ __('Enter your email address to reset password.') }}</p>
 
                                 @if (session('status'))
                                     <div class="alert alert-success" role="alert">
