@@ -14,7 +14,7 @@
                                     </h3>
                                 </div>
 
-                                <p class="text-muted mt-2 mb-5">Enter a new password please.</p>
+                                <p class="text-muted mt-2 mb-5">{{ __('Enter a new password please.') }}</p>
 
                                 <form method="POST" action="{{ route('password.update') }}">
                                     @csrf
@@ -45,7 +45,7 @@
                                             id="password"
                                             type="password"
                                             name="password"
-                                            placeholder="Password"
+                                            placeholder="{{ __('Password') }}"
                                             autocomplete="new-password"
                                         >
                                         @error('password')
@@ -61,7 +61,7 @@
                                             type="password"
                                             class="form-control"
                                             name="password_confirmation"
-                                            placeholder="Confirm Password"
+                                            placeholder="{{ __('Confirm Password') }}"
                                             autocomplete="new-password"
                                         >
                                     </div>

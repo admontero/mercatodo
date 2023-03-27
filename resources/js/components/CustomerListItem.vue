@@ -4,10 +4,10 @@
         <td>{{ customer.email }}</td>
         <td>
             <span class="badge bg-success text-uppercase" v-if="customer.status === 'activated'">
-                {{ customer.status }}
+                {{ $t(customer.status) }}
             </span>
             <span class="badge bg-warning text-uppercase" v-else-if="customer.status === 'inactivated'">
-                {{ customer.status }}
+                {{ $t(customer.status) }}
             </span>
         </td>
         <td>{{ customer.ago }}</td>
@@ -28,6 +28,7 @@
 <script>
     import UpdateStatusCustomer from './UpdateStatusCustomer.vue';
     import { useToast } from "vue-toastification";
+    import { trans } from 'laravel-vue-i18n';
 
     export default {
         setup() {
@@ -50,7 +51,7 @@
         methods: {
             refreshUser(status) {
                 this.customer.status = status;
-                this.toast.success(`Cliente ${this.getStatus}`, {
+                this.toast.success(trans(`Customer ${status}`), {
                     position: "bottom-left",
                     timeout: 3000,
                     closeOnClick: true,
@@ -64,13 +65,6 @@
                     icon: true,
                     rtl: false
                 });
-            }
-        },
-        computed: {
-            getStatus() {
-                if (this.customer.status === 'activated') return 'activado';
-
-                return 'desactivado';
             }
         }
     }

@@ -105,7 +105,7 @@
                                     </h3>
                                 </div>
 
-                                <p class="text-muted mb-4">{{ __('Enter the information to create your account') }}</p>
+                                <p class="text-muted mb-4">{{ __('Enter the information to create your account.') }}</p>
 
                                 <form method="POST" action="{{ route('register') }}">
                                     @csrf

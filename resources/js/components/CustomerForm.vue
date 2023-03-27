@@ -2,7 +2,7 @@
     <form class="my-4" @submit.prevent="submit">
         <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
             <div class="col">
-                <label for="first_name" class="form-label">First Name</label>
+                <label for="first_name" class="form-label">{{ $t('First Name') }}</label>
                 <input
                     :class="{'form-control' : !this.errors?.first_name, 'form-control is-invalid' : this.errors?.first_name }"
                     type="text"
@@ -16,7 +16,7 @@
                 </span>
             </div>
             <div class="col">
-                <label for="last_name" class="form-label">Last Name</label>
+                <label for="last_name" class="form-label">{{ $t('Last Name') }}</label>
                 <input
                     :class="{'form-control' : !this.errors?.last_name, 'form-control is-invalid' : this.errors?.last_name }"
                     type="text"
@@ -33,7 +33,7 @@
 
         <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
             <div class="col">
-                <label for="document_type" class="form-label">Document Type</label>
+                <label for="document_type" class="form-label">{{ $t('Document Type') }}</label>
                 <select
                     :class="{'form-control' : !this.errors?.document_type, 'form-control is-invalid' : this.errors?.document_type }"
                     id="document_type"
@@ -44,25 +44,25 @@
                         class="text-muted"
                         :value="null"
                     >
-                        -- Seleccione el tipo de documento --
+                        -- {{ $t('Select the type of document') }} --
                     </option>
                     <option
                         value="CC"
                         :selected="customer.document_type === 'CC'"
                     >
-                        Cédula de Ciudadanía
+                        {{ $t('Citizenship Card') }}
                     </option>
                     <option
                         value="CE"
                         :selected="customer.document_type === 'CE'"
                     >
-                        Cédula de Extranjería
+                        {{ $t('Foreigner Card') }}
                     </option>
                     <option
                         value="P"
                         :selected="customer.document_type === 'P'"
                     >
-                        Pasaporte
+                        {{ $t('Passport') }}
                     </option>
                 </select>
                 <span class="invalid-feedback" role="alert" v-if="this.errors?.document_type">
@@ -70,7 +70,7 @@
                 </span>
             </div>
             <div class="col">
-                <label for="document" class="form-label">Document</label>
+                <label for="document" class="form-label">{{ $t('Document') }}</label>
                 <input
                     :class="{'form-control' : !this.errors?.document, 'form-control is-invalid' : this.errors?.document }"
                     type="text"
@@ -87,7 +87,7 @@
 
         <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
             <div class="col">
-                <label for="address" class="form-label">Address</label>
+                <label for="address" class="form-label">{{ $t('Address') }}</label>
                 <input
                     class="form-control"
                     type="text"
@@ -98,7 +98,7 @@
                 >
             </div>
             <div class="col">
-                <label for="phone" class="form-label">Phone</label>
+                <label for="phone" class="form-label">{{ $t('Phone') }}</label>
                 <input
                     class="form-control"
                     type="text"
@@ -112,7 +112,7 @@
 
         <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
             <div class="col">
-                <label for="cell_phone" class="form-label">Cell Phone</label>
+                <label for="cell_phone" class="form-label">{{ $t('Cell Phone') }}</label>
                 <input
                     class="form-control"
                     type="text"
@@ -126,7 +126,7 @@
 
         <div class="d-flex justify-content-end">
             <button type="submit" class="btn btn-primary">
-                Guardar
+                {{ $t('Save') }}
             </button>
         </div>
     </form>
@@ -134,6 +134,7 @@
 
 <script>
     import { useToast } from "vue-toastification";
+    import { trans } from 'laravel-vue-i18n';
 
     export default {
         setup() {
@@ -155,7 +156,7 @@
         methods: {
             submit() {
                 axios.put(`/api/customers/${this.customer.id}`, this.customer).then(res => {
-                    this.toast.success("Información actualizada", {
+                    this.toast.success(trans('Updated information'), {
                         position: "bottom-left",
                         timeout: 3000,
                         closeOnClick: true,

@@ -1,6 +1,7 @@
 import './bootstrap';
 
 import { createApp } from 'vue';
+import { i18nVue } from 'laravel-vue-i18n';
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
@@ -19,6 +20,13 @@ window.app = createApp({
         CustomerList,
         CustomerForm,
     },
+});
+
+window.app.use(i18nVue, {
+    resolve: async lang => {
+        const langs = import.meta.glob('../../lang/*.json');
+        return await langs[`../../lang/${lang}.json`]();
+    }
 });
 
 window.app.use(Toast, {

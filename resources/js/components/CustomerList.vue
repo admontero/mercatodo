@@ -4,10 +4,10 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Correo</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Creado hace</th>
+                    <th scope="col">{{ $t('Name') }}</th>
+                    <th scope="col">{{ $t('E-Mail Address') }}</th>
+                    <th scope="col">{{ $t('Status') }}</th>
+                    <th scope="col">{{ $t('Created') }}</th>
                     <th scope="col"></th>
                     </tr>
                 </thead>

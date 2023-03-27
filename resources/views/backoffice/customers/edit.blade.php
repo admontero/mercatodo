@@ -3,16 +3,16 @@
 @section('breadcrumb')
     <li class="breadcrumb-item">
         <a href="/admin/customers">
-            Customers
+            {{ __('Customers') }}
         </a>
     </li>
     <li class="breadcrumb-item active">
-        Formulario de Edición
+        {{ __('Editing Form') }}
     </li>
 @endsection
 
 @section('header')
-    @include('partials.header', ['title' => 'Formulario de Edición'])
+    @include('partials.header', ['title' => __('Editing Form')])
 @endsection
 
 @section('content')

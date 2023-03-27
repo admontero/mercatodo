@@ -18,8 +18,8 @@
                                     </h3>
                                 </div>
 
-                                <h6 class="h5 mb-0">Welcome back!</h6>
-                                <p class="text-muted mt-2 mb-5">Enter your email address and password to access.</p>
+                                <h6 class="h5 mb-0">{{ __('Welcome back!') }}</h6>
+                                <p class="text-muted mt-2 mb-5">{{ __('Enter your email address and password to access.') }}</p>
 
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
@@ -68,7 +68,7 @@
                                         </div>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary">Login</button>
+                                    <button type="submit" class="btn btn-primary">{{ __('Login') }}</button>
 
                                     @if (Route::has('password.request'))
                                         <a
