@@ -146,6 +146,16 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'email' => 'correo electrónico',
+        'password' => 'contraseña',
+        'first_name' => 'nombre',
+        'last_name' => 'apellido',
+        'document_type' => 'tipo de documento',
+        'document' => 'documento',
+        'address' => 'dirección',
+        'phone' => 'teléfono',
+        'cell_phone' => 'teléfono celular',
+    ],
 
 ];

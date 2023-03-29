@@ -62,5 +62,17 @@
     "Save": "Guardar",
     "Updated information": "Información actualizada",
     "Enter a new password please.": "Introduzca una nueva contraseña, por favor.",
-    "Update Information": "Actualizar Información"
+    "Update Information": "Actualizar Información",
+    "The :attribute field must be at least :length characters and contain at least one number.": "El campo :attribute debe tener al menos :length caracteres y contener al menos un número.",
+    "The :attribute field must be at least :length characters and contain at least one special character and one number.": "El campo :attribute debe tener al menos :length caracteres y contener al menos un carácter especial y un número.",
+    "The :attribute field must be at least :length characters and contain at least one special character.": "El campo :attribute debe tener al menos :length caracteres y contener al menos un carácter especial.",
+    "The :attribute field must be at least :length characters and contain at least one uppercase character and one number.": "El campo :attribute debe tener al menos :length caracteres y contener al menos una letra mayúscula y un número.",
+    "The :attribute field must be at least :length characters and contain at least one uppercase character and one special character.": "El campo :attribute debe tener al menos :length caracteres y contener al menos una letra mayúscula y un carácter especial.",
+    "The :attribute field must be at least :length characters and contain at least one uppercase character, one number, and one special character.": "El campo :attribute debe tener al menos :length caracteres y contener al menos una letra mayúscula, un número y un carácter especial.",
+    "The :attribute field must be at least :length characters and contain at least one uppercase character.": "El campo :attribute debe tener al menos :length caracteres y contener al menos una letra mayúscula.",
+    "The :attribute field must be at least :length characters.": "El campo :attribute debe tener al menos :length caracteres.",
+    "The :attribute field must contain at least one letter.": "El campo :attribute debe contener al menos una letra.",
+    "The :attribute field must contain at least one number.": "El campo :attribute debe contener al menos un número.",
+    "The :attribute field must contain at least one symbol.": "El campo :attribute debe contener al menos un símbolo.",
+    "The :attribute field must contain at least one uppercase and one lowercase letter.": "El campo :attribute debe contener al menos una letra mayúscula y una minúscula."
 }
