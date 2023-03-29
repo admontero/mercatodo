@@ -171,7 +171,7 @@
                                             type="password"
                                             name="password"
                                             placeholder="{{ __('Password') }}"
-                                            autocomplete="current-password"
+                                            autocomplete="new-password"
                                         >
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">

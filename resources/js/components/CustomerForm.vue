@@ -89,24 +89,30 @@
             <div class="col">
                 <label for="address" class="form-label">{{ $t('Address') }}</label>
                 <input
-                    class="form-control"
+                    :class="{'form-control' : !this.errors?.address, 'form-control is-invalid' : this.errors?.address }"
                     type="text"
                     aria-label="First name"
                     name="address"
                     id="address"
                     v-model="customer.address"
                 >
+                <span class="invalid-feedback" role="alert" v-if="this.errors?.address">
+                    <strong>{{ this.errors.address[0] }}</strong>
+                </span>
             </div>
             <div class="col">
                 <label for="phone" class="form-label">{{ $t('Phone') }}</label>
                 <input
-                    class="form-control"
+                    :class="{'form-control' : !this.errors?.phone, 'form-control is-invalid' : this.errors?.phone }"
                     type="text"
                     aria-label="Last name"
                     name="phone"
                     id="phone"
                     v-model="customer.phone"
                 >
+                <span class="invalid-feedback" role="alert" v-if="this.errors?.phone">
+                    <strong>{{ this.errors.phone[0] }}</strong>
+                </span>
             </div>
         </div>
 
@@ -114,13 +120,16 @@
             <div class="col">
                 <label for="cell_phone" class="form-label">{{ $t('Cell Phone') }}</label>
                 <input
-                    class="form-control"
+                    :class="{'form-control' : !this.errors?.cell_phone, 'form-control is-invalid' : this.errors?.cell_phone }"
                     type="text"
                     aria-label="First name"
                     name="cell_phone"
                     id="cell_phone"
                     v-model="customer.cell_phone"
                 >
+                <span class="invalid-feedback" role="alert" v-if="this.errors?.cell_phone">
+                    <strong>{{ this.errors.cell_phone[0] }}</strong>
+                </span>
             </div>
         </div>
 
