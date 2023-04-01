@@ -91,7 +91,7 @@
     <div id="main-wrapper" class="container">
         <div class="row justify-content-center">
             <div class="col-lg-7 d-none d-lg-inline-block">
-                <img class="img-fluid" src="{{ asset('images/shopping-auth.svg') }}" alt="ecommerce-image">
+                <img class="img-fluid" src="{{ asset('images/illustrations/register.svg') }}" alt="ecommerce-image">
             </div>
 
             <div class="col-lg-5">

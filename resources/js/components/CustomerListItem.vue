@@ -12,13 +12,13 @@
         </td>
         <td>{{ customer.ago }}</td>
         <td>
-            <div class="d-flex align-items-center gap-2">
+            <div class="d-flex gap-2">
                 <update-status-customer
                     :customer="customer"
                     @update-customer="refreshUser"
                 ></update-status-customer>
-                <a :href="`/admin/customers/${customer.id}/edit`" class="text-info">
-                    <span data-feather="edit" class="align-text-bottom"></span>
+                <a :href="`/admin/customers/${customer.id}/edit`" class="link-info">
+                    <IconEdit :size="20" stroke-width="2" />
                 </a>
             </div>
         </td>
@@ -29,6 +29,7 @@
     import UpdateStatusCustomer from './UpdateStatusCustomer.vue';
     import { useToast } from "vue-toastification";
     import { trans } from 'laravel-vue-i18n';
+    import { IconEdit } from '@tabler/icons-vue';
 
     export default {
         setup() {
@@ -37,16 +38,14 @@
             return { toast }
         },
         components: {
-            UpdateStatusCustomer
+            UpdateStatusCustomer,
+            IconEdit
         },
         props: {
             customer: {
                 type: Object,
                 required: true,
             }
-        },
-        mounted() {
-            feather.replace();
         },
         methods: {
             refreshUser(status) {

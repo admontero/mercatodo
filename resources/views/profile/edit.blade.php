@@ -16,6 +16,13 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-5 d-none d-lg-inline-block">
+                <img
+                    class="img-fluid"
+                    src="{{ asset('images/illustrations/update-profile.svg') }}"
+                    alt="user updating personal info"
+                >
+            </div>
         </div>
     </div>
 @endsection

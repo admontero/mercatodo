@@ -92,7 +92,12 @@
 
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item py-2 px-3 text-white">
-                    <span data-feather="user-check" class="align-text-bottom me-1"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-check me-1" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+                        <path d="M15 19l2 2l4 -4"></path>
+                    </svg>
                     {{ Auth::user()->email ?? '' }}
                 </li>
                 <li class="nav-item">
@@ -125,11 +130,5 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
-    <script>
-        (() => {
-        'use strict'
-            feather.replace({ 'aria-hidden': 'true' })
-        })()
-    </script>
 </body>
 </html>
