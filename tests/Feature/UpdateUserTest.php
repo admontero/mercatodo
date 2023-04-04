@@ -33,7 +33,7 @@ class UpdateUserTest extends TestCase
             'first_name' => 'Cliente',
             'last_name' => 'Actualizado',
             'document_type' => 'CC',
-            'document' => '12345678'
+            'document' => '12345678',
         ];
 
         Passport::actingAs($admin);
@@ -53,7 +53,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_first_name_must_be_required(): void
     {
@@ -70,7 +69,7 @@ class UpdateUserTest extends TestCase
             'first_name' => '',
             'last_name' => 'Actualizado',
             'document_type' => 'CC',
-            'document' => '12345678'
+            'document' => '12345678',
         ];
 
         Passport::actingAs($admin);
@@ -86,7 +85,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_first_name_must_be_a_string(): void
     {
@@ -103,7 +101,7 @@ class UpdateUserTest extends TestCase
             'first_name' => 1231232,
             'last_name' => 'Actualizado',
             'document_type' => 'CC',
-            'document' => '12345678'
+            'document' => '12345678',
         ];
 
         Passport::actingAs($admin);
@@ -119,7 +117,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_first_name_length_must_be_less_than_61_characters(): void
     {
@@ -136,7 +133,7 @@ class UpdateUserTest extends TestCase
             'first_name' => $this->getRandomStringOnlyLetters(61),
             'last_name' => 'Actualizado',
             'document_type' => 'CC',
-            'document' => '12345678'
+            'document' => '12345678',
         ];
 
         Passport::actingAs($admin);
@@ -152,7 +149,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_last_name_must_be_a_required(): void
     {
@@ -169,7 +165,7 @@ class UpdateUserTest extends TestCase
             'first_name' => 'Usuario',
             'last_name' => '',
             'document_type' => 'CC',
-            'document' => '12345678'
+            'document' => '12345678',
         ];
 
         Passport::actingAs($admin);
@@ -185,7 +181,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_last_name_must_be_a_string(): void
     {
@@ -202,7 +197,7 @@ class UpdateUserTest extends TestCase
             'first_name' => 'Usuario',
             'last_name' => 273982,
             'document_type' => 'CC',
-            'document' => '12345678'
+            'document' => '12345678',
         ];
 
         Passport::actingAs($admin);
@@ -218,7 +213,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_last_name_length_must_be_less_than_81_characters(): void
     {
@@ -235,7 +229,7 @@ class UpdateUserTest extends TestCase
             'first_name' => 'Usuario',
             'last_name' => $this->getRandomStringOnlyLetters(81),
             'document_type' => 'CC',
-            'document' => '12345678'
+            'document' => '12345678',
         ];
 
         Passport::actingAs($admin);
@@ -251,7 +245,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_document_type_must_be_a_string(): void
     {
@@ -268,7 +261,7 @@ class UpdateUserTest extends TestCase
             'first_name' => 'Usuario',
             'last_name' => 'Actualizado',
             'document_type' => 2983782,
-            'document' => '12345678'
+            'document' => '12345678',
         ];
 
         Passport::actingAs($admin);
@@ -284,7 +277,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_document_type_is_required_when_document_is_not_empty(): void
     {
@@ -317,7 +309,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_document_must_be_a_string(): void
     {
@@ -334,7 +325,7 @@ class UpdateUserTest extends TestCase
             'first_name' => 'Usuario',
             'last_name' => 'Actualizado',
             'document_type' => 'CC',
-            'document' => 12345678
+            'document' => 12345678,
         ];
 
         Passport::actingAs($admin);
@@ -350,7 +341,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_document_length_must_be_less_than_31_characters(): void
     {
@@ -383,7 +373,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_document_is_required_when_document_type_is_not_empty(): void
     {
@@ -416,7 +405,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_address_must_be_a_string(): void
     {
@@ -434,7 +422,7 @@ class UpdateUserTest extends TestCase
             'last_name' => 'Actualizado',
             'document_type' => 'CC',
             'document' => '12345678',
-            'address' => 2873822
+            'address' => 2873822,
         ];
 
         Passport::actingAs($admin);
@@ -450,7 +438,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_address_length_must_be_less_than_121_characters(): void
     {
@@ -482,7 +469,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_phone_must_be_a_string(): void
     {
@@ -500,7 +486,7 @@ class UpdateUserTest extends TestCase
             'last_name' => 'Actualizado',
             'document_type' => 'CC',
             'document' => '12345678',
-            'phone' => 23287923
+            'phone' => 23287923,
         ];
 
         Passport::actingAs($admin);
@@ -516,7 +502,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_phone_length_must_be_less_than_21_characters(): void
     {
@@ -548,7 +533,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_cell_phone_must_be_a_string(): void
     {
@@ -566,7 +550,7 @@ class UpdateUserTest extends TestCase
             'last_name' => 'Actualizado',
             'document_type' => 'CC',
             'document' => '12345678',
-            'cell_phone' => 23287923
+            'cell_phone' => 23287923,
         ];
 
         Passport::actingAs($admin);
@@ -582,7 +566,6 @@ class UpdateUserTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function customer_cell_phone_length_must_be_less_than_26_characters(): void
     {

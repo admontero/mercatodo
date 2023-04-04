@@ -26,7 +26,7 @@ class ActiveStatus implements StateInterface
 
     private function nextStatus($status): User
     {
-        return tap($this->user, function($user) use ($status) {
+        return tap($this->user, function ($user) use ($status) {
             $user->status = $status;
         });
     }

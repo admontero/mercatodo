@@ -30,4 +30,3 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
     Route::get('/customers', [App\Http\Controllers\Api\CustomerController::class, 'index']);
     Route::post('/customers/{user}/status', App\Http\Controllers\Api\CustomerStatusController::class);
 });
-

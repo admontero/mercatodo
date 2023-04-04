@@ -36,11 +36,11 @@ class ListUsersTest extends TestCase
         $response->assertSuccessful();
 
         $response->assertJson([
-            'meta' => ['total' => 5]
+            'meta' => ['total' => 5],
         ]);
 
         $response->assertJsonStructure([
-            'data', 'links'
+            'data', 'links',
         ]);
 
         $this->assertEquals($response['data'][0]['email'], $user5->email);

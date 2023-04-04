@@ -31,7 +31,7 @@ class UserFactory extends Factory
      * @param array|Role|string ...$roles
      * @return UserFactory
      */
-    private function assignRole(...$roles): UserFactory
+    private function assignRole(...$roles): self
     {
         return $this->afterCreating(function (User $user) use ($roles) {
             return $user->syncRoles($roles);
@@ -70,7 +70,7 @@ class UserFactory extends Factory
      *
      * @return UserFactory
      */
-    public function admin(): UserFactory
+    public function admin(): self
     {
         return $this->assignRole('admin');
     }
@@ -80,7 +80,7 @@ class UserFactory extends Factory
      *
      * @return UserFactory
      */
-    public function customer(): UserFactory
+    public function customer(): self
     {
         return $this->assignRole('customer');
     }
@@ -90,7 +90,7 @@ class UserFactory extends Factory
      *
      * @return UserFactory
      */
-    public function activated(): UserFactory
+    public function activated(): self
     {
         return $this->state(function (array $attributes) {
             return [
@@ -104,7 +104,7 @@ class UserFactory extends Factory
      *
      * @return UserFactory
      */
-    public function inactivated(): UserFactory
+    public function inactivated(): self
     {
         return $this->state(function (array $attributes) {
             return [
