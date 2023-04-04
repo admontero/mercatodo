@@ -68,20 +68,24 @@ Ejecuta todos los seeders configurados para la aplicación
 
     php artisan db:seed
 
-***Nota: *** Se recomienda que la base de datos esté limpia antes de ejecutar los seeders de la aplicación, para ello puedes ejecutar el siguiente comando
+***Nota*** : Se recomienda que la base de datos esté limpia antes de ejecutar los seeders de la aplicación, para ello puedes ejecutar el siguiente comando
 
     php artisan migrate:refresh
+
+------------
 
 ## Resumen del código
 
 ## Dependencias
 
-[laravel-debugbar](https://github.com/barryvdh/laravel-debugbar) - Para monitorizar el rendimiento de la aplicación.
-[laravel-permission](https://github.com/spatie/laravel-permission) - Para la gestión de roles y permisos.
-[passport](https://github.com/laravel/passport) - Para la autenticación de usuarios.
-[spanish](https://github.com/laravel/ui) - Para laravel en español (traducciones por defecto).
-[ui](https://github.com/laravel/ui) - Para el scaffolding de bootstrap y vue incluyendo el login y registro.
+- [larastan](https://github.com/nunomaduro/larastan) - Para analizar y mejorar la calidad del código.
+- [laravel-debugbar](https://github.com/barryvdh/laravel-debugbar) - Para monitorizar el rendimiento de la aplicación.
+- [laravel-permission](https://github.com/spatie/laravel-permission) - Para la gestión de roles y permisos.
+- [passport](https://github.com/laravel/passport) - Para la autenticación de usuarios.
+- [php-cs-fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer) - Para arreglar automáticamente los errores en estándares de código.
+- [spanish](https://github.com/laravel/ui) - Para laravel en español (traducciones por defecto).
+- [ui](https://github.com/laravel/ui) - Para el scaffolding de bootstrap y vue incluyendo el login y registro.
 
 ## Autor
 
-[Andrés Montero](https://github.com/admontero)
+- [Andrés Montero](https://github.com/admontero)
