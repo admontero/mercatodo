@@ -147,7 +147,7 @@ $rules = [
 
 $finder = Finder::create()
     ->in([
-        __DIR__.'/src',
+        __DIR__.'/app',
         __DIR__.'/config',
         __DIR__.'/database',
         __DIR__.'/resources',
