@@ -13,7 +13,6 @@ class UserResourceTest extends TestCase
     use RefreshDatabase;
 
     /**
-     *
      * @test
      */
     public function a_user_resource_must_have_the_required_fields(): void

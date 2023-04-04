@@ -24,13 +24,13 @@ class AuthController extends Controller
                         ->letters()
                         ->mixedCase()
                         ->numbers(),
-                'confirmed'
+                'confirmed',
             ],
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 

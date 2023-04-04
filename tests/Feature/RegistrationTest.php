@@ -22,7 +22,6 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function users_can_register(): void
     {
@@ -41,19 +40,19 @@ class RegistrationTest extends TestCase
         $this->assertTrue(
             Hash::check(
                 'A12345678a',
-                User::first()->password),
-                'The password must be encrypt'
+                User::first()->password
+            ),
+            'The password must be encrypt'
         );
     }
 
     /**
      * @test
-     *
      */
     public function user_first_name_is_required(): void
     {
         $userData = $this->getUserValidData([
-            'first_name' => ''
+            'first_name' => '',
         ]);
 
         $response = $this->post(route('register'), $userData);
@@ -69,12 +68,11 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_first_name_must_be_a_string(): void
     {
         $userData = $this->getUserValidData([
-            'first_name' => 3000
+            'first_name' => 3000,
         ]);
 
         $response = $this->post(route('register'), $userData);
@@ -90,14 +88,13 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_first_name_length_must_be_less_than_61_characters(): void
     {
         $first_name = $this->getRandomStringOnlyLetters(61);
 
         $userData = $this->getUserValidData([
-            'first_name' => $first_name
+            'first_name' => $first_name,
         ]);
 
         $response = $this->post(route('register'), $userData);
@@ -113,12 +110,11 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_last_name_is_required(): void
     {
         $userData = $this->getUserValidData([
-            'last_name' => ''
+            'last_name' => '',
         ]);
 
         $response = $this->post(route('register'), $userData);
@@ -134,12 +130,11 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_last_name_must_be_a_string(): void
     {
         $userData = $this->getUserValidData([
-            'last_name' => 500
+            'last_name' => 500,
         ]);
 
         $response = $this->post(route('register'), $userData);
@@ -155,14 +150,13 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_last_name_length_must_be_less_than_81_characters(): void
     {
         $last_name = $this->getRandomStringOnlyLetters(81);
 
         $userData = $this->getUserValidData([
-            'last_name' => $last_name
+            'last_name' => $last_name,
         ]);
 
         $response = $this->post(route('register'), $userData);
@@ -178,12 +172,11 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_email_is_required(): void
     {
         $userData = $this->getUserValidData([
-            'email' => ''
+            'email' => '',
         ]);
 
         $response = $this->post(route('register'), $userData);
@@ -199,12 +192,11 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_email_must_be_a_string(): void
     {
         $userData = $this->getUserValidData([
-            'email' => 2534389
+            'email' => 2534389,
         ]);
 
         $response = $this->post(route('register'), $userData);
@@ -220,12 +212,11 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_email_must_be_a_valid_email_format(): void
     {
         $userData = $this->getUserValidData([
-            'email' => 'asdcjka'
+            'email' => 'asdcjka',
         ]);
 
         $response = $this->post(route('register'), $userData);
@@ -241,14 +232,13 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_email_length_must_be_less_than_101_characters(): void
     {
-        $email = $this->getRandomStringOnlyLetters(92) . '@test.com';
+        $email = $this->getRandomStringOnlyLetters(92).'@test.com';
 
         $userData = $this->getUserValidData([
-            'email' => $email
+            'email' => $email,
         ]);
 
         $response = $this->post(route('register'), $userData);
@@ -264,12 +254,11 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_email_must_be_unique(): void
     {
         User::factory()->create([
-            'email' => 'arara@test.com'
+            'email' => 'arara@test.com',
         ]);
 
         $userData = $this->getUserValidData();
@@ -283,7 +272,6 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_password_is_required(): void
     {
@@ -304,7 +292,6 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_password_must_be_a_string(): void
     {
@@ -325,12 +312,11 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_password_must_be_contains_at_least_8_characters(): void
     {
         $userData = $this->getUserValidData([
-            'password' => 'A18a30'
+            'password' => 'A18a30',
         ]);
 
         $response = $this->post(route('register'), $userData);
@@ -346,12 +332,11 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_password_must_be_contains_at_least_1_lowercase_letter(): void
     {
         $userData = $this->getUserValidData([
-            'password' => 'A1830BEA'
+            'password' => 'A1830BEA',
         ]);
 
         $response = $this->post(route('register'), $userData);
@@ -367,12 +352,11 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_password_must_be_contains_at_least_1_uppercase_letter(): void
     {
         $userData = $this->getUserValidData([
-            'password' => 'a1830bea'
+            'password' => 'a1830bea',
         ]);
 
         $response = $this->post(route('register'), $userData);
@@ -388,12 +372,11 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_password_must_be_contains_at_least_1_number(): void
     {
         $userData = $this->getUserValidData([
-            'password' => 'PasswordStrong'
+            'password' => 'PasswordStrong',
         ]);
 
         $response = $this->post(route('register'), $userData);
@@ -409,12 +392,11 @@ class RegistrationTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function user_password_must_be_confirmed(): void
     {
         $userData = $this->getUserValidData([
-            'password_confirmation' => 'A123456a'
+            'password_confirmation' => 'A123456a',
         ]);
 
         $response = $this->post(route('register'), $userData);
