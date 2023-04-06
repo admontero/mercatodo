@@ -32,4 +32,7 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'admin'], func
 
     Route::get('/customers/{customer}/edit', [App\Http\Controllers\Admin\CustomerController::class, 'edit'])
         ->name('admin.customers.edit');
+
+    Route::get('/categories', [App\Http\Controllers\Admin\CategoryController::class, 'index'])
+        ->name('admin.categories.index');
 });

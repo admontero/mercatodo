@@ -4,11 +4,15 @@ namespace Tests\Unit\Http\Controllers\Admin;
 
 use App\Models\Category;
 use App\Models\User;
+use Database\Seeders\RoleSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class CategoryControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @test
      */

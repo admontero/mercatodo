@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\User;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Passport\Passport;
@@ -11,13 +12,13 @@ use Tests\TestCase;
 
 class ListCategoriesTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @test
      */
     public function admin_can_get_all_categories(): void
     {
-        $this->withoutExceptionHandling();
-
         $this->seed(RoleSeeder::class);
 
         $admin = User::factory()->admin()->create();
@@ -31,7 +32,7 @@ class ListCategoriesTest extends TestCase
 
         $response->assertOk();
 
-        $response->assertJsonCount(2);
+        $response->assertJsonCount(3, 'data');
 
         $response->assertJsonStructure([
             'data', 'links',

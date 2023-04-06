@@ -8,6 +8,7 @@ import "vue-toastification/dist/index.css";
 import HelloWorld from '@/components/HelloWorld.vue';
 import CustomerList from '@/components/CustomerList.vue';
 import CustomerForm from '@/components/CustomerForm.vue';
+import CategoryList from '@/components/CategoryList.vue';
 
 window.app = createApp({
     setup() {
@@ -19,6 +20,7 @@ window.app = createApp({
         HelloWorld,
         CustomerList,
         CustomerForm,
+        CategoryList,
     },
 });
 

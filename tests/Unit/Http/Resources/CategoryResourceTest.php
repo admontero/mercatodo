@@ -2,11 +2,16 @@
 
 namespace Tests\Unit\Http\Resources;
 
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use Database\Seeders\RoleSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CategoryResourceTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @test
      */
