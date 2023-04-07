@@ -4,9 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\User;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -44,7 +44,7 @@ class UpdateCategoryTest extends TestCase
         $this->assertDatabaseHas('categories', [
             'id' => $category->id,
             'name' => $data['name'],
-            'slug' => Str::slug($data['name'])
+            'slug' => $category->slug
         ]);
     }
 
@@ -95,7 +95,7 @@ class UpdateCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->putJson("/api/customers/{$category->slug}", $data);
+        $response = $this->putJson("/api/categories/{$category->slug}", $data);
 
         $response->assertStatus(422);
 
@@ -113,7 +113,7 @@ class UpdateCategoryTest extends TestCase
 
         $admin = User::factory()->admin()->create();
 
-        $category = User::factory()->create([
+        $category = Category::factory()->create([
             'name' => 'Juguetería',
         ]);
 

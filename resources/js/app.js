@@ -9,6 +9,7 @@ import HelloWorld from '@/components/HelloWorld.vue';
 import CustomerList from '@/components/CustomerList.vue';
 import CustomerForm from '@/components/CustomerForm.vue';
 import CategoryList from '@/components/CategoryList.vue';
+import CategoryForm from '@/components/CategoryForm.vue';
 
 window.app = createApp({
     setup() {
@@ -21,6 +22,7 @@ window.app = createApp({
         CustomerList,
         CustomerForm,
         CategoryList,
+        CategoryForm,
     },
 });
 

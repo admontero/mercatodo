@@ -5,6 +5,9 @@
         <td>{{ category.ago }}</td>
         <td>
             <div class="d-flex gap-2">
+                <a :href="`/admin/categories/${category.slug}/edit`" class="link-info">
+                    <IconEdit :size="20" stroke-width="2" />
+                </a>
             </div>
         </td>
     </tr>

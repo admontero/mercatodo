@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -14,6 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $this->authorize('view-any', new Category);
+
         $categories = new CategoryCollection(Category::latest()->paginate(10));
 
         return $categories;
@@ -30,7 +34,7 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Category $category)
     {
         //
     }
@@ -38,9 +42,15 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $this->authorize('update', $category);
+
+        $dataVal = $request->validated();
+
+        $category->update($dataVal);
+
+        return response()->json(new CategoryResource($category), 201);
     }
 
     /**
