@@ -26,7 +26,7 @@ class UpdateCategoryTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $category = Category::factory()->create([
-            'name' => 'Tecnología'
+            'name' => 'Tecnología',
         ]);
 
         $data = [
@@ -44,7 +44,7 @@ class UpdateCategoryTest extends TestCase
         $this->assertDatabaseHas('categories', [
             'id' => $category->id,
             'name' => $data['name'],
-            'slug' => $category->slug
+            'slug' => $category->slug,
         ]);
     }
 

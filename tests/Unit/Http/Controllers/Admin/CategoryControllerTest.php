@@ -44,7 +44,7 @@ class CategoryControllerTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->get("/admin/categories/create");
+        $response = $this->get('/admin/categories/create');
 
         $response->assertSuccessful();
 
