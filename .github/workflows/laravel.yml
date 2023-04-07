@@ -26,7 +26,7 @@ jobs:
       run: ./vendor/bin/php-cs-fixer fix
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
-          commit_message: Apply php-cs-fixer changes
+          commit_message: 'style: Apply php-cs-fixer changes'
     - name: Generate key
       run: php artisan key:generate
     - name: Generate passport keys

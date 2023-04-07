@@ -2,19 +2,19 @@
 
 @section('breadcrumb')
     <li class="breadcrumb-item">
-        <a href="/admin/customers">
-            {{ __('Customers') }}
+        <a href="/admin/categories">
+            {{ __('Categories') }}
         </a>
     </li>
     <li class="breadcrumb-item active">
-        {{ __('Editing Form') }}
+        {{ __('Creating Form') }}
     </li>
 @endsection
 
 @section('header')
-    <h1 class="h4 text-primary">{{ __('Editing Form') }}</h1>
+    <h1 class="h4 text-primary">{{ __('Creating Form') }}</h1>
 @endsection
 
 @section('content')
-    <customer-form :customer="{{ json_encode($customer) }}"></customer-form>
+
 @endsection

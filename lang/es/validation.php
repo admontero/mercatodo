@@ -156,6 +156,7 @@ return [
         'address' => 'dirección',
         'phone' => 'teléfono',
         'cell_phone' => 'teléfono celular',
+        'name' => 'nombre',
     ],
 
 ];
