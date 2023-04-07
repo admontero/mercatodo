@@ -1,0 +1,22 @@
+<?php
+
+namespace Tests\Unit\Models;
+
+use App\Models\Category;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class CategoryTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /**
+     * @test
+     */
+    public function route_key_name_is_set_to_slug()
+    {
+        $category = Category::factory()->create();
+
+        $this->assertEquals('slug', $category->getRouteKeyName(), 'The route key name must be slug');
+    }
+}
