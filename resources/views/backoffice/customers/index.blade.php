@@ -5,7 +5,7 @@
 @endsection
 
 @section('header')
-    @include('partials.header', ['title' => __('Customers')])
+    <h1 class="h4 text-primary">{{ __('Customers') }}</h1>
 @endsection
 
 @section('content')

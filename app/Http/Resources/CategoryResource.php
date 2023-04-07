@@ -5,8 +5,8 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\User */
-class UserResource extends JsonResource
+/** @mixin \App\Models\Category */
+class CategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,10 +17,8 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'email' => $this->email,
-            'status' => (string) $this->status,
+            'name' => $this->name,
+            'slug' => $this->slug,
             'ago' => $this->created_at->diffForHumans(),
         ];
     }

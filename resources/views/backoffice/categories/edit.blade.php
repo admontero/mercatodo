@@ -2,8 +2,8 @@
 
 @section('breadcrumb')
     <li class="breadcrumb-item">
-        <a href="/admin/customers">
-            {{ __('Customers') }}
+        <a href="/admin/categories">
+            {{ __('Categories') }}
         </a>
     </li>
     <li class="breadcrumb-item active">
@@ -16,5 +16,5 @@
 @endsection
 
 @section('content')
-    <customer-form :customer="{{ json_encode($customer) }}"></customer-form>
+    <category-form :category="{{ json_encode($category) }}"></category-form>
 @endsection
