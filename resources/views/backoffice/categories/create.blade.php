@@ -16,5 +16,5 @@
 @endsection
 
 @section('content')
-
+    <category-form></category-form>
 @endsection

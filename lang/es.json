@@ -77,5 +77,6 @@
     "The :attribute field must contain at least one uppercase and one lowercase letter.": "El campo :attribute debe contener al menos una letra mayúscula y una minúscula.",
     "Creating Form": "Formulario de Creación",
     "Updated category": "Categoría actualizada",
+    "Created category": "Categoría creada",
     "New": "Nuevo"
 }
