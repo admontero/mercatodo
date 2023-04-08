@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateCategoryRequest extends FormRequest
+class StoreCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +23,7 @@ class UpdateCategoryRequest extends FormRequest
     {
         return [
             'name' => [
-                'required',
-                'string',
-                'min:3',
-                'max:100',
-                Rule::unique('categories')->ignore($this->category->id),
+                'required', 'string', 'min:3', 'max:100', 'unique:categories,name',
             ],
         ];
     }

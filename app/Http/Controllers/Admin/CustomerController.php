@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
 class CustomerController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         if (! Gate::allows('view-customer')) {
             abort(403);
@@ -18,7 +19,7 @@ class CustomerController extends Controller
         return view('backoffice.customers.index');
     }
 
-    public function edit(User $customer)
+    public function edit(User $customer): View
     {
         if (! Gate::allows('update-customer', $customer)) {
             abort(403);

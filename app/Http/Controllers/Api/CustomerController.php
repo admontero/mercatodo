@@ -7,11 +7,12 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    public function index()
+    public function index(): UserCollection
     {
         $this->authorize('view-any', new User);
 
@@ -20,7 +21,7 @@ class CustomerController extends Controller
         return $customers;
     }
 
-    public function update(UpdateUserRequest $request, User $customer)
+    public function update(UpdateUserRequest $request, User $customer): JsonResponse
     {
         $this->authorize('update', $customer);
 

@@ -16,5 +16,5 @@
 @endsection
 
 @section('content')
-    <category-form :category="{{ json_encode($category) }}"></category-form>
+    <category-form :category-slug="{{ json_encode($category->slug) }}"></category-form>
 @endsection
