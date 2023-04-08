@@ -27,9 +27,13 @@ Route::group(['middleware' => ['auth:api']], function () {
 });
 
 Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
+    //Customer routes
     Route::get('/customers', [App\Http\Controllers\Api\CustomerController::class, 'index']);
     Route::post('/customers/{user}/status', App\Http\Controllers\Api\CustomerStatusController::class);
 
+    //Categories routes
     Route::get('/categories', [App\Http\Controllers\Api\CategoryController::class, 'index']);
+    Route::post('/categories', [App\Http\Controllers\Api\CategoryController::class, 'store']);
+    Route::get('/categories/{category:slug}', [App\Http\Controllers\Api\CategoryController::class, 'show']);
     Route::put('/categories/{category:slug}', [App\Http\Controllers\Api\CategoryController::class, 'update']);
 });

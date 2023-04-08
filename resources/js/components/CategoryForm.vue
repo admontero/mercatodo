@@ -1,5 +1,5 @@
 <template>
-    <form class="my-4" @submit.prevent="submit">
+    <form class="my-4" @submit.prevent="submit" v-if="!loading">
         <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
             <div class="col">
                 <label for="name" class="form-label">{{ $t('Name') }}</label>
@@ -25,6 +25,13 @@
             </div>
         </div>
     </form>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-2" v-else>
+        <div class="col d-flex justify-content-center align-items-center">
+            <div class="spinner-border text-primary mt-4" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -38,20 +45,39 @@
             return { toast }
         },
         props: {
-            category: {
-                type: Object,
-                required: true,
+            categorySlug: {
+                type: String,
+            }
+        },
+        created() {
+            if (this.categorySlug) {
+                this.loading = true;
+                axios.get(`/api/categories/${this.categorySlug}`)
+                    .then(res => {
+                        this.category = res.data;
+                        this.loading = false;
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        this.loading = false;
+                    })
             }
         },
         data() {
             return {
-                errors: []
+                category: {},
+                errors: [],
+                loading: false,
             }
         },
         methods: {
             submit() {
-                axios.put(`/api/categories/${this.category.slug}`, this.category).then(res => {
-                    this.toast.success(trans('Updated category'), {
+                let method = this.categorySlug ? 'put' : 'post';
+                let url = this.categorySlug ? `/api/categories/${this.category.slug}` : '/api/categories' ;
+                let message = this.categorySlug ? 'Updated category' : 'Created category';
+
+                axios[method](url, this.category).then(res => {
+                    this.toast.success(trans(message), {
                         position: "bottom-left",
                         timeout: 3000,
                         closeOnClick: true,
@@ -66,6 +92,7 @@
                         rtl: false
                     });
                     this.errors = [];
+                    this.category = this.categorySlug ? res.data : {};
                 }).catch(err => {
                     this.errors = err.response.data.errors;
                 })

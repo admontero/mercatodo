@@ -107,6 +107,34 @@ class UpdateCategoryTest extends TestCase
     /**
      * @test
      */
+    public function category_name_length_must_contains_at_least_3_characters(): void
+    {
+        $this->seed(RoleSeeder::class);
+
+        $admin = User::factory()->admin()->create();
+
+        $category = Category::factory()->create([
+            'name' => 'Deporte',
+        ]);
+
+        $data = [
+            'name' => 'ao',
+        ];
+
+        Passport::actingAs($admin);
+
+        $response = $this->putJson("/api/categories/{$category->slug}", $data);
+
+        $response->assertStatus(422);
+
+        $category->refresh();
+
+        $response->assertJsonValidationErrorFor('name');
+    }
+
+    /**
+     * @test
+     */
     public function category_name_length_must_be_less_than_101_characters(): void
     {
         $this->seed(RoleSeeder::class);

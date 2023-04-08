@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\User;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Passport\Passport;
@@ -87,6 +88,28 @@ class StoreCategoryTest extends TestCase
     /**
      * @test
      */
+    public function category_name_length_must_contains_at_least_3_characters(): void
+    {
+        $this->seed(RoleSeeder::class);
+
+        $admin = User::factory()->admin()->create();
+
+        $data = [
+            'name' => 'ao',
+        ];
+
+        Passport::actingAs($admin);
+
+        $response = $this->postJson("/api/categories", $data);
+
+        $response->assertStatus(422);
+
+        $response->assertJsonValidationErrorFor('name');
+    }
+
+    /**
+     * @test
+     */
     public function category_name_length_must_be_less_than_101_characters(): void
     {
         $this->seed(RoleSeeder::class);
@@ -132,7 +155,7 @@ class StoreCategoryTest extends TestCase
         $response->assertJsonValidationErrorFor('name');
     }
 
-    public function getRandomStringOnlyLetters($n = 1)
+    public function getRandomStringOnlyLetters(int $n = 1): string
     {
         $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomString = '';
