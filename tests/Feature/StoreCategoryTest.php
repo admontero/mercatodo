@@ -31,7 +31,7 @@ class StoreCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson("/api/categories", $data);
+        $response = $this->postJson('/api/categories', $data);
 
         $response->assertStatus(201);
 
@@ -56,7 +56,7 @@ class StoreCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson("/api/categories", $data);
+        $response = $this->postJson('/api/categories', $data);
 
         $response->assertStatus(422);
 
@@ -78,7 +78,7 @@ class StoreCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson("/api/categories", $data);
+        $response = $this->postJson('/api/categories', $data);
 
         $response->assertStatus(422);
 
@@ -100,7 +100,7 @@ class StoreCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson("/api/categories", $data);
+        $response = $this->postJson('/api/categories', $data);
 
         $response->assertStatus(422);
 
@@ -122,7 +122,7 @@ class StoreCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson("/api/categories", $data);
+        $response = $this->postJson('/api/categories', $data);
 
         $response->assertStatus(422);
 
@@ -148,7 +148,7 @@ class StoreCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson("/api/categories", $data);
+        $response = $this->postJson('/api/categories', $data);
 
         $response->assertStatus(422);
 
