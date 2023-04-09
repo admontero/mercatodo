@@ -19,7 +19,13 @@
                                 </div>
 
                                 <h6 class="h5 mb-0">{{ __('Welcome back!') }}</h6>
-                                <p class="text-muted mt-2 mb-5">{{ __('Enter your email address and password to access.') }}</p>
+                                <p class="text-muted mt-2 @if(!session('error')) mb-5 @else mb-2 @endif">{{ __('Enter your email address and password to access.') }}</p>
+
+                                @if(session('error'))
+                                    <div class="alert alert-danger">
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
 
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
