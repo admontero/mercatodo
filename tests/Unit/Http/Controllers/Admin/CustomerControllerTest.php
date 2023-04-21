@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Http\Controllers\Admin;
 
+use App\Models\Customer;
 use App\Models\User;
-use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -18,17 +18,16 @@ class CustomerControllerTest extends TestCase
     public function index_method_must_returns_the_customer_index_view(): void
     {
         $this->withoutVite();
-        $this->seed(RoleSeeder::class);
 
         $admin = User::factory()->admin()->create();
 
         Passport::actingAs($admin);
 
-        $response = $this->get('/admin/customers');
+        $response = $this->get(route('admin.customers.index'));
 
-        $response->assertSuccessful();
-
-        $response->assertViewIs('backoffice.customers.index');
+        $response
+            ->assertSuccessful()
+            ->assertViewIs('backoffice.customers.index');
     }
 
     /**
@@ -37,19 +36,17 @@ class CustomerControllerTest extends TestCase
     public function edit_method_must_returns_the_customer_edit_view(): void
     {
         $this->withoutVite();
-        $this->seed(RoleSeeder::class);
 
         $admin = User::factory()->admin()->create();
-        $customer = User::factory()->create();
+        $customer = Customer::factory()->create();
 
         Passport::actingAs($admin);
 
-        $response = $this->get("/admin/customers/{$customer->id}/edit");
+        $response = $this->get(route('admin.customers.edit', $customer));
 
-        $response->assertSuccessful();
-
-        $response->assertViewIs('backoffice.customers.edit');
-
-        $response->assertViewHas('customer');
+        $response
+            ->assertSuccessful()
+            ->assertViewIs('backoffice.customers.edit')
+            ->assertViewHas('customer');
     }
 }

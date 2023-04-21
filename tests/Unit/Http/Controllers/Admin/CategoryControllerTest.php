@@ -4,7 +4,6 @@ namespace Tests\Unit\Http\Controllers\Admin;
 
 use App\Models\Category;
 use App\Models\User;
-use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -19,17 +18,16 @@ class CategoryControllerTest extends TestCase
     public function index_method_must_returns_the_category_index_view(): void
     {
         $this->withoutVite();
-        $this->seed(RoleSeeder::class);
 
         $admin = User::factory()->admin()->create();
 
         Passport::actingAs($admin);
 
-        $response = $this->get('/admin/categories');
+        $response = $this->get(route('admin.categories.index'));
 
-        $response->assertSuccessful();
-
-        $response->assertViewIs('backoffice.categories.index');
+        $response
+            ->assertSuccessful()
+            ->assertViewIs('backoffice.categories.index');
     }
 
     /**
@@ -38,17 +36,16 @@ class CategoryControllerTest extends TestCase
     public function create_method_must_returns_the_category_create_view(): void
     {
         $this->withoutVite();
-        $this->seed(RoleSeeder::class);
 
         $admin = User::factory()->admin()->create();
 
         Passport::actingAs($admin);
 
-        $response = $this->get('/admin/categories/create');
+        $response = $this->get(route('admin.categories.create'));
 
-        $response->assertSuccessful();
-
-        $response->assertViewIs('backoffice.categories.create');
+        $response
+            ->assertSuccessful()
+            ->assertViewIs('backoffice.categories.create');
     }
 
     /**
@@ -57,19 +54,17 @@ class CategoryControllerTest extends TestCase
     public function edit_method_must_returns_the_category_edit_view(): void
     {
         $this->withoutVite();
-        $this->seed(RoleSeeder::class);
 
         $admin = User::factory()->admin()->create();
         $category = Category::factory()->create();
 
         Passport::actingAs($admin);
 
-        $response = $this->get("/admin/categories/{$category->slug}/edit");
+        $response = $this->get(route('admin.categories.edit', $category));
 
-        $response->assertSuccessful();
-
-        $response->assertViewIs('backoffice.categories.edit');
-
-        $response->assertViewHas('category');
+        $response
+            ->assertSuccessful()
+            ->assertViewIs('backoffice.categories.edit')
+            ->assertViewHas('category');
     }
 }

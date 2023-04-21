@@ -30,6 +30,8 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request): JsonResponse
     {
+        $this->authorize('create', new Category);
+
         $dataVal = $request->validated();
 
         $category = Category::create($dataVal);

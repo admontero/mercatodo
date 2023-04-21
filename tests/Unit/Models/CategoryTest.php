@@ -13,7 +13,7 @@ class CategoryTest extends TestCase
     /**
      * @test
      */
-    public function route_key_name_is_set_to_slug()
+    public function route_key_name_is_set_to_slug(): void
     {
         $category = Category::factory()->create();
 

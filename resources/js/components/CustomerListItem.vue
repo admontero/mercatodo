@@ -1,16 +1,16 @@
 <template>
   <tr>
         <th scope="row">{{ customer.first_name }} {{ customer.last_name }}</th>
-        <td>{{ customer.email }}</td>
+        <td>{{ customer.user.email }}</td>
         <td>
-            <span class="badge bg-success text-uppercase" v-if="customer.status === 'activated'">
-                {{ $t(customer.status) }}
+            <span class="badge bg-success text-uppercase" v-if="customer.user.status === 'activated'">
+                {{ $t(customer.user.status) }}
             </span>
-            <span class="badge bg-warning text-uppercase" v-else-if="customer.status === 'inactivated'">
-                {{ $t(customer.status) }}
+            <span class="badge bg-warning text-uppercase" v-else-if="customer.user.status === 'inactivated'">
+                {{ $t(customer.user.status) }}
             </span>
         </td>
-        <td>{{ customer.ago }}</td>
+        <td>{{ customer.user.ago }}</td>
         <td>
             <div class="d-flex gap-2">
                 <update-status-customer
@@ -49,7 +49,7 @@
         },
         methods: {
             refreshUser(status) {
-                this.customer.status = status;
+                this.customer.user.status = status;
                 this.toast.success(trans(`Customer ${status}`), {
                     position: "bottom-left",
                     timeout: 3000,

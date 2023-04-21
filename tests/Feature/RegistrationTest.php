@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
@@ -12,13 +11,6 @@ use Tests\TestCase;
 class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->seed(RoleSeeder::class);
-    }
 
     /**
      * @test
@@ -32,9 +24,12 @@ class RegistrationTest extends TestCase
         $response->assertRedirect('/');
 
         $this->assertDatabaseHas('users', [
+            'email' => 'arara@test.com',
+        ]);
+
+        $this->assertDatabaseHas('customers', [
             'first_name' => 'Arantxa',
             'last_name' => 'Arango',
-            'email' => 'arara@test.com',
         ]);
 
         $this->assertTrue(

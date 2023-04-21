@@ -6,6 +6,7 @@ use App\Models\UserStatuses\ActiveStatus;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -21,15 +22,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name',
-        'last_name',
         'email',
         'password',
-        'document_type',
-        'document',
-        'address',
-        'phone',
-        'cell_phone',
     ];
 
     /**
@@ -55,14 +49,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'status' => ActiveStatus::class,
     ];
 
-    protected static function booted()
+    protected static function booted(): void
     {
         static::created(function ($user) {
-            $user->update(['status' => \App\Models\UserStatuses\ActiveStatus::class]);
+            $user->update(['status' => ActiveStatus::class]);
         });
     }
 
-    public function changeStatus() : void
+    public function changeStatus(): void
     {
         $this->status->handle();
     }
@@ -72,7 +66,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return new $status($this);
     }
 
-    public function scopeCustomer(Builder $query): void
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class);
+    }
+
+    public function scopeCustomers(Builder $query): void
     {
         $query->whereRelation('roles', 'name', 'customer');
     }

@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Category;
+use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class CategoryPolicy
+class CustomerPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -23,7 +23,7 @@ class CategoryPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Category $category): bool
+    public function view(User $user, Customer $customer): bool
     {
         return false;
     }
@@ -33,7 +33,19 @@ class CategoryPolicy
      */
     public function create(User $user): bool
     {
-        if ($user->hasRole('admin')) {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     */
+    public function update(User $user, Customer $customer): bool
+    {
+        if ($user->hasRole('admin') && $customer->user->hasRole('customer')) {
+            return true;
+        }
+
+        if ($user->hasRole('customer') and $user->id === $customer->id) {
             return true;
         }
 
@@ -41,11 +53,11 @@ class CategoryPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can update the model status.
      */
-    public function update(User $user, Category $category): bool
+    public function updateStatus(User $user, Customer $customer): bool
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('admin') and $customer->user->hasRole('customer')) {
             return true;
         }
 
@@ -55,7 +67,7 @@ class CategoryPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Category $category): bool
+    public function delete(User $user, Customer $customer): bool
     {
         return false;
     }
@@ -63,7 +75,7 @@ class CategoryPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Category $category): bool
+    public function restore(User $user, Customer $customer): bool
     {
         return false;
     }
@@ -71,7 +83,7 @@ class CategoryPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Category $category): bool
+    public function forceDelete(User $user, Customer $customer): bool
     {
         return false;
     }

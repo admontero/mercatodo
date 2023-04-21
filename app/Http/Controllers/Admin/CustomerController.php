@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
@@ -19,7 +19,7 @@ class CustomerController extends Controller
         return view('backoffice.customers.index');
     }
 
-    public function edit(User $customer): View
+    public function edit(Customer $customer): View
     {
         if (! Gate::allows('update-customer', $customer)) {
             abort(403);
