@@ -4,7 +4,6 @@ namespace Tests\Unit\Http\Resources;
 
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
-use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,8 +16,6 @@ class CategoryResourceTest extends TestCase
      */
     public function a_category_resource_must_have_the_required_fields(): void
     {
-        $this->seed(RoleSeeder::class);
-
         $category = Category::factory()->create();
 
         $categoryResource = CategoryResource::make($category)->resolve();

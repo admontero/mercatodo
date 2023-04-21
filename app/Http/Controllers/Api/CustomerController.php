@@ -3,25 +3,25 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateUserRequest;
-use App\Http\Resources\UserCollection;
-use App\Http\Resources\UserResource;
-use App\Models\User;
+use App\Http\Requests\UpdateCustomerRequest;
+use App\Http\Resources\CustomerCollection;
+use App\Http\Resources\CustomerResource;
+use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    public function index(): UserCollection
+    public function index(): CustomerCollection
     {
-        $this->authorize('view-any', new User);
+        $this->authorize('view-any', new Customer);
 
-        $customers = new UserCollection(User::customer()->latest()->paginate(10));
+        $customers = new CustomerCollection(Customer::with('user')->latest()->paginate(10));
 
         return $customers;
     }
 
-    public function update(UpdateUserRequest $request, User $customer): JsonResponse
+    public function update(UpdateCustomerRequest $request, Customer $customer): JsonResponse
     {
         $this->authorize('update', $customer);
 
@@ -29,6 +29,6 @@ class CustomerController extends Controller
 
         $customer->update($dataVal);
 
-        return response()->json(new UserResource($customer), 201);
+        return response()->json(new CustomerResource($customer), 201);
     }
 }

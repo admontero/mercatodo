@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Customer;
 use App\Models\User;
-use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,21 +14,31 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function a_customer_status_can_be_changed(): void
+    public function a_user_has_one_customer(): void
     {
-        $this->seed(RoleSeeder::class);
+        $user = User::factory()
+                    ->has(Customer::factory()->count(1))
+                    ->create();
 
-        $customer = User::factory()->create();
+        $this->assertInstanceOf(Customer::class, $user->customer);
+    }
 
-        $this->assertEquals('activated', (string) $customer->status);
+    /**
+     * @test
+     */
+    public function a_user_status_can_be_changed(): void
+    {
+        $user = User::factory()->create();
 
-        $customer->changeStatus();
+        $this->assertEquals('activated', (string) $user->status);
 
-        $this->assertEquals('inactivated', (string) $customer->status);
+        $user->changeStatus();
 
-        $customer->changeStatus();
+        $this->assertEquals('inactivated', (string) $user->status);
 
-        $this->assertEquals('activated', (string) $customer->status);
+        $user->changeStatus();
+
+        $this->assertEquals('activated', (string) $user->status);
     }
 
     /**
@@ -36,8 +46,6 @@ class UserTest extends TestCase
      */
     public function customer_scope(): void
     {
-        $this->seed(RoleSeeder::class);
-
         User::factory(20)->create();
 
         User::factory(5)->admin()->create();
@@ -46,7 +54,7 @@ class UserTest extends TestCase
 
         $this->assertCount(25, $users);
 
-        $customers = User::customer()->get();
+        $customers = User::customers()->get();
 
         $this->assertCount(20, $customers);
     }

@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\User;
-use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Passport\Passport;
@@ -21,8 +20,6 @@ class StoreCategoryTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->seed(RoleSeeder::class);
-
         $admin = User::factory()->admin()->create();
 
         $data = [
@@ -31,7 +28,7 @@ class StoreCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson('/api/categories', $data);
+        $response = $this->postJson(route('api.categories.store'), $data);
 
         $response->assertStatus(201);
 
@@ -46,8 +43,6 @@ class StoreCategoryTest extends TestCase
      */
     public function category_name_must_be_required(): void
     {
-        $this->seed(RoleSeeder::class);
-
         $admin = User::factory()->admin()->create();
 
         $data = [
@@ -56,7 +51,7 @@ class StoreCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson('/api/categories', $data);
+        $response = $this->postJson(route('api.categories.store'), $data);
 
         $response->assertStatus(422);
 
@@ -68,8 +63,6 @@ class StoreCategoryTest extends TestCase
      */
     public function category_name_must_be_a_string(): void
     {
-        $this->seed(RoleSeeder::class);
-
         $admin = User::factory()->admin()->create();
 
         $data = [
@@ -78,7 +71,7 @@ class StoreCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson('/api/categories', $data);
+        $response = $this->postJson(route('api.categories.store'), $data);
 
         $response->assertStatus(422);
 
@@ -90,8 +83,6 @@ class StoreCategoryTest extends TestCase
      */
     public function category_name_length_must_contains_at_least_3_characters(): void
     {
-        $this->seed(RoleSeeder::class);
-
         $admin = User::factory()->admin()->create();
 
         $data = [
@@ -100,7 +91,7 @@ class StoreCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson('/api/categories', $data);
+        $response = $this->postJson(route('api.categories.store'), $data);
 
         $response->assertStatus(422);
 
@@ -112,8 +103,6 @@ class StoreCategoryTest extends TestCase
      */
     public function category_name_length_must_be_less_than_101_characters(): void
     {
-        $this->seed(RoleSeeder::class);
-
         $admin = User::factory()->admin()->create();
 
         $data = [
@@ -122,7 +111,7 @@ class StoreCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson('/api/categories', $data);
+        $response = $this->postJson(route('api.categories.store'), $data);
 
         $response->assertStatus(422);
 
@@ -134,8 +123,6 @@ class StoreCategoryTest extends TestCase
      */
     public function category_name_must_be_unique(): void
     {
-        $this->seed(RoleSeeder::class);
-
         $admin = User::factory()->admin()->create();
 
         Category::factory()->create([
@@ -148,7 +135,7 @@ class StoreCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson('/api/categories', $data);
+        $response = $this->postJson(route('api.categories.store'), $data);
 
         $response->assertStatus(422);
 

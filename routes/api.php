@@ -18,22 +18,32 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', [App\Http\Controllers\Api\AuthController::class, 'register']);
-Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
+Route::post('/register', [App\Http\Controllers\Api\AuthController::class, 'register'])
+    ->name('api.register');
+Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login'])
+    ->name('api.login');
 
 Route::group(['middleware' => ['auth:api']], function () {
-    Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
-    Route::put('/customers/{customer}', [App\Http\Controllers\Api\CustomerController::class, 'update']);
+    Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout'])
+        ->name('api.logout');
+    Route::put('/customers/{customer}', [App\Http\Controllers\Api\CustomerController::class, 'update'])
+        ->name('api.customers.update');
 });
 
 Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
     //Customer routes
-    Route::get('/customers', [App\Http\Controllers\Api\CustomerController::class, 'index']);
-    Route::post('/customers/{user}/status', App\Http\Controllers\Api\CustomerStatusController::class);
+    Route::get('/customers', [App\Http\Controllers\Api\CustomerController::class, 'index'])
+        ->name('api.customers.index');
+    Route::post('/customers/{customer}/status', App\Http\Controllers\Api\CustomerStatusController::class)
+        ->name('api.customers.update-status');
 
     //Categories routes
-    Route::get('/categories', [App\Http\Controllers\Api\CategoryController::class, 'index']);
-    Route::post('/categories', [App\Http\Controllers\Api\CategoryController::class, 'store']);
-    Route::get('/categories/{category:slug}', [App\Http\Controllers\Api\CategoryController::class, 'show']);
-    Route::put('/categories/{category:slug}', [App\Http\Controllers\Api\CategoryController::class, 'update']);
+    Route::get('/categories', [App\Http\Controllers\Api\CategoryController::class, 'index'])
+        ->name('api.categories.index');
+    Route::post('/categories', [App\Http\Controllers\Api\CategoryController::class, 'store'])
+        ->name('api.categories.store');
+    Route::get('/categories/{category:slug}', [App\Http\Controllers\Api\CategoryController::class, 'show'])
+        ->name('api.categories.show');
+    Route::put('/categories/{category:slug}', [App\Http\Controllers\Api\CategoryController::class, 'update'])
+        ->name('api.categories.update');
 });

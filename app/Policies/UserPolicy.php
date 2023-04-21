@@ -12,10 +12,6 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        if ($user->hasRole('admin')) {
-            return true;
-        }
-
         return false;
     }
 
@@ -40,18 +36,6 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        if ($user->hasRole('admin') and $model->hasRole('customer')) {
-            return true;
-        }
-
-        if ($user->hasRole('admin') and $user->id === $model->id) {
-            return true;
-        }
-
-        if ($user->hasRole('customer') and $user->id === $model->id) {
-            return true;
-        }
-
         return false;
     }
 

@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\User;
-use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Passport\Passport;
@@ -21,8 +20,6 @@ class UpdateCategoryTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->seed(RoleSeeder::class);
-
         $admin = User::factory()->admin()->create();
 
         $category = Category::factory()->create([
@@ -35,7 +32,7 @@ class UpdateCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->putJson("/api/categories/{$category->slug}", $data);
+        $response = $this->putJson(route('api.categories.update', $category), $data);
 
         $response->assertStatus(201);
 
@@ -53,8 +50,6 @@ class UpdateCategoryTest extends TestCase
      */
     public function category_name_must_be_required(): void
     {
-        $this->seed(RoleSeeder::class);
-
         $admin = User::factory()->admin()->create();
 
         $category = Category::factory()->create([
@@ -67,13 +62,11 @@ class UpdateCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->putJson("/api/categories/{$category->slug}", $data);
+        $response = $this->putJson(route('api.categories.update', $category), $data);
 
-        $response->assertStatus(422);
-
-        $category->refresh();
-
-        $response->assertJsonValidationErrorFor('name');
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrorFor('name');
     }
 
     /**
@@ -81,8 +74,6 @@ class UpdateCategoryTest extends TestCase
      */
     public function category_name_must_be_a_string(): void
     {
-        $this->seed(RoleSeeder::class);
-
         $admin = User::factory()->admin()->create();
 
         $category = Category::factory()->create([
@@ -95,13 +86,11 @@ class UpdateCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->putJson("/api/categories/{$category->slug}", $data);
+        $response = $this->putJson(route('api.categories.update', $category), $data);
 
-        $response->assertStatus(422);
-
-        $category->refresh();
-
-        $response->assertJsonValidationErrorFor('name');
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrorFor('name');
     }
 
     /**
@@ -109,8 +98,6 @@ class UpdateCategoryTest extends TestCase
      */
     public function category_name_length_must_contains_at_least_3_characters(): void
     {
-        $this->seed(RoleSeeder::class);
-
         $admin = User::factory()->admin()->create();
 
         $category = Category::factory()->create([
@@ -123,13 +110,11 @@ class UpdateCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->putJson("/api/categories/{$category->slug}", $data);
+        $response = $this->putJson(route('api.categories.update', $category), $data);
 
-        $response->assertStatus(422);
-
-        $category->refresh();
-
-        $response->assertJsonValidationErrorFor('name');
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrorFor('name');
     }
 
     /**
@@ -137,8 +122,6 @@ class UpdateCategoryTest extends TestCase
      */
     public function category_name_length_must_be_less_than_101_characters(): void
     {
-        $this->seed(RoleSeeder::class);
-
         $admin = User::factory()->admin()->create();
 
         $category = Category::factory()->create([
@@ -151,13 +134,11 @@ class UpdateCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->putJson("/api/categories/{$category->slug}", $data);
+        $response = $this->putJson(route('api.categories.update', $category), $data);
 
-        $response->assertStatus(422);
-
-        $category->refresh();
-
-        $response->assertJsonValidationErrorFor('name');
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrorFor('name');
     }
 
     /**
@@ -165,8 +146,6 @@ class UpdateCategoryTest extends TestCase
      */
     public function category_name_must_be_unique(): void
     {
-        $this->seed(RoleSeeder::class);
-
         $admin = User::factory()->admin()->create();
 
         Category::factory()->create([
@@ -183,13 +162,11 @@ class UpdateCategoryTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->putJson("/api/categories/{$category->slug}", $data);
+        $response = $this->putJson(route('api.categories.update', $category), $data);
 
-        $response->assertStatus(422);
-
-        $category->refresh();
-
-        $response->assertJsonValidationErrorFor('name');
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrorFor('name');
     }
 
     public function getRandomStringOnlyLetters($n = 1)
