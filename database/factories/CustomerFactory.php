@@ -32,7 +32,7 @@ class CustomerFactory extends Factory
         return [
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'user_id' => User::factory()->activated()
+            'user_id' => User::factory()->activated(),
         ];
     }
 
@@ -45,7 +45,7 @@ class CustomerFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'user_id' => User::factory()->inactivated()
+                'user_id' => User::factory()->inactivated(),
             ];
         });
     }

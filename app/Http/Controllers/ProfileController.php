@@ -9,7 +9,7 @@ class ProfileController extends Controller
 {
     public function edit()
     {
-        if (! Gate::allows('update-profile',)) {
+        if (! Gate::allows('update-profile', )) {
             abort(403);
         }
 

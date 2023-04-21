@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
         Customer::create([
             'first_name' => 'Customer',
             'last_name' => 'User',
-            'user_id' => $customer->id
+            'user_id' => $customer->id,
         ]);
     }
 }

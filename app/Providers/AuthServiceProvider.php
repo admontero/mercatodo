@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        # Start Admin Gates #
+        // Start Admin Gates #
 
         Gate::define('view-customer', function (User $user) {
             if ($user->hasRole('admin')) {
@@ -63,6 +63,6 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
-        # End Admin Gates #
+        // End Admin Gates #
     }
 }

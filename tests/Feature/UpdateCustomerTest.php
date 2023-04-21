@@ -14,6 +14,7 @@ class UpdateCustomerTest extends TestCase
     use RefreshDatabase;
 
     protected $admin;
+
     protected $customer;
 
     public function setUp() :void

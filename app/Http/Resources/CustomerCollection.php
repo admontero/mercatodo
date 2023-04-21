@@ -17,6 +17,6 @@ class CustomerCollection extends ResourceCollection
         return [
             'status' => 'OK',
             'data' => $this->collection,
-        ];;
+        ];
     }
 }
