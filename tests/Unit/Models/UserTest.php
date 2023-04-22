@@ -17,8 +17,8 @@ class UserTest extends TestCase
     public function a_user_has_one_customer(): void
     {
         $user = User::factory()
-                    ->has(Customer::factory()->count(1))
-                    ->create();
+            ->has(Customer::factory()->count(1))
+            ->create();
 
         $this->assertInstanceOf(Customer::class, $user->customer);
     }

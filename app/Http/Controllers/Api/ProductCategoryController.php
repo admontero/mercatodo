@@ -13,7 +13,7 @@ class ProductCategoryController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $categories = Category::select('id','name')->get();
+        $categories = Category::select('id', 'name')->get();
 
         return response()->json($categories);
     }

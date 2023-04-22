@@ -3,7 +3,6 @@
 namespace App\QueryFilters;
 
 use Closure;
-use Illuminate\Support\Facades\Log;
 
 class CategoryFilter
 {

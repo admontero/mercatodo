@@ -21,14 +21,14 @@ class ProductController extends Controller
         $query = Product::with('category');
 
         $items = app(Pipeline::class)
-                    ->send($query)
-                    ->through([
-                        NameFilter::class,
-                        CategoryFilter::class,
-                        ProductOrder::class,
-                    ])
-                    ->thenReturn()
-                    ->paginate(15);
+            ->send($query)
+            ->through([
+                NameFilter::class,
+                CategoryFilter::class,
+                ProductOrder::class,
+            ])
+            ->thenReturn()
+            ->paginate(15);
 
         $products = new ProductCollection($items);
 

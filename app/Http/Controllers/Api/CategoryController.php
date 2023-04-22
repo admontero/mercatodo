@@ -21,8 +21,8 @@ class CategoryController extends Controller
 
         $categories = new CategoryCollection(
                 Category::latest()
-                            ->select('id', 'name', 'slug', 'created_at')
-                            ->paginate(10)
+                    ->select('id', 'name', 'slug', 'created_at')
+                    ->paginate(10)
         );
 
         return $categories;

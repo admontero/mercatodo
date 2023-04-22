@@ -17,9 +17,9 @@ class CustomerController extends Controller
 
         $customers = new CustomerCollection(
                 Customer::with('user')
-                            ->select(['id', 'first_name', 'last_name', 'user_id'])
-                            ->latest()
-                            ->paginate(10)
+                    ->select(['id', 'first_name', 'last_name', 'user_id'])
+                    ->latest()
+                    ->paginate(10)
         );
 
         return $customers;
