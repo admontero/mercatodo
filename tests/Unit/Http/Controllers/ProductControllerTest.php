@@ -2,10 +2,13 @@
 
 namespace Tests\Unit\Http\Controllers;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ProductControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @test
      */

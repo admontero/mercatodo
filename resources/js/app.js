@@ -2,14 +2,17 @@ import './bootstrap';
 
 import { createApp } from 'vue';
 import { i18nVue } from 'laravel-vue-i18n';
-import Toast from "vue-toastification";
-import "vue-toastification/dist/index.css";
+import Toast from 'vue-toastification';
 
 import HelloWorld from '@/components/HelloWorld.vue';
 import CustomerList from '@/components/CustomerList.vue';
 import CustomerForm from '@/components/CustomerForm.vue';
 import CategoryList from '@/components/CategoryList.vue';
 import CategoryForm from '@/components/CategoryForm.vue';
+import CustomerProductList from '@/components/CustomerProductList.vue';
+
+import 'vue-toastification/dist/index.css';
+import 'vue-search-select/dist/VueSearchSelect.css'
 
 window.app = createApp({
     setup() {
@@ -23,6 +26,7 @@ window.app = createApp({
         CustomerForm,
         CategoryList,
         CategoryForm,
+        CustomerProductList,
     },
 });
 

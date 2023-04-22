@@ -2,11 +2,15 @@
 
 namespace Tests\Unit\Http\Resources;
 
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ProductResourceTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @test
      */

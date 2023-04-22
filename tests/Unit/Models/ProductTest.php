@@ -16,7 +16,11 @@ class ProductTest extends TestCase
      */
     public function a_product_belongs_to_a_category(): void
     {
-        $product = Product::factory()->create();
+        $category = Category::factory()->create();
+
+        $product = Product::factory()->create([
+            'category_id' => $category->id,
+        ]);
 
         $this->assertInstanceOf(Category::class, $product->category);
     }

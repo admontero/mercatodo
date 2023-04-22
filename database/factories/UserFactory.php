@@ -28,8 +28,7 @@ class UserFactory extends Factory
     /**
      * Syncs role/s of user with passed role/s.
      *
-     * @param array|Role|string ...$roles
-     * @return UserFactory
+     * @param  array|Role|string  ...$roles
      */
     private function assignRole(...$roles): self
     {
@@ -65,8 +64,6 @@ class UserFactory extends Factory
 
     /**
      * Indicate that the user is an admin.
-     *
-     * @return UserFactory
      */
     public function admin(): self
     {
@@ -75,8 +72,6 @@ class UserFactory extends Factory
 
     /**
      * Indicate that the user is a customer.
-     *
-     * @return UserFactory
      */
     public function customer(): self
     {
@@ -85,8 +80,6 @@ class UserFactory extends Factory
 
     /**
      * Indicate that the user is a activated.
-     *
-     * @return UserFactory
      */
     public function activated(): self
     {
@@ -99,8 +92,6 @@ class UserFactory extends Factory
 
     /**
      * Indicate that the user is a inactivated.
-     *
-     * @return UserFactory
      */
     public function inactivated(): self
     {

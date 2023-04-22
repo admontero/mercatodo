@@ -35,11 +35,11 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'name' => fake()->sentence(2),
             'code' => fake()->unique()->ean8(),
             'description' => fake()->realText(),
             'price' => fake()->randomNumber(6, false),
-            'image' => fake()->imageUrl(640, 480, 'cats'),
+            'image' => 'https://picsum.photos/640/480',
         ];
     }
 }

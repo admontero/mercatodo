@@ -26,8 +26,6 @@ class CustomerFactory extends Factory
 
     /**
      * Indicate that the user is a inactivated.
-     *
-     * @return CustomerFactory
      */
     public function inactivated(): self
     {
