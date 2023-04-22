@@ -22,11 +22,11 @@ jobs:
       run: composer update
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-    - name: Run php-cs-fixer
-      run: ./vendor/bin/php-cs-fixer fix
+    - name: Run Laravel Pint
+      run: ./vendor/bin/pint
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
-          commit_message: 'style: Apply php-cs-fixer changes'
+          commit_message: 'style: Apply code styling changes'
     - name: Generate key
       run: php artisan key:generate
     - name: Generate passport keys

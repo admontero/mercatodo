@@ -8,7 +8,6 @@ use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
@@ -16,7 +15,12 @@ class CustomerController extends Controller
     {
         $this->authorize('view-any', new Customer);
 
-        $customers = new CustomerCollection(Customer::with('user')->latest()->paginate(10));
+        $customers = new CustomerCollection(
+                Customer::with('user')
+                            ->select(['id', 'first_name', 'last_name', 'user_id'])
+                            ->latest()
+                            ->paginate(10)
+        );
 
         return $customers;
     }

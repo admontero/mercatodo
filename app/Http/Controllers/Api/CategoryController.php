@@ -9,7 +9,6 @@ use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -20,7 +19,11 @@ class CategoryController extends Controller
     {
         $this->authorize('view-any', new Category);
 
-        $categories = new CategoryCollection(Category::latest()->paginate(10));
+        $categories = new CategoryCollection(
+                Category::latest()
+                            ->select('id', 'name', 'slug', 'created_at')
+                            ->paginate(10)
+        );
 
         return $categories;
     }

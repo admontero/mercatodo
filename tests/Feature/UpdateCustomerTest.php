@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -17,16 +16,16 @@ class UpdateCustomerTest extends TestCase
 
     protected $customer;
 
-    public function setUp() :void
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->admin = User::factory()->admin()->create();
 
         $this->customer = Customer::factory()->create([
-                                'first_name' => 'Usuario',
-                                'last_name' => 'Nuevo',
-                            ]);
+            'first_name' => 'Usuario',
+            'last_name' => 'Nuevo',
+        ]);
     }
 
     /**

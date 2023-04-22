@@ -31,7 +31,7 @@ class ActiveStatus implements StateInterface
         });
     }
 
-    public function __toString(): String
+    public function __toString(): string
     {
         return 'activated';
     }

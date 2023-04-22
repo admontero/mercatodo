@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['verify' => true]);
 
-Route::group(['middleware' => ['auth', 'verified']], function () {
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])
-        ->name('home');
+Route::get('/', [ProductController::class, 'index'])
+    ->name('products.index');
 
+Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])
         ->name('profile.edit');
 });

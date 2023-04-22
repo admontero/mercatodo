@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -18,5 +19,19 @@ class CategoryTest extends TestCase
         $category = Category::factory()->create();
 
         $this->assertEquals('slug', $category->getRouteKeyName(), 'The route key name must be slug');
+    }
+
+    /**
+     * @test
+     */
+    public function a_category_has_many_products(): void
+    {
+        $category = Category::factory()->create();
+
+        Product::factory()->create([
+            'category_id' => $category->id,
+        ]);
+
+        $this->assertInstanceOf(Product::class, $category->products()->first());
     }
 }

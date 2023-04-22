@@ -23,6 +23,12 @@ Route::post('/register', [App\Http\Controllers\Api\AuthController::class, 'regis
 Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login'])
     ->name('api.login');
 
+Route::get('/products', [App\Http\Controllers\Api\ProductController::class, 'index'])
+    ->name('api.products.index');
+
+Route::get('/products/categories', App\Http\Controllers\Api\ProductCategoryController::class)
+    ->name('api.products.categories');
+
 Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout'])
         ->name('api.logout');
