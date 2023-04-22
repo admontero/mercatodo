@@ -4,5 +4,5 @@ namespace App\Contracts;
 
 interface StateInterface
 {
-    public function handle() : void;
+    public function handle(): void;
 }

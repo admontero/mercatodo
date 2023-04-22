@@ -31,7 +31,7 @@ class InactiveStatus implements StateInterface
         });
     }
 
-    public function __toString(): String
+    public function __toString(): string
     {
         return 'inactivated';
     }
