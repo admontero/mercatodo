@@ -11,18 +11,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class CustomerFactory extends Factory
 {
     /**
-     * Configure the model factory.
-     *
-     * @return $this
-     */
-    /* public function configure()
-    {
-        return $this->afterCreating(function (Customer $customer) {
-            return $customer->user->assignRole('customer');
-        });
-    } */
-
-    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>

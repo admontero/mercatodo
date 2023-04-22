@@ -14,12 +14,12 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(800)->create();
-
         User::factory()->admin()->create([
             'email' => 'admin@test.com',
             'password' => bcrypt('12345678'),
         ]);
+
+        Customer::factory(800)->create();
 
         $customer = User::factory()->customer()->unverified()->create([
             'email' => 'customer@test.com',

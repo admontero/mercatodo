@@ -19,4 +19,14 @@ class CategoryTest extends TestCase
 
         $this->assertEquals('slug', $category->getRouteKeyName(), 'The route key name must be slug');
     }
+
+    /**
+     * @test
+     */
+    public function a_category_has_many_products(): void
+    {
+        $category = Category::factory()->create();
+
+        $this->assertInstanceOf(Product::class, $category->products->first());
+    }
 }
