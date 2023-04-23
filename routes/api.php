@@ -52,4 +52,8 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
         ->name('api.categories.show');
     Route::put('/categories/{category:slug}', [App\Http\Controllers\Api\CategoryController::class, 'update'])
         ->name('api.categories.update');
+
+    //Product routes
+    Route::get('/admin/products', [App\Http\Controllers\Api\Admin\ProductController::class, 'index'])
+        ->name('api.admin.products.index');
 });

@@ -3,11 +3,14 @@
 namespace Tests\Unit\Http\Controllers\Admin;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class ProductControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @test
      */
@@ -23,6 +26,6 @@ class ProductControllerTest extends TestCase
 
         $response
             ->assertSuccessful()
-            ->assertViewIs('backoffice.categories.index');
+            ->assertViewIs('backoffice.products.index');
     }
 }

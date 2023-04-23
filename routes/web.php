@@ -44,4 +44,9 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'admin'], func
 
     Route::get('/categories/{category:slug}/edit', [App\Http\Controllers\Admin\CategoryController::class, 'edit'])
         ->name('admin.categories.edit');
+
+    //Products
+    Route::get('/products', [App\Http\Controllers\Admin\ProductController::class, 'index'])
+        ->name('admin.products.index');
+
 });
