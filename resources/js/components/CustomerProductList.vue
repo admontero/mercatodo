@@ -2,6 +2,10 @@
     <div class="px-lg-4">
         <div class="row g-4">
             <div class="col-md-3">
+                <h4 class="my-2">Productos</h4>
+
+                <hr class="d-none d-md-block py-1">
+
                 <input
                     class="form-control mb-3"
                     type="search"
@@ -30,13 +34,25 @@
                         type="button"
                         v-on:click="resetFilters"
                     >
-                        Reset
+                        Reiniciar Búsqueda
                     </button>
                 </div>
             </div>
             <div class="col-md-9">
                 <div v-if="!loading">
-                    <div v-if="this.total">
+                    <div v-if="total">
+                        <div class="d-md-flex justify-content-between align-items-end">
+                            <p>
+                                <span class="text-primary">{{ total }}</span>
+                                Resultados
+                            </p>
+                            <Bootstrap5Pagination
+                                :data="products"
+                                @pagination-change-page="getProducts"
+                                :limit="1"
+                                align="right"
+                            />
+                        </div>
                         <div class="row">
                             <customer-product-list-item
                                 v-for="product in products.data"
@@ -47,16 +63,16 @@
                         <Bootstrap5Pagination
                             :data="products"
                             @pagination-change-page="getProducts"
-                            :limit="3"
-                            align="center"
+                            :limit="1"
+                            align="right"
                         />
                     </div>
                     <div class="d-flex justify-content-center align-items-center" v-else>
                         <p class="fw-semibold" v-if="queryString">
-                            Actualmente no hay productos que coincidan con su búsqueda.
+                            No hay productos que coincidan con su búsqueda.
                         </p>
                         <p class="fw-semibold" v-else>
-                            Actualmente no hay productos para mostrar.
+                            No hay productos para mostrar.
                         </p>
                     </div>
                 </div>
@@ -154,7 +170,7 @@
         },
         watch: {
             filters: {
-                handler(val){
+                handler(){
                     this.getProducts()
                 },
                 deep: true
@@ -167,49 +183,5 @@
 </script>
 
 <style>
-    .ui.fluid.search {
-        max-height: 2.5rem !important;
-    }
 
-    .ui.fluid.search > .search {
-        display: block !important;
-        width: 100% !important;
-        padding: .375rem 2.25rem .375rem .75rem !important;
-        -moz-padding-start: calc(0.75rem - 3px) !important;
-        font-size: 1rem !important;
-        font-weight: 400 !important;
-        line-height: 1.5 !important;
-        color: #333 !important;
-        background-color: #fff !important;
-        background-repeat: no-repeat !important;
-        background-position: right .75rem center !important;
-        background-size: 16px 12px !important;
-        border: 1px solid #ced4da !important;
-        border-radius: .375rem !important;
-        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
-        -webkit-appearance: none !important;
-        -moz-appearance: none !important;
-        appearance: none !important;
-    }
-
-    .ui.fluid.search > .search:focus {
-        color: #333 !important;
-        background-color: #fff !important;
-        border-color: #f4aa90 !important;
-        outline: 0 !important;
-        box-shadow: 0 0 0 0.25rem rgba(233,84,32,.25) !important;
-    }
-
-    .ui.fluid.search > .text.default {
-        display: block !important;
-        color: #919397 !important;
-        background-color: #fff !important;
-        font-size: 1rem !important;
-        overflow: hidden !important;
-        white-space: nowrap !important;
-    }
-
-    .ui.fluid.search > .menu.visible {
-        margin-top: .25rem !important;
-    }
 </style>

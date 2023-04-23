@@ -5,23 +5,25 @@
                 <thead>
                     <tr class="table-light">
                         <th scope="col">{{ $t('Name') }}</th>
-                        <th scope="col">{{ $t('Slug') }}</th>
+                        <th scope="col">{{ $t('Code') }}</th>
+                        <th scope="col">{{ $t('Category') }}</th>
+                        <th scope="col">{{ $t('Price') }} ($)</th>
                         <th scope="col">{{ $t('Created') }}</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <category-list-item
-                        v-for="category in categories.data"
-                        :key="category.id"
-                        :category="category"
-                    ></category-list-item>
+                    <admin-product-list-item
+                        v-for="product in products.data"
+                        :key="product.id"
+                        :product="product"
+                    ></admin-product-list-item>
                 </tbody>
             </table>
             <Bootstrap5Pagination
                 class="mt-4"
-                :data="categories"
-                @pagination-change-page="getCategories"
+                :data="products"
+                @pagination-change-page="getProducts"
                 :limit="2"
                 align="center"
             />
@@ -35,29 +37,29 @@
 </template>
 
 <script>
-    import CategoryListItem from './CategoryListItem.vue';
+    import AdminProductListItem from './AdminProductListItem.vue';
     import { Bootstrap5Pagination } from 'laravel-vue-pagination';
 
     export default {
         components: {
             Bootstrap5Pagination,
-            CategoryListItem,
+            AdminProductListItem,
         },
         data() {
             return {
-                categories: [],
+                products: [],
                 loading: false,
             }
         },
         mounted() {
-            this.getCategories()
+            this.getProducts()
         },
         methods: {
-            async getCategories(page = 1) {
+            async getProducts(page = 1) {
                 this.loading = true;
-                await axios.get(`/api/categories?page=${page}`)
+                await axios.get(`/api/admin/products?page=${page}`)
                     .then(res => {
-                        this.categories = res.data
+                        this.products = res.data
                         this.loading = false
                     }).catch(err => {
                         console.log(err.response.data)
