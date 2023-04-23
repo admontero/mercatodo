@@ -79,5 +79,8 @@
     "Updated category": "Categoría actualizada",
     "Created category": "Categoría creada",
     "New": "Nuevo",
-    "The user has been disabled, try again later.": "El usuario ha sido deshabilitado, inténtelo en otro momento."
+    "The user has been disabled, try again later.": "El usuario ha sido deshabilitado, inténtelo en otro momento.",
+    "Code": "Código",
+    "Category": "Categoría",
+    "Price": "Precio"
 }

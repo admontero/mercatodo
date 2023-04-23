@@ -23,6 +23,7 @@ class ProductResource extends JsonResource
             'price' => $this->price,
             'image' => $this->image,
             'category' => CategoryResource::make($this->whenLoaded('category')),
+            'ago' => $this->created_at->diffForHumans(),
         ];
     }
 }

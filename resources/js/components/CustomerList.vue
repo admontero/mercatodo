@@ -3,12 +3,12 @@
         <div v-if="!loading">
             <table class="table table-hover">
                 <thead>
-                    <tr>
-                    <th scope="col">{{ $t('Name') }}</th>
-                    <th scope="col">{{ $t('E-Mail Address') }}</th>
-                    <th scope="col">{{ $t('Status') }}</th>
-                    <th scope="col">{{ $t('Created') }}</th>
-                    <th scope="col"></th>
+                    <tr class="table-light">
+                        <th scope="col">{{ $t('Name') }}</th>
+                        <th scope="col">{{ $t('E-Mail Address') }}</th>
+                        <th scope="col">{{ $t('Status') }}</th>
+                        <th scope="col">{{ $t('Created') }}</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>

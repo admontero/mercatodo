@@ -1,0 +1,50 @@
+.ui.fluid.search.selection.dropdown {
+    border: 1px solid #ced4da !important;
+    border-radius: .375rem !important;
+    min-height: 2.35rem !important;
+}
+
+.ui.fluid.search.selection.dropdown:hover {
+    border: 1px solid #ced4da !important;
+    border-radius: .375rem !important;
+}
+
+.ui.fluid.search > .search {
+    display: block !important;
+    width: 100% !important;
+    padding: .375rem 2.25rem .375rem .75rem !important;
+    -moz-padding-start: calc(0.75rem - 3px) !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    color: #333 !important;
+    background-color: #fff !important;
+    border: 1px solid #ced4da !important;
+    border-radius: .375rem !important;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+}
+
+.ui.fluid.search > .search:focus {
+    color: #333 !important;
+    background-color: #fff !important;
+    border-color: #f4aa90 !important;
+    outline: 0 !important;
+    box-shadow: 0 0 0 0.25rem rgba(233,84,32,.25) !important;
+}
+
+.ui.fluid.search > .text.default {
+    display: block !important;
+    color: #919397 !important;
+    min-height: 1rem !important;
+    font-size: 1rem !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+}
+
+.ui.fluid.search > .menu.visible {
+    margin-top: .25rem !important;
+    border: 1px solid #ced4da !important;
+}
