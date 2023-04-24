@@ -4,25 +4,64 @@
         <td>{{ product.code }}</td>
         <td>{{ product.category.name }}</td>
         <td>{{ productPrice }}</td>
+        <td>
+            <span class="badge bg-success text-uppercase" v-if="product.status === 'activated'">
+                {{ $t(product.status) }}
+            </span>
+            <span class="badge bg-warning text-uppercase" v-else-if="product.status === 'inactivated'">
+                {{ $t(product.status) }}
+            </span>
+        </td>
         <td>{{ product.ago }}</td>
         <td>
             <div class="d-flex gap-2">
-
+                <update-status-product
+                    :product="product"
+                    @update-product="refreshProduct"
+                ></update-status-product>
             </div>
         </td>
     </tr>
 </template>
 
 <script>
+    import UpdateStatusProduct from './UpdateStatusProduct.vue';
+    import { useToast } from "vue-toastification";
+    import { trans } from 'laravel-vue-i18n';
+
     export default {
+        setup() {
+            const toast = useToast();
+
+            return { toast }
+        },
+        components: {
+            UpdateStatusProduct,
+        },
         props: {
             product: {
                 type: Object,
                 required: true,
             }
         },
-        mounted() {
-            console.log(this.product)
+        methods: {
+            refreshProduct(status) {
+                this.product.status = status;
+                this.toast.success(trans(`Product ${status}`), {
+                    position: "bottom-left",
+                    timeout: 3000,
+                    closeOnClick: true,
+                    pauseOnFocusLoss: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    draggablePercent: 0.6,
+                    showCloseButtonOnHover: false,
+                    hideProgressBar: false,
+                    closeButton: "button",
+                    icon: true,
+                    rtl: false
+                });
+            }
         },
         computed: {
             productPrice() {

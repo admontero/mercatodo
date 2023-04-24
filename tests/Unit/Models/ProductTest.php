@@ -24,4 +24,22 @@ class ProductTest extends TestCase
 
         $this->assertInstanceOf(Category::class, $product->category);
     }
+
+    /**
+     * @test
+     */
+    public function active_scope(): void
+    {
+        Product::factory(10)->create();
+
+        Product::factory(2)->inactivated()->create();
+
+        $products = Product::all();
+
+        $this->assertCount(12, $products);
+
+        $products = Product::active()->get();
+
+        $this->assertCount(10, $products);
+    }
 }

@@ -40,6 +40,18 @@ class ProductPolicy
     }
 
     /**
+     * Determine whether the user can update the model status.
+     */
+    public function updateStatus(User $user, Product $product): bool
+    {
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Determine whether the user can delete the model.
      */
     public function delete(User $user, Product $product): bool

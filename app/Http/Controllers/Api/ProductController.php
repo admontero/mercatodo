@@ -18,7 +18,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $query = Product::with('category');
+        $query = Product::with('category')->active();
 
         $items = app(Pipeline::class)
             ->send($query)

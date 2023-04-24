@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductStatuses\ActiveStatus;
+use App\Models\ProductStatuses\InactiveStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -41,5 +43,29 @@ class ProductFactory extends Factory
             'price' => fake()->randomNumber(6, false),
             'image' => 'https://picsum.photos/640/480',
         ];
+    }
+
+    /**
+     * Indicate that the user is a activated.
+     */
+    public function activated(): self
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => ActiveStatus::class,
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the user is a inactivated.
+     */
+    public function inactivated(): self
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => InactiveStatus::class,
+            ];
+        });
     }
 }

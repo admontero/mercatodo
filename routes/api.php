@@ -56,4 +56,6 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
     //Product routes
     Route::get('/admin/products', [App\Http\Controllers\Api\Admin\ProductController::class, 'index'])
         ->name('api.admin.products.index');
+    Route::post('/admin/products/{product}/status', App\Http\Controllers\Api\Admin\ProductStatusController::class)
+        ->name('api.products.update-status');
 });
