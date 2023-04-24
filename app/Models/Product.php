@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\ProductStatuses\ActiveStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +13,24 @@ use Spatie\Sluggable\SlugOptions;
 class Product extends Model
 {
     use HasFactory, HasSlug;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'code',
+        'description',
+        'price',
+        'image',
+        'category_id',
+    ];
+
+    protected $attributes = [
+        'status' => ActiveStatus::class,
+    ];
 
     /**
      * Get the options for generating the slug.
@@ -23,8 +43,30 @@ class Product extends Model
             ->doNotGenerateSlugsOnUpdate();
     }
 
+    protected static function booted(): void
+    {
+        static::created(function ($product) {
+            $product->update(['status' => ActiveStatus::class]);
+        });
+    }
+
+    public function changeStatus(): void
+    {
+        $this->status->handle();
+    }
+
+    public function getStatusAttribute($status)
+    {
+        return new $status($this);
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function scopeActive(Builder $query): void
+    {
+        $query->where('status', ActiveStatus::class);
     }
 }

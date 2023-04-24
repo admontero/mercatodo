@@ -24,6 +24,7 @@ class ListProductsTest extends TestCase
         Product::factory()->create(['created_at' => now()->subDays(3)]);
         Product::factory()->create(['created_at' => now()->subDays(2)]);
         Product::factory()->create(['created_at' => now()->subDays(1)]);
+        Product::factory(2)->inactivated()->create();
         $this->product6 = Product::factory()->create();
     }
 

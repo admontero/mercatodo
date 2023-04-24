@@ -27,6 +27,7 @@ class ProductResourceTest extends TestCase
         $this->assertEquals($product->description, $productResource['description']);
         $this->assertEquals($product->price, $productResource['price']);
         $this->assertEquals($product->image, $productResource['image']);
+        $this->assertEquals($product->status, $productResource['status']);
         $this->assertEquals($product->created_at->diffForHumans(), $productResource['ago']);
     }
 }

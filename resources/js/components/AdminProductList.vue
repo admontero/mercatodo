@@ -8,6 +8,7 @@
                         <th scope="col">{{ $t('Code') }}</th>
                         <th scope="col">{{ $t('Category') }}</th>
                         <th scope="col">{{ $t('Price') }} ($)</th>
+                        <th scope="col">{{ $t('Status') }}</th>
                         <th scope="col">{{ $t('Created') }}</th>
                         <th scope="col"></th>
                     </tr>

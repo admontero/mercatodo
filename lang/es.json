@@ -82,5 +82,7 @@
     "The user has been disabled, try again later.": "El usuario ha sido deshabilitado, inténtelo en otro momento.",
     "Code": "Código",
     "Category": "Categoría",
-    "Price": "Precio"
+    "Price": "Precio",
+    "Product activated": "Producto activado",
+    "Product inactivated": "Producto desactivado"
 }

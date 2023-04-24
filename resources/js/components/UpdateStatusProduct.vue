@@ -4,7 +4,7 @@
             class="form-check-input"
             type="checkbox"
             id="flexSwitchCheckDefault"
-            :checked="customer.user.status === 'activated'"
+            :checked="product.status === 'activated'"
             :disabled="loading"
             v-on:input="updateStatus"
         >
@@ -15,7 +15,7 @@
 <script>
     export default {
         props: {
-            customer: {
+            product: {
                 type: Object,
                 required: true,
             }
@@ -28,9 +28,9 @@
         methods: {
             updateStatus () {
                 this.loading = true;
-                axios.post(`/api/customers/${this.customer.id}/status`)
+                axios.post(`/api/admin/products/${this.product.id}/status`)
                     .then(res => {
-                        this.$emit('updateCustomer', res.data.status)
+                        this.$emit('updateProduct', res.data.status)
                         this.loading = false;
                     }).catch(err => {
                         console.log(err.response.data)
