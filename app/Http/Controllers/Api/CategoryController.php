@@ -17,10 +17,10 @@ class CategoryController extends Controller
      */
     public function index(): CategoryCollection
     {
-        $this->authorize('view-any', new Category);
+        $this->authorize('view-any', new Category());
 
         $categories = new CategoryCollection(
-                Category::latest()
+            Category::latest()
                     ->select('id', 'name', 'slug', 'created_at')
                     ->paginate(10)
         );
@@ -33,7 +33,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request): JsonResponse
     {
-        $this->authorize('create', new Category);
+        $this->authorize('create', new Category());
 
         $dataVal = $request->validated();
 

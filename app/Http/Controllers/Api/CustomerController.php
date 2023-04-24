@@ -13,10 +13,10 @@ class CustomerController extends Controller
 {
     public function index(): CustomerCollection
     {
-        $this->authorize('view-any', new Customer);
+        $this->authorize('view-any', new Customer());
 
         $customers = new CustomerCollection(
-                Customer::with('user')
+            Customer::with('user')
                     ->select(['id', 'first_name', 'last_name', 'user_id'])
                     ->latest()
                     ->paginate(10)
