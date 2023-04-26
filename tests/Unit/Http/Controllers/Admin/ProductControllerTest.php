@@ -28,4 +28,22 @@ class ProductControllerTest extends TestCase
             ->assertSuccessful()
             ->assertViewIs('backoffice.products.index');
     }
+
+    /**
+     * @test
+     */
+    public function create_method_must_returns_the_post_create_view(): void
+    {
+        $this->withoutVite();
+
+        $admin = User::factory()->admin()->create();
+
+        Passport::actingAs($admin);
+
+        $response = $this->get(route('admin.products.create'));
+
+        $response
+            ->assertSuccessful()
+            ->assertViewIs('backoffice.products.create');
+    }
 }

@@ -1,11 +1,14 @@
 <template>
     <div class="col-md-4 col-sm-6 mb-4">
         <div class="bg-white rounded shadow-sm">
-            <img :src="product.image" :alt="`${product.name}'s image'`" class="img-fluid card-img-top">
+            <img :src="imageUrl" :alt="`${product.name}'s image'`" class="img-fluid card-img-top">
             <div class="px-4 pt-3">
                 <h6 class="text-truncate">{{ product.name }}</h6>
                 <p class="small text-muted text-truncate">
-                    {{ product.description }}
+                    <span v-if="!!product.description">{{ product.description }}</span>
+                    <span class="fst-italic" v-else>
+                        --Sin descripción disponible--
+                    </span>
                 </p>
             </div>
             <div class="d-flex justify-content-center align-items-center bg-light p-1 h5 fw-bold">
@@ -52,6 +55,11 @@
         computed: {
             productPrice() {
                 return new Intl.NumberFormat('es-CO').format(this.product.price)
+            },
+            imageUrl() {
+                if (this.product.image) return 'storage/' + this.product.image
+
+                return 'https://picsum.photos/640/480';
             }
         }
     }

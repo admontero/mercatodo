@@ -16,6 +16,7 @@
         "@tabler/icons-vue": "^2.13.1",
         "laravel-vue-i18n": "^2.4.1",
         "laravel-vue-pagination": "^4.0.0",
+        "lodash": "^4.17.21",
         "vue-search-select": "^3.1.0",
         "vue-toastification": "^2.0.0-rc.5"
     }

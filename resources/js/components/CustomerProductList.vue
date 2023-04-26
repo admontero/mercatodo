@@ -90,6 +90,7 @@
     import CustomerProductListItem from './CustomerProductListItem.vue';
     import { Bootstrap5Pagination } from 'laravel-vue-pagination';
     import { ModelSelect } from 'vue-search-select';
+    import _ from 'lodash';
 
     export default {
         components: {
@@ -170,9 +171,9 @@
         },
         watch: {
             filters: {
-                handler(){
+                handler: _.debounce(function (){
                     this.getProducts()
-                },
+                }, 500),
                 deep: true
             },
             category(newCat) {

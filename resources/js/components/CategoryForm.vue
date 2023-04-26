@@ -6,7 +6,7 @@
                 <input
                     :class="{'form-control' : !this.errors?.name, 'form-control is-invalid' : this.errors?.name }"
                     type="text"
-                    aria-label="First name"
+                    aria-label="Name"
                     name="name"
                     id="name"
                     v-model="category.name"
@@ -74,7 +74,7 @@
             submit() {
                 let method = this.categorySlug ? 'put' : 'post';
                 let url = this.categorySlug ? `/api/categories/${this.category.slug}` : '/api/categories' ;
-                let message = this.categorySlug ? 'Updated category' : 'Created category';
+                let message = this.categorySlug ? 'Category updated' : 'Category created';
 
                 axios[method](url, this.category).then(res => {
                     this.toast.success(trans(message), {
