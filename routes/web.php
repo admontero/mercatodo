@@ -48,5 +48,7 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'admin'], func
     //Products
     Route::get('/products', [App\Http\Controllers\Admin\ProductController::class, 'index'])
         ->name('admin.products.index');
+    Route::get('/products/create', [App\Http\Controllers\Admin\ProductController::class, 'create'])
+        ->name('admin.products.create');
 
 });

@@ -76,13 +76,16 @@
     "The :attribute field must contain at least one symbol.": "El campo :attribute debe contener al menos un símbolo.",
     "The :attribute field must contain at least one uppercase and one lowercase letter.": "El campo :attribute debe contener al menos una letra mayúscula y una minúscula.",
     "Creating Form": "Formulario de Creación",
-    "Updated category": "Categoría actualizada",
-    "Created category": "Categoría creada",
+    "Category updated": "Categoría actualizada",
+    "Category created": "Categoría creada",
     "New": "Nuevo",
     "The user has been disabled, try again later.": "El usuario ha sido deshabilitado, inténtelo en otro momento.",
     "Code": "Código",
     "Category": "Categoría",
     "Price": "Precio",
+    "Image": "Imagen",
     "Product activated": "Producto activado",
-    "Product inactivated": "Producto desactivado"
+    "Product inactivated": "Producto desactivado",
+    "Product created": "Producto creado",
+    "Product updated": "Producto actualizado"
 }
