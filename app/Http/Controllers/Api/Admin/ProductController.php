@@ -44,7 +44,7 @@ class ProductController extends Controller
         $path = public_path('storage/products');
 
         if (!file_exists($path)) {
-            mkdir($path, 777, true);
+            mkdir($path, 755, true);
         }
 
         $imagePath = public_path('storage/products/' . $filename);
