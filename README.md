@@ -78,11 +78,11 @@ Ejecuta todos los seeders configurados para la aplicación
 
 ## Dependencias
 
+- [intervention/image](https://github.com/Intervention/image) - Para manipular (redimensionar, cortar, ajustar) las imágenes.
 - [larastan](https://github.com/nunomaduro/larastan) - Para analizar y mejorar la calidad del código.
 - [laravel-debugbar](https://github.com/barryvdh/laravel-debugbar) - Para monitorizar el rendimiento de la aplicación.
 - [laravel-permission](https://github.com/spatie/laravel-permission) - Para la gestión de roles y permisos.
 - [passport](https://github.com/laravel/passport) - Para la autenticación de usuarios.
-- [php-cs-fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer) - Para arreglar automáticamente los errores en estándares de código.
 - [spanish](https://github.com/laravel/ui) - Para laravel en español (traducciones por defecto).
 - [ui](https://github.com/laravel/ui) - Para el scaffolding de bootstrap y vue incluyendo el login y registro.
 

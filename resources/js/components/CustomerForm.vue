@@ -74,7 +74,7 @@
                 <input
                     :class="{'form-control' : !this.errors?.document, 'form-control is-invalid' : this.errors?.document }"
                     type="text"
-                    aria-label="Last name"
+                    aria-label="Document"
                     name="document"
                     id="document"
                     v-model="customer.document"
@@ -91,7 +91,7 @@
                 <input
                     :class="{'form-control' : !this.errors?.address, 'form-control is-invalid' : this.errors?.address }"
                     type="text"
-                    aria-label="First name"
+                    aria-label="Address"
                     name="address"
                     id="address"
                     v-model="customer.address"
@@ -105,7 +105,7 @@
                 <input
                     :class="{'form-control' : !this.errors?.phone, 'form-control is-invalid' : this.errors?.phone }"
                     type="text"
-                    aria-label="Last name"
+                    aria-label="Phone"
                     name="phone"
                     id="phone"
                     v-model="customer.phone"
@@ -122,7 +122,7 @@
                 <input
                     :class="{'form-control' : !this.errors?.cell_phone, 'form-control is-invalid' : this.errors?.cell_phone }"
                     type="text"
-                    aria-label="First name"
+                    aria-label="Cell Phone"
                     name="cell_phone"
                     id="cell_phone"
                     v-model="customer.cell_phone"

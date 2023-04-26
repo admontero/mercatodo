@@ -11,6 +11,7 @@ import CategoryList from '@/components/CategoryList.vue';
 import CategoryForm from '@/components/CategoryForm.vue';
 import CustomerProductList from '@/components/CustomerProductList.vue';
 import AdminProductList from '@/components/AdminProductList.vue';
+import ProductForm from '@/components/ProductForm.vue';
 
 import 'vue-toastification/dist/index.css';
 import 'vue-search-select/dist/VueSearchSelect.css'
@@ -29,6 +30,7 @@ window.app = createApp({
         CategoryForm,
         CustomerProductList,
         AdminProductList,
+        ProductForm,
     },
 });
 

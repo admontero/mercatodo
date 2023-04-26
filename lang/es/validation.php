@@ -157,6 +157,11 @@ return [
         'phone' => 'teléfono',
         'cell_phone' => 'teléfono celular',
         'name' => 'nombre',
+        'code' => 'código',
+        'price' => 'precio',
+        'category_id' => 'categoría',
+        'image' => 'imagen',
+        'description' => 'descripción',
     ],
 
 ];
