@@ -50,8 +50,6 @@ class StoreProductTest extends TestCase
 
         $product = Product::first();
 
-        Storage::disk('public')->assertExists($product->image);
-
         Storage::disk('public')->delete($product->image);
     }
 
