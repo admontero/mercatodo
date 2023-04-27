@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Admin;
 
 use App\Models\Customer;
 use App\Models\Product;
@@ -26,7 +26,7 @@ class UpdateProductStatusTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $this->postJson(route('api.products.update-status', $product));
+        $this->postJson(route('api.admin.products.update-status', $product));
 
         $product->refresh();
 
@@ -46,7 +46,7 @@ class UpdateProductStatusTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $this->postJson(route('api.products.update-status', $product));
+        $this->postJson(route('api.admin.products.update-status', $product));
 
         $product->refresh();
 
@@ -60,7 +60,7 @@ class UpdateProductStatusTest extends TestCase
     {
         $product = Product::factory()->create();
 
-        $response = $this->postJson(route('api.products.update-status', $product));
+        $response = $this->postJson(route('api.admin.products.update-status', $product));
 
         $response->assertStatus(401);
 
@@ -78,7 +78,7 @@ class UpdateProductStatusTest extends TestCase
 
         Passport::actingAs($customer->user);
 
-        $response = $this->postJson(route('api.products.update-status', $product));
+        $response = $this->postJson(route('api.admin.products.update-status', $product));
 
         $response->assertStatus(403);
 
