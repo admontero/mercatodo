@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Http\Controllers\Admin;
 
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
@@ -45,5 +46,25 @@ class ProductControllerTest extends TestCase
         $response
             ->assertSuccessful()
             ->assertViewIs('backoffice.products.create');
+    }
+
+    /**
+     * @test
+     */
+    public function edit_method_must_returns_the_product_edit_view(): void
+    {
+        $this->withoutVite();
+
+        $admin = User::factory()->admin()->create();
+        $product = Product::factory()->create();
+
+        Passport::actingAs($admin);
+
+        $response = $this->get(route('admin.products.edit', $product));
+
+        $response
+            ->assertSuccessful()
+            ->assertViewIs('backoffice.products.edit')
+            ->assertViewHas('product');
     }
 }

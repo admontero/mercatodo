@@ -14,6 +14,16 @@ class ProductTest extends TestCase
     /**
      * @test
      */
+    public function route_key_name_is_set_to_slug(): void
+    {
+        $product = Product::factory()->create();
+
+        $this->assertEquals('slug', $product->getRouteKeyName(), 'The route key name must be slug');
+    }
+
+    /**
+     * @test
+     */
     public function a_product_belongs_to_a_category(): void
     {
         $category = Category::factory()->create();

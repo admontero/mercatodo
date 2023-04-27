@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
@@ -37,24 +38,17 @@ class ProductController extends Controller
 
         $dataVal = $request->validated();
 
-        $image = $request->file('image');
+        $filename  = time() . '.' . $request->file('image')->getClientOriginalExtension();
 
-        $filename  = time() . '.' . $image->getClientOriginalExtension();
+        $image = $request->file('image')
+            ->storeAs('products', $filename, 'public');
 
-        $path = public_path('storage/products');
-
-        if (!file_exists($path)) {
-            mkdir($path, 755, true);
-        }
-
-        $imagePath = public_path('storage/products/' . $filename);
-
-        Image::make($image->getRealPath())
+        Image::make(storage_path().'/app/public/'.$image)
             ->resize(640, 480, function ($constraint) {
                 $constraint->aspectRatio();
             })
             ->resizeCanvas(640, 480)
-            ->save($imagePath);
+            ->save();
 
         $product = Product::create([
             'name' => $dataVal['name'],
@@ -62,7 +56,7 @@ class ProductController extends Controller
             'price' => $dataVal['price'],
             'description' => $dataVal['description'] ?? null,
             'category_id' => $dataVal['category_id'],
-            'image' => 'products/' . $filename,
+            'image' => $image,
         ]);
 
         return response()->json(new ProductResource($product), 201);
@@ -71,17 +65,51 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
-        //
+        $product->load('category');
+
+        return response()->json(new ProductResource($product), 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $this->authorize('update', new Product());
+
+        $dataVal = $request->validated();
+
+        if ($request->file('image')) {
+
+            if (Storage::disk('public')->exists($product->image)) {
+                Storage::disk('public')->delete($product->image);
+            }
+
+            $filename  = time() . '.' . $request->file('image')->getClientOriginalExtension();
+
+            $image = $request->file('image')
+                ->storeAs('products', $filename, 'public');
+
+            Image::make(storage_path().'/app/public/'.$image)
+                ->resize(640, 480, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->resizeCanvas(640, 480)
+                ->save();
+        }
+
+        $product->update([
+            'name' => $dataVal['name'],
+            'code' => $dataVal['code'],
+            'price' => $dataVal['price'],
+            'description' => $dataVal['description'] ?? '',
+            'category_id' => $dataVal['category_id'],
+            'image' => isset($image) ? $image : $product->image,
+        ]);
+
+        return response()->json(new ProductResource($product), 201);
     }
 
     /**

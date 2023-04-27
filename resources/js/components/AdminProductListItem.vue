@@ -19,6 +19,9 @@
                     :product="product"
                     @update-product="refreshProduct"
                 ></update-status-product>
+                <a :href="`/admin/products/${product.slug}/edit`" class="link-info">
+                    <IconEdit :size="20" stroke-width="2" />
+                </a>
             </div>
         </td>
     </tr>
@@ -28,6 +31,7 @@
     import UpdateStatusProduct from './UpdateStatusProduct.vue';
     import { useToast } from "vue-toastification";
     import { trans } from 'laravel-vue-i18n';
+    import { IconEdit } from '@tabler/icons-vue';
 
     export default {
         setup() {
@@ -37,6 +41,7 @@
         },
         components: {
             UpdateStatusProduct,
+            IconEdit,
         },
         props: {
             product: {

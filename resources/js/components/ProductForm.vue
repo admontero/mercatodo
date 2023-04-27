@@ -1,5 +1,5 @@
 <template>
-    <form class="my-4" @submit.prevent="submit" enctype="multipart/form-data">
+    <form class="my-4" @submit.prevent="submit" enctype="multipart/form-data" v-if="!loading">
         <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
             <div class="col">
                 <label for="name" class="form-label">{{ $t('Name') }}</label>
@@ -101,6 +101,13 @@
             </button>
         </div>
     </form>
+    <div class="row" v-else>
+        <div class="col d-flex justify-content-center align-items-center">
+            <div class="spinner-border text-primary mt-4" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -113,6 +120,11 @@
             const toast = useToast();
 
             return { toast }
+        },
+        props: {
+            productSlug: {
+                type: String,
+            }
         },
         components: {
             ModelSelect,
@@ -127,17 +139,25 @@
                 },
                 errors: [],
                 image: null,
+                loading: false,
             }
         },
         created() {
             this.getCategories().then(() => {
                 this.categories = this.categories.map(c => ({ value: c.id, text: c.name }))
             })
+            if (this.productSlug) {
+                this.getProduct()
+            }
         },
         methods: {
             submit() {
-                axios.post(`/api/admin/products`, this.getFormData()).then(res => {
-                    this.toast.success(trans('Product created'), {
+                let method = this.productSlug ? 'put' : 'post';
+                let url = this.productSlug ? `/api/admin/products/${this.productSlug}` : '/api/admin/products' ;
+                let message = this.productSlug ? 'Product updated' : 'Product created';
+
+                axios.post(url, this.getFormData(method)).then(res => {
+                    this.toast.success(trans(message), {
                         position: "bottom-left",
                         timeout: 3000,
                         closeOnClick: true,
@@ -165,16 +185,39 @@
                         console.log(err.response.data)
                     })
             },
+            async getProduct() {
+                this.loading = true;
+                await axios.get(`/api/admin/products/${this.productSlug}`)
+                    .then(res => {
+                        this.product.name = res.data.name;
+                        this.product.code = res.data.code;
+                        this.product.price = res.data.price;
+                        this.product.description = res.data.description;
+                        this.product.category_id = res.data.category.id;
+                        this.product.image = null;
+                        this.category.value = res.data.category.id;
+                        this.category.name = this.categories.filter(c => c.value === res.data.category.id).name
+                        this.loading = false;
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        this.loading = false;
+                    })
+            },
             onFileChange(event) {
                 this.product.image = event.target.files[0];
             },
-            getFormData() {
-                const newFormData = () => Object.keys(this.product).reduce((formData, key) => {
-                    formData.append(key, this.product[key]);
-                    return formData;
-                }, new FormData());
+            getFormData(method) {
+                const formData = new FormData();
+                formData.append('name', this.product.name);
+                formData.append('code', this.product.code);
+                formData.append('price', this.product.price);
+                formData.append('category_id', this.product.category_id);
+                if (this.product.description) formData.append('description', this.product.description);
+                if (this.product.image) formData.append('image', this.product.image);
+                if (method === 'put') formData.append('_method', 'PUT');
 
-                return newFormData();
+                return formData;
             }
         },
         watch: {
