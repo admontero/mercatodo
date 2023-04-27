@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class StoreProductTest extends TestCase
+class UpdateProductTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -27,28 +27,40 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function admin_can_create_a_product(): void
+    public function admin_can_update_a_product(): void
     {
         $this->withoutExceptionHandling();
 
         $admin = User::factory()->admin()->create();
 
-        $data = $this->getProductValidData();
+        $product = Product::factory()->create($this->getProductValidData());
+
+        $categoryNew = Category::factory()->create();
+
+        $data = $this->getProductValidData([
+            'name' => 'Pista Hot Wheels',
+            'code' => 'PHW-23423',
+            'description' => '',
+            'price' => 159999,
+            'image' => UploadedFile::fake()->image('image-2.jpg', 640, 480),
+            'category_id' => $categoryNew->id,
+        ]);
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(201);
 
         $this->assertDatabaseHas('products', [
-            'name' => 'PC DELL 14" Procesador i3 250GB SSD',
-            'description' => 'El computador que has estado esperando para trabajar desde el lugar que quieras con todas las mejores referencias del mercado.',
-            'price' => 3799999.00,
-            'category_id' => $this->category->id,
+            'name' => 'Pista Hot Wheels',
+            'code' => 'PHW-23423',
+            'description' => '',
+            'price' => 159999,
+            'category_id' => $categoryNew->id,
         ]);
 
-        $product = Product::first();
+        $product->refresh();
 
         Storage::disk('public')->assertExists($product->image);
 
@@ -58,9 +70,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_name_must_be_required(): void
+    public function product_name_is_required_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'name' => ''
@@ -68,7 +82,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('name');
@@ -77,9 +91,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_name_must_be_a_string(): void
+    public function product_name_must_be_a_string_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'name' => 3897438
@@ -87,7 +103,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('name');
@@ -96,9 +112,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_name_length_must_contains_at_least_3_characters(): void
+    public function product_name_length_must_contains_at_least_3_characters_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'name' => 'ok'
@@ -106,7 +124,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('name');
@@ -115,9 +133,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_name_length_must_be_less_than_121_characters(): void
+    public function product_name_length_must_be_less_than_121_characters_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'name' => $this->getRandomStringOnlyLetters(121)
@@ -125,7 +145,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('name');
@@ -134,9 +154,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_code_must_be_required(): void
+    public function product_code_must_be_required_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'code' => ''
@@ -144,7 +166,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('code');
@@ -153,9 +175,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_code_must_be_a_string(): void
+    public function product_code_must_be_a_string_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'code' => 3897438
@@ -163,7 +187,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('code');
@@ -172,9 +196,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_code_length_must_be_less_than_31_characters(): void
+    public function product_code_length_must_be_less_than_31_characters_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'code' => $this->getRandomStringOnlyLetters(31)
@@ -182,7 +208,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('code');
@@ -191,7 +217,7 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_code_must_be_unique(): void
+    public function product_code_must_be_unique_if_you_want_updated_it_except_itself(): void
     {
         $admin = User::factory()->admin()->create();
 
@@ -199,13 +225,17 @@ class StoreProductTest extends TestCase
             'code' => 'XAS-2393'
         ]);
 
+        $product = Product::factory()->create($this->getProductValidData([
+            'code' => 'GX-080'
+        ]));
+
         $data = $this->getProductValidData([
             'code' => 'XAS-2393'
         ]);
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('code');
@@ -214,9 +244,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_description_must_be_a_string(): void
+    public function product_description_must_be_a_string_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'description' => 123456789
@@ -224,7 +256,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422);
 
@@ -234,9 +266,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_description_length_must_contains_at_least_10_characters(): void
+    public function product_description_length_must_contains_at_least_10_characters_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'description' => 'hola'
@@ -244,7 +278,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422);
 
@@ -254,9 +288,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_price_must_be_required(): void
+    public function product_price_must_be_required_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'price' => ''
@@ -264,7 +300,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('price');
@@ -273,9 +309,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_price_must_be_numeric(): void
+    public function product_price_must_be_numeric_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'price' => 'Doscientos'
@@ -283,7 +321,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('price');
@@ -292,28 +330,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_image_must_be_required(): void
+    public function product_image_must_be_a_image_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
 
-        $data = $this->getProductValidData([
-            'image' => ''
-        ]);
-
-        Passport::actingAs($admin);
-
-        $response = $this->postJson(route('api.admin.products.store'), $data);
-
-        $response->assertStatus(422)
-            ->assertJsonValidationErrorFor('image');
-    }
-
-    /**
-     * @test
-     */
-    public function product_image_must_be_a_image(): void
-    {
-        $admin = User::factory()->admin()->create();
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'image' => UploadedFile::fake()->create('document.pdf')
@@ -321,7 +342,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('image');
@@ -330,9 +351,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_image_must_be_has_a_640_px_min_width(): void
+    public function product_image_must_be_has_a_640_px_min_width_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'image' => UploadedFile::fake()->image('image.jpg', 500, 480)
@@ -340,7 +363,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('image');
@@ -349,9 +372,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_image_must_be_has_a_480_px_min_height(): void
+    public function product_image_must_be_has_a_480_px_min_height_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'image' => UploadedFile::fake()->image('image.jpg', 640, 320)
@@ -359,7 +384,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('image');
@@ -368,9 +393,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_category_id_must_be_required(): void
+    public function product_category_id_must_be_required_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'category_id' => ''
@@ -378,7 +405,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('category_id');
@@ -387,9 +414,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_category_id_must_be_numeric(): void
+    public function product_category_id_must_be_numeric_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'category_id' => 'Deportes'
@@ -397,7 +426,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('category_id');
@@ -406,9 +435,11 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
-    public function product_category_id_must_exists_on_categories_table(): void
+    public function product_category_id_must_exists_on_categories_table_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
 
         $data = $this->getProductValidData([
             'category_id' => 8
@@ -416,7 +447,7 @@ class StoreProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->postJson(route('api.admin.products.store'), $data);
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('category_id');

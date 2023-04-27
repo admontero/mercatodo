@@ -58,6 +58,10 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
         ->name('api.admin.products.index');
     Route::post('/admin/products', [App\Http\Controllers\Api\Admin\ProductController::class, 'store'])
         ->name('api.admin.products.store');
-    Route::post('/admin/products/{product}/status', App\Http\Controllers\Api\Admin\ProductStatusController::class)
-        ->name('api.products.update-status');
+    Route::get('/admin/products/{product:slug}', [App\Http\Controllers\Api\Admin\ProductController::class, 'show'])
+        ->name('api.products.show');
+    Route::put('/admin/products/{product:slug}', [App\Http\Controllers\Api\Admin\ProductController::class, 'update'])
+        ->name('api.admin.products.update');
+    Route::post('/admin/products/{product:slug}/status', App\Http\Controllers\Api\Admin\ProductStatusController::class)
+        ->name('api.admin.products.update-status');
 });

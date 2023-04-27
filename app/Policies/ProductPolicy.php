@@ -40,6 +40,10 @@ class ProductPolicy
      */
     public function update(User $user, Product $product): bool
     {
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+
         return false;
     }
 
