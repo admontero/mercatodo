@@ -62,6 +62,20 @@
 
         <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
             <div class="col">
+                <label for="stock" class="form-label">{{ $t('Stock') }}</label>
+                <input
+                    :class="{'form-control' : !this.errors?.stock, 'form-control is-invalid' : this.errors?.stock }"
+                    type="number"
+                    aria-label="Stock"
+                    name="stock"
+                    id="stock"
+                    v-model="product.stock"
+                >
+                <span class="invalid-feedback" role="alert" v-if="this.errors?.stock">
+                    <strong>{{ this.errors.stock[0] }}</strong>
+                </span>
+            </div>
+            <div class="col">
                 <label for="image" class="form-label">{{ $t('Image') }}</label>
                 <input
                     :class="{'form-control' : !this.errors?.image, 'form-control is-invalid' : this.errors?.image }"
@@ -205,6 +219,7 @@
                         this.product.name = res.data.name;
                         this.product.code = res.data.code;
                         this.product.price = res.data.price;
+                        this.product.stock = res.data.stock;
                         this.product.description = res.data.description;
                         this.product.category_id = res.data.category.id;
                         this.product.image = null;
@@ -225,6 +240,7 @@
                 if (this.product.name) formData.append('name', this.product.name);
                 if (this.product.code) formData.append('code', this.product.code);
                 if (this.product.price) formData.append('price', this.product.price);
+                if (!isNaN(this.product.stock)) formData.append('stock', this.product.stock);
                 if (this.product.category_id) formData.append('category_id', this.product.category_id);
                 if (this.product.description) formData.append('description', this.product.description);
                 if (this.product.image) formData.append('image', this.product.image);

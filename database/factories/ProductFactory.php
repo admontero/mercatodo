@@ -41,6 +41,7 @@ class ProductFactory extends Factory
             'code' => fake()->unique()->ean8(),
             'description' => fake()->realText(),
             'price' => fake()->randomNumber(6, false),
+            'stock' => fake()->randomNumber(2),
         ];
     }
 

@@ -21,6 +21,8 @@ class StoreProductTest extends TestCase
     {
         parent::setUp();
 
+        Storage::fake('public');
+
         $this->category = Category::factory()->create();
     }
 
@@ -45,14 +47,13 @@ class StoreProductTest extends TestCase
             'name' => 'PC DELL 14" Procesador i3 250GB SSD',
             'description' => 'El computador que has estado esperando para trabajar desde el lugar que quieras con todas las mejores referencias del mercado.',
             'price' => 3799999.00,
+            'stock' => 10,
             'category_id' => $this->category->id,
         ]);
 
         $product = Product::first();
 
         Storage::disk('public')->assertExists($product->image);
-
-        Storage::disk('public')->delete($product->image);
     }
 
     /**
@@ -292,6 +293,44 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
+    public function product_stock_must_be_numeric(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $data = $this->getProductValidData([
+            'stock' => 'Tres'
+        ]);
+
+        Passport::actingAs($admin);
+
+        $response = $this->postJson(route('api.admin.products.store'), $data);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrorFor('stock');
+    }
+
+    /**
+     * @test
+     */
+    public function product_stock_must_be_greater_or_equal_to_zero(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $data = $this->getProductValidData([
+            'stock' => -8
+        ]);
+
+        Passport::actingAs($admin);
+
+        $response = $this->postJson(route('api.admin.products.store'), $data);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrorFor('stock');
+    }
+
+    /**
+     * @test
+     */
     public function product_image_must_be_required(): void
     {
         $admin = User::factory()->admin()->create();
@@ -442,6 +481,7 @@ class StoreProductTest extends TestCase
             'code' => 'XE2031',
             'description' => 'El computador que has estado esperando para trabajar desde el lugar que quieras con todas las mejores referencias del mercado.',
             'price' => 3799999,
+            'stock' => 10,
             'image' => UploadedFile::fake()->image('image.jpg', 640, 480),
             'category_id' => $this->category->id,
         ];

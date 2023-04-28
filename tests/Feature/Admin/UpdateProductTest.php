@@ -21,6 +21,8 @@ class UpdateProductTest extends TestCase
     {
         parent::setUp();
 
+        Storage::fake('public');
+
         $this->category = Category::factory()->create();
     }
 
@@ -42,6 +44,7 @@ class UpdateProductTest extends TestCase
             'code' => 'PHW-23423',
             'description' => '',
             'price' => 159999,
+            'stock' => 6,
             'image' => UploadedFile::fake()->image('image-2.jpg', 640, 480),
             'category_id' => $categoryNew->id,
         ]);
@@ -63,8 +66,6 @@ class UpdateProductTest extends TestCase
         $product->refresh();
 
         Storage::disk('public')->assertExists($product->image);
-
-        Storage::disk('public')->delete($product->image);
     }
 
     /**
@@ -330,6 +331,48 @@ class UpdateProductTest extends TestCase
     /**
      * @test
      */
+    public function product_stock_must_be_numeric_if_you_want_updated_it(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
+
+        $data = $this->getProductValidData([
+            'stock' => 'Tres'
+        ]);
+
+        Passport::actingAs($admin);
+
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrorFor('stock');
+    }
+
+    /**
+     * @test
+     */
+    public function product_stock_must_be_greater_or_equal_to_zero_if_you_want_updated_it(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
+
+        $data = $this->getProductValidData([
+            'stock' => -8
+        ]);
+
+        Passport::actingAs($admin);
+
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrorFor('stock');
+    }
+
+    /**
+     * @test
+     */
     public function product_image_must_be_a_image_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();
@@ -473,6 +516,7 @@ class UpdateProductTest extends TestCase
             'code' => 'XE2031',
             'description' => 'El computador que has estado esperando para trabajar desde el lugar que quieras con todas las mejores referencias del mercado.',
             'price' => 3799999,
+            'stock' => 6,
             'image' => UploadedFile::fake()->image('image.jpg', 640, 480),
             'category_id' => $this->category->id,
         ];

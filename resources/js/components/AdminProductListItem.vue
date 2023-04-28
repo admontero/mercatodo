@@ -2,8 +2,8 @@
     <tr>
         <th scope="row">{{ product.name }}</th>
         <td>{{ product.code }}</td>
-        <td>{{ product.category.name }}</td>
         <td>{{ productPrice }}</td>
+        <td>{{ product.stock }}</td>
         <td>
             <span class="badge bg-success text-uppercase" v-if="product.status === 'activated'">
                 {{ $t(product.status) }}
