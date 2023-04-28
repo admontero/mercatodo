@@ -21,6 +21,8 @@ class UpdateProductTest extends TestCase
     {
         parent::setUp();
 
+        Storage::fake('public');
+
         $this->category = Category::factory()->create();
     }
 
@@ -64,8 +66,6 @@ class UpdateProductTest extends TestCase
         $product->refresh();
 
         Storage::disk('public')->assertExists($product->image);
-
-        Storage::disk('public')->delete($product->image);
     }
 
     /**

@@ -21,6 +21,8 @@ class StoreProductTest extends TestCase
     {
         parent::setUp();
 
+        Storage::fake('public');
+
         $this->category = Category::factory()->create();
     }
 
@@ -52,8 +54,6 @@ class StoreProductTest extends TestCase
         $product = Product::first();
 
         Storage::disk('public')->assertExists($product->image);
-
-        Storage::disk('public')->delete($product->image);
     }
 
     /**

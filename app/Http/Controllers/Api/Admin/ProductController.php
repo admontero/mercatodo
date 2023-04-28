@@ -42,7 +42,7 @@ class ProductController extends Controller
         $image = $request->file('image')
             ->storeAs('products', $filename, 'public');
 
-        Image::make(storage_path().'/app/public/'.$image)
+        Image::make(Storage::disk('public')->path($image))
             ->resize(640, 480, function ($constraint) {
                 $constraint->aspectRatio();
             })
@@ -53,7 +53,7 @@ class ProductController extends Controller
             'name' => $dataVal['name'],
             'code' => $dataVal['code'],
             'price' => $dataVal['price'],
-            'stock' => $dataVal['stock'],
+            'stock' => $dataVal['stock'] ?? 0,
             'description' => $dataVal['description'] ?? null,
             'category_id' => $dataVal['category_id'],
             'image' => $image,
@@ -92,7 +92,7 @@ class ProductController extends Controller
             $image = $request->file('image')
                 ->storeAs('products', $filename, 'public');
 
-            Image::make(storage_path().'/app/public/'.$image)
+            Image::make(Storage::disk('public')->path($image))
                 ->resize(640, 480, function ($constraint) {
                     $constraint->aspectRatio();
                 })
@@ -104,7 +104,7 @@ class ProductController extends Controller
             'name' => $dataVal['name'],
             'code' => $dataVal['code'],
             'price' => $dataVal['price'],
-            'stock' => $dataVal['stock'],
+            'stock' => $dataVal['stock'] ?? 0,
             'description' => $dataVal['description'] ?? '',
             'category_id' => $dataVal['category_id'],
             'image' => isset($image) ? $image : $product->image,
