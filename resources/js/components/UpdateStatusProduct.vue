@@ -28,7 +28,7 @@
         methods: {
             updateStatus () {
                 this.loading = true;
-                axios.post(`/api/admin/products/${this.product.id}/status`)
+                axios.post(`/api/admin/products/${this.product.slug}/status`)
                     .then(res => {
                         this.$emit('updateProduct', res.data.status)
                         this.loading = false;

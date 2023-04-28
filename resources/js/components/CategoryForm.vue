@@ -52,7 +52,7 @@
         created() {
             if (this.categorySlug) {
                 this.loading = true;
-                axios.get(`/api/categories/${this.categorySlug}`)
+                axios.get(`/api/admin/categories/${this.categorySlug}`)
                     .then(res => {
                         this.category = res.data;
                         this.loading = false;
@@ -73,7 +73,7 @@
         methods: {
             submit() {
                 let method = this.categorySlug ? 'put' : 'post';
-                let url = this.categorySlug ? `/api/categories/${this.category.slug}` : '/api/categories' ;
+                let url = this.categorySlug ? `/api/admin/categories/${this.category.slug}` : '/api/admin/categories' ;
                 let message = this.categorySlug ? 'Category updated' : 'Category created';
 
                 axios[method](url, this.category).then(res => {

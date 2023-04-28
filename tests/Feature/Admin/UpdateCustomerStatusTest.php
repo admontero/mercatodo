@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Admin;
 
 use App\Models\Customer;
 use App\Models\User;
@@ -25,7 +25,7 @@ class UpdateCustomerStatusTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $this->postJson(route('api.customers.update-status', $customer));
+        $this->postJson(route('api.admin.customers.update-status', $customer));
 
         $this->assertEquals('inactivated', $customer->user->status);
     }
@@ -43,7 +43,7 @@ class UpdateCustomerStatusTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $this->postJson(route('api.customers.update-status', $customer));
+        $this->postJson(route('api.admin.customers.update-status', $customer));
 
         $this->assertEquals('activated', $customer->user->status);
     }
@@ -55,7 +55,7 @@ class UpdateCustomerStatusTest extends TestCase
     {
         $customer = Customer::factory()->create();
 
-        $response = $this->postJson(route('api.customers.update-status', $customer));
+        $response = $this->postJson(route('api.admin.customers.update-status', $customer));
 
         $response->assertStatus(401);
 
@@ -71,7 +71,7 @@ class UpdateCustomerStatusTest extends TestCase
 
         Passport::actingAs($customer->user);
 
-        $response = $this->postJson(route('api.customers.update-status', $customer));
+        $response = $this->postJson(route('api.admin.customers.update-status', $customer));
 
         $response->assertStatus(403);
 

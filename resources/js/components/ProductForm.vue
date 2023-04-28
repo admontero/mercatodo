@@ -69,6 +69,7 @@
                     aria-label="Image"
                     name="image"
                     id="image"
+                    ref="inputFile"
                     @change="onFileChange($event)"
                 >
                 <span class="text-danger small" role="alert" v-if="this.errors?.image">
@@ -171,7 +172,19 @@
                         icon: true,
                         rtl: false
                     });
+
+                    if (method === 'post') {
+                        this.product = {}
+                        this.category = {
+                            value: '',
+                            text: '',
+                        },
+                        this.image = null
+                        this.$refs.inputFile.value = null
+                    }
+
                     this.errors = [];
+
                 }).catch(err => {
                     this.errors = err.response.data.errors;
                     console.log(this.errors)
@@ -209,10 +222,10 @@
             },
             getFormData(method) {
                 const formData = new FormData();
-                formData.append('name', this.product.name);
-                formData.append('code', this.product.code);
-                formData.append('price', this.product.price);
-                formData.append('category_id', this.product.category_id);
+                if (this.product.name) formData.append('name', this.product.name);
+                if (this.product.code) formData.append('code', this.product.code);
+                if (this.product.price) formData.append('price', this.product.price);
+                if (this.product.category_id) formData.append('category_id', this.product.category_id);
                 if (this.product.description) formData.append('description', this.product.description);
                 if (this.product.image) formData.append('image', this.product.image);
                 if (method === 'put') formData.append('_method', 'PUT');

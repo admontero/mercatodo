@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Admin;
 
 use App\Models\Category;
 use App\Models\User;
@@ -8,39 +8,32 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
-class UpdateCategoryTest extends TestCase
+class StoreCategoryTest extends TestCase
 {
     use RefreshDatabase;
 
     /**
      * @test
      */
-    public function admin_can_update_a_category_name(): void
+    public function admin_can_create_a_category(): void
     {
         $this->withoutExceptionHandling();
 
         $admin = User::factory()->admin()->create();
 
-        $category = Category::factory()->create([
-            'name' => 'Tecnología',
-        ]);
-
         $data = [
-            'name' => 'Hogar y decoración',
+            'name' => 'Tecnología',
         ];
 
         Passport::actingAs($admin);
 
-        $response = $this->putJson(route('api.categories.update', $category), $data);
+        $response = $this->postJson(route('api.admin.categories.store'), $data);
 
         $response->assertStatus(201);
 
-        $category->refresh();
-
         $this->assertDatabaseHas('categories', [
-            'id' => $category->id,
-            'name' => $data['name'],
-            'slug' => $category->slug,
+            'name' => 'Tecnología',
+            'slug' => 'tecnologia',
         ]);
     }
 
@@ -51,21 +44,17 @@ class UpdateCategoryTest extends TestCase
     {
         $admin = User::factory()->admin()->create();
 
-        $category = Category::factory()->create([
-            'name' => 'Hogar y decoración',
-        ]);
-
         $data = [
             'name' => '',
         ];
 
         Passport::actingAs($admin);
 
-        $response = $this->putJson(route('api.categories.update', $category), $data);
+        $response = $this->postJson(route('api.admin.categories.store'), $data);
 
-        $response
-            ->assertStatus(422)
-            ->assertJsonValidationErrorFor('name');
+        $response->assertStatus(422);
+
+        $response->assertJsonValidationErrorFor('name');
     }
 
     /**
@@ -75,21 +64,17 @@ class UpdateCategoryTest extends TestCase
     {
         $admin = User::factory()->admin()->create();
 
-        $category = Category::factory()->create([
-            'name' => 'Deporte',
-        ]);
-
         $data = [
-            'name' => 45,
+            'name' => 123,
         ];
 
         Passport::actingAs($admin);
 
-        $response = $this->putJson(route('api.categories.update', $category), $data);
+        $response = $this->postJson(route('api.admin.categories.store'), $data);
 
-        $response
-            ->assertStatus(422)
-            ->assertJsonValidationErrorFor('name');
+        $response->assertStatus(422);
+
+        $response->assertJsonValidationErrorFor('name');
     }
 
     /**
@@ -99,21 +84,17 @@ class UpdateCategoryTest extends TestCase
     {
         $admin = User::factory()->admin()->create();
 
-        $category = Category::factory()->create([
-            'name' => 'Deporte',
-        ]);
-
         $data = [
             'name' => 'ao',
         ];
 
         Passport::actingAs($admin);
 
-        $response = $this->putJson(route('api.categories.update', $category), $data);
+        $response = $this->postJson(route('api.admin.categories.store'), $data);
 
-        $response
-            ->assertStatus(422)
-            ->assertJsonValidationErrorFor('name');
+        $response->assertStatus(422);
+
+        $response->assertJsonValidationErrorFor('name');
     }
 
     /**
@@ -123,21 +104,17 @@ class UpdateCategoryTest extends TestCase
     {
         $admin = User::factory()->admin()->create();
 
-        $category = Category::factory()->create([
-            'name' => 'Juguetería',
-        ]);
-
         $data = [
             'name' => $this->getRandomStringOnlyLetters(101),
         ];
 
         Passport::actingAs($admin);
 
-        $response = $this->putJson(route('api.categories.update', $category), $data);
+        $response = $this->postJson(route('api.admin.categories.store'), $data);
 
-        $response
-            ->assertStatus(422)
-            ->assertJsonValidationErrorFor('name');
+        $response->assertStatus(422);
+
+        $response->assertJsonValidationErrorFor('name');
     }
 
     /**
@@ -151,24 +128,20 @@ class UpdateCategoryTest extends TestCase
             'name' => 'Deportes',
         ]);
 
-        $category = Category::factory()->create([
-            'name' => 'Tecnología',
-        ]);
-
         $data = [
             'name' => 'Deportes',
         ];
 
         Passport::actingAs($admin);
 
-        $response = $this->putJson(route('api.categories.update', $category), $data);
+        $response = $this->postJson(route('api.admin.categories.store'), $data);
 
-        $response
-            ->assertStatus(422)
-            ->assertJsonValidationErrorFor('name');
+        $response->assertStatus(422);
+
+        $response->assertJsonValidationErrorFor('name');
     }
 
-    public function getRandomStringOnlyLetters($n = 1)
+    public function getRandomStringOnlyLetters(int $n = 1): string
     {
         $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomString = '';

@@ -7,6 +7,7 @@ use App\Http\Resources\ProductCollection;
 use App\Models\Product;
 use App\QueryFilters\CategoryFilter;
 use App\QueryFilters\NameFilter;
+use App\QueryFilters\PriceFilter;
 use App\QueryFilters\ProductOrder;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
@@ -25,6 +26,7 @@ class ProductController extends Controller
             ->through([
                 NameFilter::class,
                 CategoryFilter::class,
+                PriceFilter::class,
                 ProductOrder::class,
             ])
             ->thenReturn()
