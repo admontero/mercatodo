@@ -20,7 +20,7 @@ class ProductController extends Controller
     {
         $products = new ProductCollection(
             Product::with('category:id,name,created_at')
-                ->select(['id', 'name', 'slug', 'code', 'price', 'category_id', 'status', 'created_at'])
+                ->select(['id', 'name', 'slug', 'code', 'price', 'stock', 'category_id', 'status', 'created_at'])
                 ->latest()
                 ->paginate(10)
         );
@@ -53,6 +53,7 @@ class ProductController extends Controller
             'name' => $dataVal['name'],
             'code' => $dataVal['code'],
             'price' => $dataVal['price'],
+            'stock' => $dataVal['stock'],
             'description' => $dataVal['description'] ?? null,
             'category_id' => $dataVal['category_id'],
             'image' => $image,
@@ -103,6 +104,7 @@ class ProductController extends Controller
             'name' => $dataVal['name'],
             'code' => $dataVal['code'],
             'price' => $dataVal['price'],
+            'stock' => $dataVal['stock'],
             'description' => $dataVal['description'] ?? '',
             'category_id' => $dataVal['category_id'],
             'image' => isset($image) ? $image : $product->image,

@@ -22,6 +22,7 @@ class ProductResource extends JsonResource
             'code' => $this->code,
             'description' => $this->description,
             'price' => $this->price,
+            'stock' => $this->stock,
             'image' => $this->image,
             'category' => CategoryResource::make($this->whenLoaded('category')),
             'status' => (string) $this->status,
