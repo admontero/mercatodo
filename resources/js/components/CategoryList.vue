@@ -55,7 +55,7 @@
         methods: {
             async getCategories(page = 1) {
                 this.loading = true;
-                await axios.get(`/api/categories?page=${page}`)
+                await axios.get(`/api/admin/categories?page=${page}`)
                     .then(res => {
                         this.categories = res.data
                         this.loading = false

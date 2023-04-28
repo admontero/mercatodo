@@ -56,7 +56,7 @@
         methods: {
             async getCustomers(page = 1) {
                 this.loading = true;
-                await axios.get(`/api/customers?page=${page}`)
+                await axios.get(`/api/admin/customers?page=${page}`)
                     .then(res => {
                         this.customers = res.data
                         this.loading = false

@@ -25,6 +25,8 @@ Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login'])
 
 Route::get('/products', [App\Http\Controllers\Api\ProductController::class, 'index'])
     ->name('api.products.index');
+Route::get('/products/price-range', App\Http\Controllers\Api\ProductPriceRangeController::class)
+    ->name('api.products.range-price');
 
 Route::get('/products/categories', App\Http\Controllers\Api\ProductCategoryController::class)
     ->name('api.products.categories');
@@ -38,20 +40,20 @@ Route::group(['middleware' => ['auth:api']], function () {
 
 Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
     //Customer routes
-    Route::get('/customers', [App\Http\Controllers\Api\CustomerController::class, 'index'])
-        ->name('api.customers.index');
-    Route::post('/customers/{customer}/status', App\Http\Controllers\Api\CustomerStatusController::class)
-        ->name('api.customers.update-status');
+    Route::get('/admin/customers', [App\Http\Controllers\Api\CustomerController::class, 'index'])
+        ->name('api.admin.customers.index');
+    Route::post('/admin/customers/{customer}/status', App\Http\Controllers\Api\CustomerStatusController::class)
+        ->name('api.admin.customers.update-status');
 
     //Categories routes
-    Route::get('/categories', [App\Http\Controllers\Api\CategoryController::class, 'index'])
-        ->name('api.categories.index');
-    Route::post('/categories', [App\Http\Controllers\Api\CategoryController::class, 'store'])
-        ->name('api.categories.store');
-    Route::get('/categories/{category:slug}', [App\Http\Controllers\Api\CategoryController::class, 'show'])
-        ->name('api.categories.show');
-    Route::put('/categories/{category:slug}', [App\Http\Controllers\Api\CategoryController::class, 'update'])
-        ->name('api.categories.update');
+    Route::get('/admin/categories', [App\Http\Controllers\Api\CategoryController::class, 'index'])
+        ->name('api.admin.categories.index');
+    Route::post('/admin/categories', [App\Http\Controllers\Api\CategoryController::class, 'store'])
+        ->name('api.admin.categories.store');
+    Route::get('/admin/categories/{category:slug}', [App\Http\Controllers\Api\CategoryController::class, 'show'])
+        ->name('api.admin.categories.show');
+    Route::put('/admin/categories/{category:slug}', [App\Http\Controllers\Api\CategoryController::class, 'update'])
+        ->name('api.admin.categories.update');
 
     //Product routes
     Route::get('/admin/products', [App\Http\Controllers\Api\Admin\ProductController::class, 'index'])

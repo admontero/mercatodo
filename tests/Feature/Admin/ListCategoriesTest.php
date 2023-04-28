@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Admin;
 
 use App\Models\Category;
 use App\Models\User;
@@ -24,7 +24,7 @@ class ListCategoriesTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->getJson(route('api.categories.index'));
+        $response = $this->getJson(route('api.admin.categories.index'));
 
         $response
             ->assertOk()
@@ -43,7 +43,7 @@ class ListCategoriesTest extends TestCase
     {
         User::factory(10)->create();
 
-        $response = $this->getJson(route('api.categories.index'));
+        $response = $this->getJson(route('api.admin.categories.index'));
 
         $response->assertStatus(401);
     }
@@ -59,7 +59,7 @@ class ListCategoriesTest extends TestCase
 
         Passport::actingAs($customer);
 
-        $response = $this->getJson(route('api.categories.index'));
+        $response = $this->getJson(route('api.admin.categories.index'));
 
         $response->assertStatus(403);
     }

@@ -16,7 +16,7 @@
             </div>
             <div class="px-4 pb-3 pt-2">
                 <div class="d-grid gap-2">
-                    <a class="btn btn-primary btn-sm">Add to Cart</a>
+                    <a class="btn btn-primary btn-sm">{{ $t('Add to Cart') }}</a>
                 </div>
             </div>
         </div>

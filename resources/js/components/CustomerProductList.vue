@@ -1,8 +1,8 @@
 <template>
     <div class="px-lg-4">
-        <div class="row g-4">
+        <div class="row g-3">
             <div class="col-md-3">
-                <h4 class="my-2">Productos</h4>
+                <h4 class="lh-1">Productos</h4>
 
                 <hr class="d-none d-md-block py-1">
 
@@ -11,11 +11,10 @@
                     type="search"
                     placeholder="Búsqueda por nombre"
                     v-model="filters.name"
-                    v-on:keyup.enter="getProducts"
                 >
 
                 <select class="form-select mb-3" v-model="filters.order">
-                    <option value="orderByLatest">Más recientes</option>
+                    <option value="" selected>Más recientes</option>
                     <option value="orderByOldest">Más antiguos</option>
                     <option value="orderByPriceDESC">Mayor precio primero</option>
                     <option value="orderByPriceASC">Menor precio primero</option>
@@ -28,46 +27,58 @@
                     placeholder="Búsqueda por categoría"
                 ></model-select>
 
+                <div v-if="sliderEnabled">
+                    <p class="text-muted">
+                        <small class="mb-3">Por Precio:</small>
+                    </p>
+
+                    <Slider
+                        class="mb-4"
+                        :min="this.minPrice"
+                        :max="this.maxPrice"
+                        showTooltip="drag"
+                        @update="sliderUpdate(value)"
+                        v-model="value"
+                    />
+                </div>
+
                 <div class="d-grid g-2">
                     <button
                         class="btn btn-info"
                         type="button"
-                        v-on:click="resetFilters"
+                        @click="resetFilters"
                     >
                         Reiniciar Búsqueda
                     </button>
                 </div>
             </div>
             <div class="col-md-9">
-                <div v-if="!loading">
-                    <div v-if="total">
-                        <div class="d-md-flex justify-content-between align-items-end">
+                <div>
+                    <div class="d-md-flex justify-content-between align-items-end">
+                        <div v-if="total !== null">
                             <p>
                                 <span class="text-primary">{{ total }}</span>
                                 Resultados
                             </p>
-                            <Bootstrap5Pagination
-                                :data="products"
-                                @pagination-change-page="getProducts"
-                                :limit="1"
-                                align="right"
-                            />
                         </div>
+                        <div></div>
+                    </div>
+                    <div v-if="products.length">
                         <div class="row">
                             <customer-product-list-item
-                                v-for="product in products.data"
+                                v-for="product in products"
                                 :key="product.id"
                                 :product="product"
                             ></customer-product-list-item>
                         </div>
-                        <Bootstrap5Pagination
-                            :data="products"
-                            @pagination-change-page="getProducts"
-                            :limit="1"
-                            align="right"
-                        />
+                        <div class="d-flex justify-content-center align-items-center" v-if="moreExists">
+                            <button class="btn btn-dark" @click="loadMore">Cargar más...</button>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center" v-else-if="!moreExists && !loading">
+                            <p class="fw-semibold">No hay más productos disponibles.</p>
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-center align-items-center" v-else>
+                    <div class="d-flex justify-content-center align-items-center" v-else-if="total === 0 && !loading">
                         <p class="fw-semibold" v-if="queryString">
                             No hay productos que coincidan con su búsqueda.
                         </p>
@@ -76,8 +87,12 @@
                         </p>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center align-items-center" v-else>
-                    <div class="spinner-border text-primary mt-4" role="status">
+                <div
+                    v-if="loading"
+                    class="d-flex justify-content-center align-items-center"
+                    :class="{'mt-4' : total === null, '' : total }"
+                >
+                    <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
@@ -88,50 +103,60 @@
 
 <script>
     import CustomerProductListItem from './CustomerProductListItem.vue';
-    import { Bootstrap5Pagination } from 'laravel-vue-pagination';
+    import Slider from '@vueform/slider'
     import { ModelSelect } from 'vue-search-select';
     import _ from 'lodash';
 
     export default {
         components: {
-            Bootstrap5Pagination,
             CustomerProductListItem,
             ModelSelect,
+            Slider,
         },
         data() {
             return {
                 products: [],
                 categories: [],
-                total: 0,
+                page: 1,
+                total: null,
                 loading: false,
                 filters: {
                     name: '',
-                    order: 'orderByLatest',
-                    categoryId: ''
+                    order: '',
+                    categoryId: '',
                 },
                 category: {
                     value: '',
                     text: '',
-                }
+                },
+                moreExists: false,
+                value: null,
+                minPrice: null,
+                maxPrice: null,
             }
         },
         created() {
             this.getCategories().then(() => {
                 this.categories = this.categories.map(c => ({ value: c.id, text: c.name }))
             })
+
+            this.getPriceRange()
         },
         mounted() {
             this.getProducts()
         },
         methods: {
-            async getProducts(page = 1) {
+            async getProducts() {
                 this.loading = true;
-
-                await axios.get(`/api/products?page=${page}&${this.queryString}`)
+                await axios.get(`/api/products?page=${this.page}&${this.queryString}`)
                     .then(res => {
-                        this.products = res.data
-                        this.loading = false
+                        this.products = [...this.products, ...res.data.data]
                         this.total = res.data.meta.total
+
+                        if (res.data.meta.last_page > res.data.meta.current_page)
+                            this.moreExists = true
+
+                        this.loading = false
                     }).catch(err => {
                         console.log(err.response.data)
                     })
@@ -144,10 +169,37 @@
                         console.log(err.response.data)
                     })
             },
+            async getPriceRange() {
+                await axios.get('/api/products/price-range')
+                    .then(res => {
+                        if (res.data.min_price !== null && res.data.max_price !== null) {
+                            this.minPrice = parseInt(res.data.min_price)
+                            this.maxPrice = parseInt(res.data.max_price)
+                            this.value = [this.minPrice, this.maxPrice]
+                            this.filters.minPrice = this.minPrice
+                            this.filters.maxPrice = this.maxPrice
+                        }
+                    }).catch(err => {
+                        console.log(err.response.data)
+                    })
+            },
+            sliderUpdate(value) {
+                this.filters.minPrice = value[0]
+                this.filters.maxPrice = value[1]
+                console.log(this.filters.minPrice, this.filters.maxPrice, value)
+            },
+            debouncedGetProducts: _.debounce(function () {
+                this.getProducts()
+            }, 500),
+            loadMore() {
+                this.page++
+                this.moreExists = false
+                this.getProducts()
+            },
             resetFilters() {
                 this.filters = {
                     name: '',
-                    order: 'orderByLatest',
+                    order: '',
                     categoryId: '',
                 };
 
@@ -155,34 +207,49 @@
                     value: '',
                     text: '',
                 };
+
+                this.getPriceRange()
+
+                this.page = 1
+                this.products = []
+                this.moreExists = false
             },
         },
         computed: {
             queryString() {
                 return Object.keys(this.filters)
                     .map(key => {
-                        if (this.filters[key]) {
+                        if (this.filters[key] || this.filters[key] === 0) {
                             return encodeURIComponent(key) + '=' + encodeURIComponent(this.filters[key])
                         }
                     })
                     .filter(param => param)
                     .join('&');
+            },
+            sliderEnabled() {
+                if (this.minPrice !== null && this.maxPrice !== null) {
+                    return true;
+                }
+
+                return false;
             }
         },
         watch: {
             filters: {
-                handler: _.debounce(function (){
-                    this.getProducts()
-                }, 500),
+                handler: function (){
+                    this.loading = true
+                    this.page = 1
+                    this.products = []
+                    this.moreExists = false
+                    this.debouncedGetProducts()
+                },
                 deep: true
             },
             category(newCat) {
                 this.filters.categoryId = newCat.value;
-            }
+            },
         }
     }
 </script>
 
-<style>
-
-</style>
+<style src="@vueform/slider/themes/default.css"></style>
