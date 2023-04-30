@@ -139,11 +139,9 @@
             </button>
         </div>
     </form>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-2" v-else>
-        <div class="col d-flex justify-content-center align-items-center">
-            <div class="spinner-border text-primary mt-4" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
+    <div class="col d-flex justify-content-center align-items-center" v-else>
+        <div class="spinner-border text-primary my-4" role="status">
+            <span class="visually-hidden">Loading...</span>
         </div>
     </div>
 </template>
@@ -173,7 +171,7 @@
         },
         created() {
             this.loading = true;
-            axios.get(`/api/admin/customers/${this.customerId}`)
+            axios.get(`/api/customer/customers/${this.customerId}`)
                 .then(res => {
                     this.customer = res.data;
                     this.loading = false;
@@ -185,7 +183,7 @@
         },
         methods: {
             submit() {
-                axios.put(`/api/admin/customers/${this.customer.id}`, this.customer).then(res => {
+                axios.put(`/api/customer/customers/${this.customer.id}/update-profile`, this.customer).then(res => {
                     this.toast.success(trans('Updated information'), {
                         position: "bottom-left",
                         timeout: 3000,

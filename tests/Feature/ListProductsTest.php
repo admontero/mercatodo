@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Customer;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -56,9 +55,12 @@ class ListProductsTest extends TestCase
      */
     public function customer_can_get_all_products(): void
     {
-        $customer = Customer::factory()->create();
+        $customer = User::factory()
+            ->customer()
+            ->withCustomerProfile()
+            ->create();
 
-        Passport::actingAs($customer->user);
+        Passport::actingAs($customer);
 
         $response = $this->getJson(route('api.products.index'));
 

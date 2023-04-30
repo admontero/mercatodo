@@ -64,7 +64,7 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     @role('customer')
-                                        {{ Auth::user()->customer->first_name . ' ' . Auth::user()->customer->last_name }}
+                                        {{ Auth::user()->profileable?->first_name . ' ' . Auth::user()->profileable?->last_name }}
                                     @else
                                         {{ Auth::user()->email }}
                                     @endrole

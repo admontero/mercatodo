@@ -72,11 +72,14 @@ class UpdateProductStatusTest extends TestCase
      */
     public function customer_user_can_not_update_a_product_status(): void
     {
-        $customer = Customer::factory()->create();
+        $customer = User::factory()
+            ->customer()
+            ->withCustomerProfile()
+            ->create();
 
         $product = Product::factory()->create();
 
-        Passport::actingAs($customer->user);
+        Passport::actingAs($customer);
 
         $response = $this->postJson(route('api.admin.products.update-status', $product));
 

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Customer;
+use App\Models\CustomerProfile;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
@@ -22,10 +22,13 @@ class UpdateCustomerTest extends TestCase
 
         $this->admin = User::factory()->admin()->create();
 
-        $this->customer = Customer::factory()->create([
-            'first_name' => 'Usuario',
-            'last_name' => 'Nuevo',
-        ]);
+        $this->customer = User::factory()
+            ->customer()
+            ->withCustomerProfile([
+                'first_name' => 'Usuario',
+                'last_name' => 'Nuevo',
+            ])
+            ->create();
     }
 
     /**
@@ -44,17 +47,19 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response->assertStatus(201);
 
         $this->assertDatabaseHas('users', [
-            'id' => $this->customer->user_id,
+            'id' => $this->customer->id,
         ]);
 
-        $this->assertDatabaseHas('customers', [
+        $this->assertDatabaseHas('customer_profiles', [
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
+            'document_type' => $data['document_type'],
+            'document' => $data['document'],
         ]);
     }
 
@@ -72,7 +77,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -93,7 +98,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -114,7 +119,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -135,7 +140,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -156,7 +161,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -177,7 +182,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -198,7 +203,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -219,7 +224,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -240,7 +245,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -261,7 +266,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -282,7 +287,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -304,7 +309,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -324,7 +329,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -346,7 +351,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -366,7 +371,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -388,7 +393,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)
@@ -408,7 +413,7 @@ class UpdateCustomerTest extends TestCase
 
         Passport::actingAs($this->admin);
 
-        $response = $this->putJson(route('api.customers.update', $this->customer), $data);
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
 
         $response
             ->assertStatus(422)

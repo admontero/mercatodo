@@ -22,11 +22,14 @@ class RegistrationTest extends TestCase
 
         $response->assertRedirect('/');
 
+        $user = User::first();
+
         $this->assertDatabaseHas('users', [
+            'id' => $user->id,
             'email' => 'arara@test.com',
         ]);
 
-        $this->assertDatabaseHas('customers', [
+        $this->assertDatabaseHas('customer_profiles', [
             'first_name' => 'Arantxa',
             'last_name' => 'Arango',
         ]);
@@ -38,6 +41,8 @@ class RegistrationTest extends TestCase
             ),
             'The password must be encrypt'
         );
+
+        $this->assertTrue($user->hasRole('customer'));
     }
 
     /**

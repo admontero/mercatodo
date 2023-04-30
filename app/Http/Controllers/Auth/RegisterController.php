@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\CustomerProfile;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -76,10 +77,12 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $user->customer()->create([
+        $profile = CustomerProfile::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
         ]);
+
+        $profile->user()->save($user);
 
         $user->assignRole('customer');
 

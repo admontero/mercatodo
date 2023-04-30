@@ -49,6 +49,13 @@
                 type: String,
             }
         },
+        data() {
+            return {
+                category: {},
+                errors: [],
+                loading: false,
+            }
+        },
         created() {
             if (this.categorySlug) {
                 this.loading = true;
@@ -61,13 +68,6 @@
                         console.log(err)
                         this.loading = false;
                     })
-            }
-        },
-        data() {
-            return {
-                category: {},
-                errors: [],
-                loading: false,
             }
         },
         methods: {

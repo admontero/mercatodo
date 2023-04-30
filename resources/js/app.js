@@ -7,6 +7,7 @@ import Toast from 'vue-toastification';
 import HelloWorld from '@/components/HelloWorld.vue';
 import CustomerList from '@/components/CustomerList.vue';
 import CustomerForm from '@/components/CustomerForm.vue';
+import CustomerProfileForm from '@/components/CustomerProfileForm.vue';
 import CategoryList from '@/components/CategoryList.vue';
 import CategoryForm from '@/components/CategoryForm.vue';
 import CustomerProductList from '@/components/CustomerProductList.vue';
@@ -26,6 +27,7 @@ window.app = createApp({
         HelloWorld,
         CustomerList,
         CustomerForm,
+        CustomerProfileForm,
         CategoryList,
         CategoryForm,
         CustomerProductList,

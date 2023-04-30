@@ -40,8 +40,8 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
-        Gate::define('update-customer', function (User $user, Customer $customer) {
-            if ($user->hasRole('admin') and $customer->user->hasRole('customer')) {
+        Gate::define('update-customer', function (User $user, User $model) {
+            if ($user->hasRole('admin') and $model->hasRole('customer')) {
                 return true;
             }
 
