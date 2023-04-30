@@ -4,7 +4,7 @@
             class="form-check-input"
             type="checkbox"
             id="flexSwitchCheckDefault"
-            :checked="customer.user.status === 'activated'"
+            :checked="customer.status === 'activated'"
             :disabled="loading"
             v-on:input="updateStatus"
         >

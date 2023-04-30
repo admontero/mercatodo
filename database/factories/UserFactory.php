@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\CustomerProfile;
 use App\Models\User;
 use App\Models\UserStatuses\ActiveStatus;
 use App\Models\UserStatuses\InactiveStatus;
@@ -13,18 +14,6 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
-    /**
-     * Configure the model factory.
-     *
-     * @return $this
-     */
-    public function configure()
-    {
-        return $this->afterMaking(function (User $user) {
-            return $user->assignRole('customer');
-        });
-    }
-
     /**
      * Syncs role/s of user with passed role/s.
      *
@@ -98,6 +87,19 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'status' => InactiveStatus::class,
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the user is a inactivated.
+     */
+    public function withCustomerProfile(array $data = []): self
+    {
+        return $this->state(function (array $attributes) use ($data) {
+            return [
+                'profileable_type' => CustomerProfile::class,
+                'profileable_id' => CustomerProfile::factory()->create($data),
             ];
         });
     }

@@ -4,17 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
-class Customer extends Model
+class CustomerProfile extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'first_name',
         'last_name',
@@ -25,8 +20,8 @@ class Customer extends Model
         'cell_phone',
     ];
 
-    public function user(): BelongsTo
+    public function user(): MorphOne
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->morphOne(User::class, 'profileable');
     }
 }

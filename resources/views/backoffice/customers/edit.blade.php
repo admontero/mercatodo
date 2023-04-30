@@ -16,5 +16,5 @@
 @endsection
 
 @section('content')
-    <customer-form :customer="{{ json_encode($customer) }}"></customer-form>
+    <customer-form :customer-id="{{ json_encode($customer->id) }}"></customer-form>
 @endsection

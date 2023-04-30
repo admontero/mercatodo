@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Customer;
+use App\Models\CustomerProfile;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -14,13 +14,14 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function a_user_has_one_customer(): void
+    public function a_customer_has_one_customer_profile(): void
     {
-        $user = User::factory()
-            ->has(Customer::factory()->count(1))
-            ->create();
+        $user = User::factory()->create([
+            'profileable_type' => CustomerProfile::class,
+            'profileable_id' => CustomerProfile::factory()->create(),
+        ]);
 
-        $this->assertInstanceOf(Customer::class, $user->customer);
+        $this->assertInstanceOf(CustomerProfile::class, $user->profileable);
     }
 
     /**
@@ -46,7 +47,7 @@ class UserTest extends TestCase
      */
     public function customer_scope(): void
     {
-        User::factory(20)->create();
+        User::factory(20)->customer()->create();
 
         User::factory(5)->admin()->create();
 
@@ -54,7 +55,7 @@ class UserTest extends TestCase
 
         $this->assertCount(25, $users);
 
-        $customers = User::customers()->get();
+        $customers = User::customer()->get();
 
         $this->assertCount(20, $customers);
     }

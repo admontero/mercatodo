@@ -6,7 +6,7 @@ use App\Models\UserStatuses\ActiveStatus;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -52,6 +52,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'status' => ActiveStatus::class,
     ];
 
+    protected $with = ['profileable'];
+
     protected static function booted(): void
     {
         static::created(function ($user) {
@@ -69,12 +71,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return new $status($this);
     }
 
-    public function customer(): HasOne
+    public function profileable(): MorphTo
     {
-        return $this->hasOne(Customer::class);
+        return $this->morphTo();
     }
 
-    public function scopeCustomers(Builder $query): void
+    public function scopeCustomer(Builder $query): void
     {
         $query->whereRelation('roles', 'name', 'customer');
     }

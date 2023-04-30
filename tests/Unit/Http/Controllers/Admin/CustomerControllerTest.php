@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Http\Controllers\Admin;
 
-use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
@@ -38,7 +37,10 @@ class CustomerControllerTest extends TestCase
         $this->withoutVite();
 
         $admin = User::factory()->admin()->create();
-        $customer = Customer::factory()->create();
+        $customer = User::factory()
+            ->customer()
+            ->withCustomerProfile()
+            ->create();
 
         Passport::actingAs($admin);
 

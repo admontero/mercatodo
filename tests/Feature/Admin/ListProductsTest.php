@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Models\Customer;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,7 +15,7 @@ class ListProductsTest extends TestCase
     /**
      * @test
      */
-    public function admin_can_get_all_products(): void
+    public function admin_can_get_all_products_from_admin_route(): void
     {
         $admin = User::factory()->admin()->create();
 
@@ -43,7 +42,7 @@ class ListProductsTest extends TestCase
     /**
      * @test
      */
-    public function guest_user_can_not_get_all_products(): void
+    public function guest_user_can_not_get_all_products_from_admin_route(): void
     {
         Product::factory(10)->create();
 
@@ -55,13 +54,16 @@ class ListProductsTest extends TestCase
     /**
      * @test
      */
-    public function customer_can_not_get_all_customers(): void
+    public function customer_can_not_get_all_products_from_admin_route(): void
     {
-        $customer = Customer::factory()->create();
+        $customer = User::factory()
+            ->customer()
+            ->withCustomerProfile()
+            ->create();
 
         Product::factory(10)->create();
 
-        Passport::actingAs($customer->user);
+        Passport::actingAs($customer);
 
         $response = $this->getJson(route('api.admin.products.index'));
 

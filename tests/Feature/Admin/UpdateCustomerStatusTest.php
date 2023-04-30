@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
@@ -21,13 +20,18 @@ class UpdateCustomerStatusTest extends TestCase
 
         $admin = User::factory()->admin()->create();
 
-        $customer = Customer::factory()->create();
+        $customer = User::factory()
+            ->customer()
+            ->withCustomerProfile()
+            ->create();
 
         Passport::actingAs($admin);
 
         $this->postJson(route('api.admin.customers.update-status', $customer));
 
-        $this->assertEquals('inactivated', $customer->user->status);
+        $customer->refresh();
+
+        $this->assertEquals('inactivated', $customer->status);
     }
 
     /**
@@ -39,13 +43,19 @@ class UpdateCustomerStatusTest extends TestCase
 
         $admin = User::factory()->admin()->create();
 
-        $customer = Customer::factory()->inactivated()->create();
+        $customer = User::factory()
+            ->customer()
+            ->inactivated()
+            ->withCustomerProfile()
+            ->create();
 
         Passport::actingAs($admin);
 
         $this->postJson(route('api.admin.customers.update-status', $customer));
 
-        $this->assertEquals('activated', $customer->user->status);
+        $customer->refresh();
+
+        $this->assertEquals('activated', $customer->status);
     }
 
     /**
@@ -53,13 +63,18 @@ class UpdateCustomerStatusTest extends TestCase
      */
     public function guest_user_can_not_update_a_customer_status(): void
     {
-        $customer = Customer::factory()->create();
+        $customer = User::factory()
+            ->customer()
+            ->withCustomerProfile()
+            ->create();
 
         $response = $this->postJson(route('api.admin.customers.update-status', $customer));
 
         $response->assertStatus(401);
 
-        $this->assertEquals('activated', $customer->user->status);
+        $customer->refresh();
+
+        $this->assertEquals('activated', $customer->status);
     }
 
     /**
@@ -67,14 +82,19 @@ class UpdateCustomerStatusTest extends TestCase
      */
     public function customer_user_can_not_update_a_customer_status(): void
     {
-        $customer = Customer::factory()->create();
+        $customer = User::factory()
+            ->customer()
+            ->withCustomerProfile()
+            ->create();
 
-        Passport::actingAs($customer->user);
+        Passport::actingAs($customer);
 
         $response = $this->postJson(route('api.admin.customers.update-status', $customer));
 
         $response->assertStatus(403);
 
-        $this->assertEquals('activated', $customer->user->status);
+        $customer->refresh();
+
+        $this->assertEquals('activated', $customer->status);
     }
 }

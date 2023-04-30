@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
@@ -19,11 +18,11 @@ class ListCustomersTest extends TestCase
     {
         $admin = User::factory()->admin()->create();
 
-        Customer::factory()->create(['created_at' => now()->subDays(4)]);
-        Customer::factory()->create(['created_at' => now()->subDays(3)]);
-        Customer::factory()->create(['created_at' => now()->subDays(2)]);
-        Customer::factory()->create(['created_at' => now()->subDays(1)]);
-        $customer5 = Customer::factory()->create();
+        User::factory()->customer()->withCustomerProfile()->create(['created_at' => now()->subDays(4)]);
+        User::factory()->customer()->withCustomerProfile()->create(['created_at' => now()->subDays(3)]);
+        User::factory()->customer()->withCustomerProfile()->create(['created_at' => now()->subDays(2)]);
+        User::factory()->customer()->withCustomerProfile()->create(['created_at' => now()->subDays(1)]);
+        $customer5 = User::factory()->customer()->withCustomerProfile()->create();
 
         Passport::actingAs($admin);
 
@@ -38,7 +37,7 @@ class ListCustomersTest extends TestCase
                 'data', 'links',
             ]);
 
-        $this->assertEquals($response['data'][0]['user']['email'], $customer5->user->email);
+        $this->assertEquals($response['data'][0]['email'], $customer5->email);
     }
 
     /**
@@ -46,7 +45,7 @@ class ListCustomersTest extends TestCase
      */
     public function guest_user_can_not_get_all_customers(): void
     {
-        Customer::factory(10)->create();
+        User::factory(10)->customer()->withCustomerProfile()->create();
 
         $response = $this->getJson(route('api.admin.customers.index'));
 
@@ -58,11 +57,11 @@ class ListCustomersTest extends TestCase
      */
     public function customer_can_not_get_all_customers(): void
     {
-        $customer = Customer::factory()->create();
+        $customer = User::factory()->customer()->withCustomerProfile()->create();
 
-        Customer::factory(10)->create();
+        User::factory(10)->customer()->withCustomerProfile()->create();
 
-        Passport::actingAs($customer->user);
+        Passport::actingAs($customer);
 
         $response = $this->getJson(route('api.admin.customers.index'));
 

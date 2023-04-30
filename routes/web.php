@@ -14,16 +14,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/** Autenticación */
 Auth::routes(['verify' => true]);
+/** */
 
+/** Rutas públicas de productos */
 Route::get('/', [ProductController::class, 'index'])
     ->name('products.index');
+/** */
 
-Route::group(['middleware' => ['auth', 'verified']], function () {
+/** Rutas protegidas del Cliente */
+Route::group(['middleware' => ['auth', 'verified', 'role:customer']], function () {
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])
         ->name('profile.edit');
 });
+/** */
 
+/** Rutas protegidas del Administrador */
 Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'admin'], function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])
         ->name('admin.dashboard');
@@ -52,5 +59,5 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'admin'], func
         ->name('admin.products.create');
     Route::get('/products/{product:slug}/edit', [App\Http\Controllers\Admin\ProductController::class, 'edit'])
         ->name('admin.products.edit');
-
 });
+/** */

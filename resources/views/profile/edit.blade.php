@@ -11,7 +11,7 @@
                                 {{ __('Update Information') }}
                             </h3>
 
-                            <customer-form :customer="{{ auth()->user() }}"></customer-form>
+                            <customer-profile-form :customer-id="{{ auth()->user()->id }}"></customer-profile-form>
                         </div>
                     </div>
                 </div>
