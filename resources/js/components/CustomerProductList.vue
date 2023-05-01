@@ -176,8 +176,6 @@
                             this.minPrice = parseInt(res.data.min_price)
                             this.maxPrice = parseInt(res.data.max_price)
                             this.value = [this.minPrice, this.maxPrice]
-                            this.filters.minPrice = this.minPrice
-                            this.filters.maxPrice = this.maxPrice
                         }
                     }).catch(err => {
                         console.log(err.response.data)
@@ -186,7 +184,6 @@
             sliderUpdate(value) {
                 this.filters.minPrice = value[0]
                 this.filters.maxPrice = value[1]
-                console.log(this.filters.minPrice, this.filters.maxPrice, value)
             },
             debouncedGetProducts: _.debounce(function () {
                 this.getProducts()
