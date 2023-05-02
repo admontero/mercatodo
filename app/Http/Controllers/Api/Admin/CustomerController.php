@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateCustomerRequest;
 use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {

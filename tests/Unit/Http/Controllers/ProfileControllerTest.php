@@ -5,7 +5,6 @@ namespace Tests\Unit\Http\Controllers;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\TestCase;
 
 class ProfileControllerTest extends TestCase
