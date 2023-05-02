@@ -18,6 +18,8 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $this->authorize('view-any', new Product());
+
         $products = new ProductCollection(
             Product::with('category:id,name,created_at')
                 ->select(['id', 'name', 'slug', 'code', 'price', 'stock', 'category_id', 'status', 'created_at'])
@@ -111,13 +113,5 @@ class ProductController extends Controller
         ]);
 
         return response()->json(new ProductResource($product), 201);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

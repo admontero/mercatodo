@@ -2,7 +2,7 @@
     <div class="px-lg-4">
         <div class="row g-3">
             <div class="col-md-3">
-                <h4 class="lh-1">Productos</h4>
+                <h4 class="py-1">Productos</h4>
 
                 <hr class="d-none d-md-block py-1">
 
@@ -12,13 +12,6 @@
                     placeholder="Búsqueda por nombre"
                     v-model="filters.name"
                 >
-
-                <select class="form-select mb-3" v-model="filters.order">
-                    <option value="" selected>Más recientes</option>
-                    <option value="orderByOldest">Más antiguos</option>
-                    <option value="orderByPriceDESC">Mayor precio primero</option>
-                    <option value="orderByPriceASC">Menor precio primero</option>
-                </select>
 
                 <model-select
                     class="mb-3"
@@ -54,14 +47,21 @@
             </div>
             <div class="col-md-9">
                 <div>
-                    <div class="d-md-flex justify-content-between align-items-end">
-                        <div v-if="total !== null">
+                    <div class="d-md-flex justify-content-between align-items-end" v-if="total !== null">
+                        <div>
                             <p>
                                 <span class="text-primary">{{ total }}</span>
                                 Resultados
                             </p>
                         </div>
-                        <div></div>
+                        <div>
+                            <select class="form-select mb-3" v-model="filters.order">
+                                <option value="" selected>Más recientes</option>
+                                <option value="orderByOldest">Más antiguos</option>
+                                <option value="orderByPriceDESC">Mayor precio primero</option>
+                                <option value="orderByPriceASC">Menor precio primero</option>
+                            </select>
+                        </div>
                     </div>
                     <div v-if="products.length">
                         <div class="row">

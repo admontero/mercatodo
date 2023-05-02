@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Category;
-use App\Models\Product;
 use App\Models\ProductStatuses\ActiveStatus;
 use App\Models\ProductStatuses\InactiveStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -13,22 +12,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ProductFactory extends Factory
 {
-    /**
-     * Configure the model factory.
-     *
-     * @return $this
-     */
-    public function configure()
-    {
-        return $this->afterMaking(function (Product $product) {
-            Category::count()
-                ? $product->category_id = Category::inRandomOrder()->first()->id
-                : $product->category_id = Category::factory()->create()->id;
-
-            return $product;
-        });
-    }
-
     /**
      * Define the model's default state.
      *
@@ -42,6 +25,7 @@ class ProductFactory extends Factory
             'description' => fake()->realText(),
             'price' => fake()->randomNumber(6, false),
             'stock' => fake()->randomNumber(2),
+            'category_id' => Category::factory(),
         ];
     }
 

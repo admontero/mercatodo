@@ -11,6 +11,8 @@ class CustomerController extends Controller
 {
     public function show(Request $request, User $user)
     {
+        $this->authorize('view-customer', $user);
+
         return response()->json(new CustomerResource($user), 200);
     }
 }

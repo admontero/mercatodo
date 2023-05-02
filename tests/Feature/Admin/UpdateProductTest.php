@@ -37,6 +37,8 @@ class UpdateProductTest extends TestCase
 
         $product = Product::factory()->create($this->getProductValidData());
 
+        $previousImage = $product->image;
+
         $categoryNew = Category::factory()->create();
 
         $data = $this->getProductValidData([
@@ -66,6 +68,7 @@ class UpdateProductTest extends TestCase
         $product->refresh();
 
         Storage::disk('public')->assertExists($product->image);
+        Storage::disk('public')->assertMissing($previousImage);
     }
 
     /**

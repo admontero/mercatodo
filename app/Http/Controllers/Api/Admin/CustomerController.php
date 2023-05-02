@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateCustomerRequest;
 use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
@@ -28,18 +27,12 @@ class CustomerController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(User $user)
     {
+        $this->authorize('view-customer', $user);
+
         return response()->json(new CustomerResource($user), 200);
     }
 
@@ -63,13 +56,5 @@ class CustomerController extends Controller
         ]);
 
         return response()->json(new CustomerResource($user), 201);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        //
     }
 }

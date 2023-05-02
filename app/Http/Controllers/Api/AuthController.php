@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\CustomerProfile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -35,11 +36,16 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        $profile = CustomerProfile::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+        ]);
+
+        $profile->user()->save($user);
 
         $user->assignRole('customer');
 

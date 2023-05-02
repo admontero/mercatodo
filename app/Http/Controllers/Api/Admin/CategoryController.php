@@ -47,6 +47,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category): JsonResponse
     {
+        $this->authorize('view', $category);
+
         return response()->json(new CategoryResource($category), 200);
     }
 
@@ -62,13 +64,5 @@ class CategoryController extends Controller
         $category->update($dataVal);
 
         return response()->json(new CategoryResource($category), 201);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Category $category)
-    {
-        //
     }
 }
