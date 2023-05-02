@@ -43,7 +43,7 @@ class UpdateProfileTest extends TestCase
 
         Passport::actingAs($this->customer);
 
-        $response = $this->putJson(route('api.customers.update-profile', $this->customer), $data);
+        $response = $this->putJson(route('api.customer.customers.update-profile', $this->customer), $data);
 
         $response
             ->assertStatus(201)

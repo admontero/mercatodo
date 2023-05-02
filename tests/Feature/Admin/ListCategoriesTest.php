@@ -41,7 +41,7 @@ class ListCategoriesTest extends TestCase
      */
     public function guest_user_can_not_get_all_categories(): void
     {
-        User::factory(10)->create();
+        Category::factory(10)->create();
 
         $response = $this->getJson(route('api.admin.categories.index'));
 
@@ -55,7 +55,7 @@ class ListCategoriesTest extends TestCase
     {
         $customer = User::factory()->create();
 
-        User::factory(10)->create();
+        Category::factory(10)->create();
 
         Passport::actingAs($customer);
 

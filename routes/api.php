@@ -66,7 +66,7 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
     Route::post('/admin/products', [App\Http\Controllers\Api\Admin\ProductController::class, 'store'])
         ->name('api.admin.products.store');
     Route::get('/admin/products/{product:slug}', [App\Http\Controllers\Api\Admin\ProductController::class, 'show'])
-        ->name('api.products.show');
+        ->name('api.admin.products.show');
     Route::put('/admin/products/{product:slug}', [App\Http\Controllers\Api\Admin\ProductController::class, 'update'])
         ->name('api.admin.products.update');
     Route::post('/admin/products/{product:slug}/status', App\Http\Controllers\Api\Admin\ProductStatusController::class)
@@ -77,8 +77,8 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
 /** Rutas protegidas del Cliente */
 Route::group(['middleware' => ['auth:api', 'role:customer', 'verified']], function () {
     Route::get('/customer/customers/{user}', [App\Http\Controllers\Api\Customer\CustomerController::class, 'show'])
-        ->name('api.customers.show');
+        ->name('api.customer.customers.show');
     Route::put('/customer/customers/{user}/update-profile', App\Http\Controllers\Api\Customer\UpdateProfileController::class)
-        ->name('api.customers.update-profile');
+        ->name('api.customer.customers.update-profile');
 });
 /** */

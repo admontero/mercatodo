@@ -24,6 +24,10 @@ class CategoryPolicy
      */
     public function view(User $user, Category $category): bool
     {
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+
         return false;
     }
 
