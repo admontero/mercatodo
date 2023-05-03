@@ -54,6 +54,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $with = ['profileable'];
 
+    protected $guard_name = 'api';
+
     protected static function booted(): void
     {
         static::created(function ($user) {
