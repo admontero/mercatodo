@@ -4,9 +4,6 @@ namespace Tests\Feature\Api;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class UserCanLogoutTest extends TestCase
@@ -29,7 +26,7 @@ class UserCanLogoutTest extends TestCase
 
         $token = $responseLogin->getData()->token;
 
-        $responseCustomers = $this->getJson(route('api.admin.customers.index'),  [
+        $responseCustomers = $this->getJson(route('api.admin.customers.index'), [
             'Authorization' => 'Bearer ' . $token,
         ]);
 
