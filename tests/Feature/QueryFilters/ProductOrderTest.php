@@ -102,4 +102,20 @@ class ProductOrderTest extends TestCase
 
         $this->assertEquals($response['data'][0]['price'], 52000);
     }
+
+    /**
+     * @test
+     */
+    public function it_is_ordering_products_by_default_if_order_query_string_is_wrong(): void
+    {
+        $response = $this->getJson('/api/products?order=orderByNothing');
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'meta' => ['total' => 5],
+            ]);
+
+        $this->assertEquals($response['data'][0]['price'], 350000);
+    }
 }

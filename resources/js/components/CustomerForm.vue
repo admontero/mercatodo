@@ -139,7 +139,7 @@
             </button>
         </div>
     </form>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-2" v-else>
+    <div class="row" v-else>
         <div class="col d-flex justify-content-center align-items-center">
             <div class="spinner-border text-primary mt-4" role="status">
                 <span class="visually-hidden">Loading...</span>
