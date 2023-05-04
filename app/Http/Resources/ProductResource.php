@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,7 +27,7 @@ class ProductResource extends JsonResource
             'image' => $this->image,
             'category' => CategoryResource::make($this->whenLoaded('category')),
             'status' => (string) $this->status,
-            'ago' => $this->created_at->diffForHumans(),
+            'ago' => Carbon::parse($this->created_at)->diffForHumans(),
         ];
     }
 }

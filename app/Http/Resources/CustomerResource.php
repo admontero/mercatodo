@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,7 +27,7 @@ class CustomerResource extends JsonResource
             'address' => $this->profileable->address ?? null,
             'phone' => $this->profileable->phone ?? null,
             'cell_phone' => $this->profileable->cell_phone ?? null,
-            'ago' => $this->created_at->diffForHumans(),
+            'ago' => Carbon::parse($this->created_at)->diffForHumans(),
         ];
     }
 }

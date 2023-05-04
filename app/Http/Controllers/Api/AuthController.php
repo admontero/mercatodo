@@ -63,7 +63,10 @@ class AuthController extends Controller
         ];
 
         if (auth()->attempt($credentials)) {
-            $token = auth()->user()->createToken('Token')->accessToken;
+            /** @var User $user */
+            $user = auth()->user();
+
+            $token = $user->createToken('Token')->accessToken;
 
             return response()->json(['token' => $token], 200);
         } else {
@@ -73,7 +76,7 @@ class AuthController extends Controller
 
     public function logout(): JsonResponse
     {
-        auth()->user()->tokens->each(function ($token, $key) {
+        auth()->user()?->tokens->each(function($token, $key) {
             $token->delete();
         });
 
