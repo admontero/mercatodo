@@ -17,14 +17,14 @@ class RedirectIfCustomerIsDisabled
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->status instanceof InactiveStatus) {
+        if (auth()->check() && auth()->user()?->status instanceof InactiveStatus) {
             Auth::logout();
 
             $request->session()->invalidate();
 
             $request->session()->regenerateToken();
 
-            return redirect()->route('login')->with('error', __('The user has been disabled, try again later.'));
+            return redirect(route('login'))->with('error', __('The user has been disabled, try again later.'));
         }
 
         return $next($request);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\QueryFilters;
+namespace Tests\Unit\QueryFilters;
 
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;

@@ -85,8 +85,11 @@ class ProductController extends Controller
 
         if ($request->file('image')) {
 
-            if (Storage::disk('public')->exists($product->image)) {
-                Storage::disk('public')->delete($product->image);
+            /** @var string $previousPath */
+            $previousPath = $product->image ?? '';
+
+            if (Storage::disk('public')->exists($previousPath)) {
+                Storage::disk('public')->delete($previousPath);
             }
 
             $filename  = time() . '.' . $request->image->extension();
