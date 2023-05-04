@@ -30,6 +30,9 @@ class Product extends Model
         'category_id',
     ];
 
+    /**
+     * @var array<string, mixed>
+     */
     protected $attributes = [
         'status' => ActiveStatus::class,
     ];
@@ -57,7 +60,7 @@ class Product extends Model
         $this->status->handle();
     }
 
-    public function getStatusAttribute($status)
+    public function getStatusAttribute(string $status): mixed
     {
         return new $status($this);
     }
@@ -67,11 +70,17 @@ class Product extends Model
         return 'slug';
     }
 
+    /**
+     * @return BelongsTo<Category,Product>
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    /**
+     * @param Builder<User> $query
+     */
     public function scopeActive(Builder $query): void
     {
         $query->where('status', ActiveStatus::class);

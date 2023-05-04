@@ -3,15 +3,16 @@
 namespace App\QueryFilters;
 
 use Closure;
+use Illuminate\Contracts\Database\Query\Builder;
 
 class NameFilter
 {
-    public function handle($request, Closure $next)
+    public function handle(Builder $builder, Closure $next): Builder
     {
         if (! request()->has('name')) {
-            return $next($request);
+            return $next($builder);
         }
 
-        return $next($request)->where('name', 'like', '%'.request()->input('name').'%');
+        return $next($builder)->where('name', 'like', '%'.request()->input('name').'%');
     }
 }

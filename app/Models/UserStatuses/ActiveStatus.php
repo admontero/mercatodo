@@ -7,7 +7,7 @@ use App\Models\User;
 
 class ActiveStatus implements StateInterface
 {
-    private $user;
+    private User $user;
 
     public function __construct(User $user)
     {
@@ -24,7 +24,7 @@ class ActiveStatus implements StateInterface
         $this->nextStatus(InactiveStatus::class)->save();
     }
 
-    private function nextStatus($status): User
+    private function nextStatus(string $status): User
     {
         return tap($this->user, function ($user) use ($status) {
             $user->status = $status;

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -16,7 +17,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): ProductCollection
     {
         $this->authorize('view-any', new Product());
 
@@ -33,16 +34,15 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request)
+    public function store(StoreProductRequest $request): JsonResponse
     {
         $this->authorize('create', new Product());
 
         $dataVal = $request->validated();
 
-        $filename  = time() . '.' . $request->file('image')->getClientOriginalExtension();
+        $filename = time() . '.' . $request->image->extension();
 
-        $image = $request->file('image')
-            ->storeAs('products', $filename, 'public');
+        $image = $request->image->storeAs('products', $filename, 'public');
 
         Image::make(Storage::disk('public')->path($image))
             ->resize(640, 480, function ($constraint) {
@@ -67,7 +67,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(Product $product): JsonResponse
     {
         $product->load('category');
 
@@ -77,7 +77,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product): JsonResponse
     {
         $this->authorize('update', new Product());
 
@@ -89,10 +89,9 @@ class ProductController extends Controller
                 Storage::disk('public')->delete($product->image);
             }
 
-            $filename  = time() . '.' . $request->file('image')->getClientOriginalExtension();
+            $filename  = time() . '.' . $request->image->extension();
 
-            $image = $request->file('image')
-                ->storeAs('products', $filename, 'public');
+            $image = $request->image->storeAs('products', $filename, 'public');
 
             Image::make(Storage::disk('public')->path($image))
                 ->resize(640, 480, function ($constraint) {

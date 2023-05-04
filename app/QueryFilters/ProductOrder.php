@@ -3,13 +3,14 @@
 namespace App\QueryFilters;
 
 use Closure;
+use Illuminate\Contracts\Database\Query\Builder;
 
 class ProductOrder
 {
-    public function handle($request, Closure $next)
+    public function handle(Builder $query, Closure $next): Builder
     {
         if (! request()->has('order')) {
-            return $next($request)->latest();
+            return $next($query)->latest();
         }
 
         switch (request()->input('order')) {
@@ -34,6 +35,6 @@ class ProductOrder
                 break;
         }
 
-        return $next($request)->orderBy($field, $sort);
+        return $next($query)->orderBy($field, $sort);
     }
 }

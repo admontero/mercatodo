@@ -7,7 +7,7 @@ use App\Models\Product;
 
 class InactiveStatus implements StateInterface
 {
-    private $product;
+    private Product $product;
 
     public function __construct(Product $product)
     {
@@ -24,7 +24,7 @@ class InactiveStatus implements StateInterface
         $this->nextStatus(ActiveStatus::class)->save();
     }
 
-    private function nextStatus($status): Product
+    private function nextStatus(string $status): Product
     {
         return tap($this->product, function ($product) use ($status) {
             $product->status = $status;
