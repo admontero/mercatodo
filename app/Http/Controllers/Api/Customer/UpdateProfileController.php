@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCustomerProfileRequest;
 use App\Http\Resources\CustomerResource;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UpdateProfileController extends Controller
@@ -13,7 +14,7 @@ class UpdateProfileController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(UpdateCustomerProfileRequest $request, User $user)
+    public function __invoke(UpdateCustomerProfileRequest $request, User $user): JsonResponse
     {
         $this->authorize('update-customer-profile', $user);
 

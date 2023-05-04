@@ -7,13 +7,14 @@ use App\Http\Requests\UpdateCustomerRequest;
 use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 
 class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): CustomerCollection
     {
         $this->authorize('view-any-customer', new User());
 
@@ -29,7 +30,7 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(User $user): JsonResponse
     {
         $this->authorize('view-customer', $user);
 
@@ -39,7 +40,7 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCustomerRequest $request, User $user)
+    public function update(UpdateCustomerRequest $request, User $user): JsonResponse
     {
         $this->authorize('update-customer', $user);
 

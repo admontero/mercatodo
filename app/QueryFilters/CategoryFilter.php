@@ -3,15 +3,16 @@
 namespace App\QueryFilters;
 
 use Closure;
+use Illuminate\Contracts\Database\Query\Builder;
 
 class CategoryFilter
 {
-    public function handle($request, Closure $next)
+    public function handle(Builder $query, Closure $next): Builder
     {
         if (! request()->has('categoryId')) {
-            return $next($request);
+            return $next($query);
         }
 
-        return $next($request)->where('category_id', request()->input('categoryId'));
+        return $next($query)->where('category_id', request()->input('categoryId'));
     }
 }

@@ -20,6 +20,9 @@ class CustomerProfile extends Model
         'cell_phone',
     ];
 
+    /**
+     * @return MorphOne<User>
+     */
     public function user(): MorphOne
     {
         return $this->morphOne(User::class, 'profileable');

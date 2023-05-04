@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\CustomerProfile;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -12,7 +13,7 @@ use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'first_name' => ['required', 'string', 'max:60'],
@@ -54,7 +55,7 @@ class AuthController extends Controller
         return response()->json(['token' => $token], 200);
     }
 
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $credentials = [
             'email' => $request->email,
@@ -70,11 +71,11 @@ class AuthController extends Controller
         }
     }
 
-    public function logout()
+    public function logout(): JsonResponse
     {
-        $token = auth()->user()->token();
-
-        $token->revoke();
+        auth()->user()->tokens->each(function ($token, $key) {
+            $token->delete();
+        });
 
         return response()->json(['success' => 'Logout Succesfully']);
     }

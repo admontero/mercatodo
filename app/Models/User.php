@@ -48,12 +48,21 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @var array<string, mixed>
+     */
     protected $attributes = [
         'status' => ActiveStatus::class,
     ];
 
+    /**
+     * @var array<int, string>
+     */
     protected $with = ['profileable'];
 
+    /**
+     * @var string
+     */
     protected $guard_name = 'api';
 
     protected static function booted(): void
@@ -68,11 +77,14 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->status->handle();
     }
 
-    public function getStatusAttribute($status)
+    public function getStatusAttribute(string $status): mixed
     {
         return new $status($this);
     }
 
+    /**
+     * @return MorphTo<\Illuminate\Database\Eloquent\Model,User>
+     */
     public function profileable(): MorphTo
     {
         return $this->morphTo();
