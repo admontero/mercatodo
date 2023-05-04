@@ -73,7 +73,7 @@ class AuthController extends Controller
 
     public function logout(): JsonResponse
     {
-        auth()->user()->tokens->each(function($token, $key) {
+        auth()->user()->tokens->each(function ($token, $key) {
             $token->delete();
         });
 

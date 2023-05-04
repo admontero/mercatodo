@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Contracts\StateInterface;
 use App\Models\UserStatuses\ActiveStatus;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Database\Eloquent\Builder;
