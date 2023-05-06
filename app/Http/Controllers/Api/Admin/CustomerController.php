@@ -15,7 +15,8 @@ class CustomerController extends Controller
 {
     public function __construct(
         protected UserService $userService
-    ) {}
+    ) {
+    }
 
     /**
      * Display a listing of the resource.

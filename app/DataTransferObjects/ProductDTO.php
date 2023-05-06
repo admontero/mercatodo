@@ -15,7 +15,8 @@ class ProductDTO
         public readonly int $stock,
         public readonly int $category_id,
         public readonly ?string $image,
-    ) {}
+    ) {
+    }
 
     public static function fromStoreRequest(StoreProductRequest $request, ?string $image): ProductDTO
     {

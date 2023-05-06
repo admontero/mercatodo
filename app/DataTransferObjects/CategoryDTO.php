@@ -9,7 +9,8 @@ class CategoryDTO
 {
     public function __construct(
         public readonly string $name,
-    ) {}
+    ) {
+    }
 
     public static function fromStoreRequest(StoreCategoryRequest $request): CategoryDTO
     {

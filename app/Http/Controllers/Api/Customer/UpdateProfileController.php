@@ -15,7 +15,8 @@ class UpdateProfileController extends Controller
 {
     public function __construct(
         protected UserService $userService,
-    ) {}
+    ) {
+    }
 
     /**
      * Handle the incoming request.

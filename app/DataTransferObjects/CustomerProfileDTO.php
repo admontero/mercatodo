@@ -16,7 +16,8 @@ class CustomerProfileDTO
         public readonly ?string $address,
         public readonly ?string $phone,
         public readonly ?string $cell_phone,
-    ) {}
+    ) {
+    }
 
     public static function fromHttpRequest(Request $request): CustomerProfileDTO
     {
