@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\DataTransferObjects\ProductDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
+    public function __construct(
+        protected ProductService $service
+    ) {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -38,28 +43,11 @@ class ProductController extends Controller
     {
         $this->authorize('create', new Product());
 
-        $dataVal = $request->validated();
+        $image = $this->service->uploadImage($request);
 
-        $filename = time() . '.' . $request->image->extension();
-
-        $image = $request->image->storeAs('products', $filename, 'public');
-
-        Image::make(Storage::disk('public')->path($image))
-            ->resize(640, 480, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->resizeCanvas(640, 480)
-            ->save();
-
-        $product = Product::create([
-            'name' => $dataVal['name'],
-            'code' => $dataVal['code'],
-            'price' => $dataVal['price'],
-            'stock' => $dataVal['stock'] ?? 0,
-            'description' => $dataVal['description'] ?? null,
-            'category_id' => $dataVal['category_id'],
-            'image' => $image,
-        ]);
+        $product = $this->service->createProduct(
+            ProductDTO::fromStoreRequest($request, $image)
+        );
 
         return response()->json(new ProductResource($product), 201);
     }
@@ -81,38 +69,12 @@ class ProductController extends Controller
     {
         $this->authorize('update', new Product());
 
-        $dataVal = $request->validated();
+        $image = $this->service->uploadImage($request);
 
-        if ($request->file('image')) {
-
-            /** @var string $previousPath */
-            $previousPath = $product->image ?? '';
-
-            if (Storage::disk('public')->exists($previousPath)) {
-                Storage::disk('public')->delete($previousPath);
-            }
-
-            $filename  = time() . '.' . $request->image->extension();
-
-            $image = $request->image->storeAs('products', $filename, 'public');
-
-            Image::make(Storage::disk('public')->path($image))
-                ->resize(640, 480, function ($constraint) {
-                    $constraint->aspectRatio();
-                })
-                ->resizeCanvas(640, 480)
-                ->save();
-        }
-
-        $product->update([
-            'name' => $dataVal['name'],
-            'code' => $dataVal['code'],
-            'price' => $dataVal['price'],
-            'stock' => $dataVal['stock'] ?? 0,
-            'description' => $dataVal['description'] ?? '',
-            'category_id' => $dataVal['category_id'],
-            'image' => isset($image) ? $image : $product->image,
-        ]);
+        $product = $this->service->updateProduct(
+            ProductDTO::fromUpdateRequest($request, $image),
+            $product,
+        );
 
         return response()->json(new ProductResource($product), 201);
     }

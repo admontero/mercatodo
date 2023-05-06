@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\DataTransferObjects\CategoryDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Services\CategoryService;
 use Illuminate\Http\JsonResponse;
 
 class CategoryController extends Controller
 {
+    public function __construct(
+        protected CategoryService $categoryService
+    ) {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -35,9 +42,7 @@ class CategoryController extends Controller
     {
         $this->authorize('create', new Category());
 
-        $dataVal = $request->validated();
-
-        $category = Category::create($dataVal);
+        $category = $this->categoryService->store(CategoryDTO::fromStoreRequest($request));
 
         return response()->json(new CategoryResource($category), 201);
     }
@@ -59,9 +64,7 @@ class CategoryController extends Controller
     {
         $this->authorize('update', $category);
 
-        $dataVal = $request->validated();
-
-        $category->update($dataVal);
+        $this->categoryService->update(CategoryDTO::fromUpdateRequest($request), $category);
 
         return response()->json(new CategoryResource($category), 201);
     }

@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DataTransferObjects\CustomerProfileDTO;
+use App\DataTransferObjects\UserDTO;
 use App\Http\Controllers\Controller;
-use App\Models\CustomerProfile;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
+    public function __construct(
+        protected UserService $userService,
+    ) {
+    }
+
     public function register(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -36,19 +42,16 @@ class AuthController extends Controller
             ], 422);
         }
 
-        $user = User::create([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $user = $this->userService->createUser(
+            UserDTO::fromHttpRequest($request)
+        );
 
-        $profile = CustomerProfile::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-        ]);
+        $this->userService->createCustomerProfile(
+            CustomerProfileDTO::fromHttpRequest($request),
+            $user
+        );
 
-        $profile->user()->save($user);
-
-        $user->assignRole('customer');
+        $this->userService->assignRole($user, 'customer');
 
         $token = $user->createToken('Token')->accessToken;
 

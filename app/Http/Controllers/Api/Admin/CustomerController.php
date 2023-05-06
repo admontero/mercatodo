@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\DataTransferObjects\CustomerProfileDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 
 class CustomerController extends Controller
 {
+    public function __construct(
+        protected UserService $userService
+    ) {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -44,17 +51,10 @@ class CustomerController extends Controller
     {
         $this->authorize('update-customer', $user);
 
-        $dataVal = $request->validated();
-
-        $user->profileable()->update([
-            'first_name' => $dataVal['first_name'],
-            'last_name' => $dataVal['last_name'],
-            'document_type' => $dataVal['document_type'] ?? null,
-            'document' => $dataVal['document'] ?? null,
-            'address' => $dataVal['address'] ?? null,
-            'phone' => $dataVal['phone'] ?? null,
-            'cell_phone' => $dataVal['cell_phone'] ?? null,
-        ]);
+        $user = $this->userService->updateCustomerProfile(
+            CustomerProfileDTO::fromUpdateCustomerRequest($request),
+            $user,
+        );
 
         return response()->json(new CustomerResource($user), 201);
     }
