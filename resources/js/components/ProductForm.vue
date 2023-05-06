@@ -240,7 +240,7 @@
                 if (this.product.name) formData.append('name', this.product.name);
                 if (this.product.code) formData.append('code', this.product.code);
                 if (this.product.price) formData.append('price', this.product.price);
-                if (!isNaN(this.product.stock)) formData.append('stock', this.product.stock);
+                if (this.product.stock) formData.append('stock', this.product.stock);
                 if (this.product.category_id) formData.append('category_id', this.product.category_id);
                 if (this.product.description) formData.append('description', this.product.description);
                 if (this.product.image) formData.append('image', this.product.image);

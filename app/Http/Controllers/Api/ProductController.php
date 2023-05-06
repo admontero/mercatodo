@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductCollection;
 use App\Models\Product;
-use App\QueryFilters\CategoryFilter;
-use App\QueryFilters\NameFilter;
-use App\QueryFilters\PriceFilter;
-use App\QueryFilters\ProductOrder;
+use App\Filters\CategoryFilter;
+use App\Filters\NameFilter;
+use App\Filters\PriceFilter;
+use App\Filters\ProductOrder;
 use Illuminate\Pipeline\Pipeline;
 
 class ProductController extends Controller

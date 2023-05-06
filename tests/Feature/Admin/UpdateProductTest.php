@@ -60,7 +60,7 @@ class UpdateProductTest extends TestCase
         $this->assertDatabaseHas('products', [
             'name' => 'Pista Hot Wheels',
             'code' => 'PHW-23423',
-            'description' => '',
+            'description' => null,
             'price' => 159999,
             'category_id' => $categoryNew->id,
         ]);
