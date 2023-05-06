@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\QueryFilters;
+namespace Tests\Unit\Filters;
 
 use App\Models\Category;
 use App\Models\Product;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\QueryFilters;
+namespace App\Filters;
 
 use Closure;
 use Illuminate\Contracts\Database\Query\Builder;
