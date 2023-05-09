@@ -1,126 +1,154 @@
 <template>
-    <form class="my-4" @submit.prevent="submit" enctype="multipart/form-data" v-if="!loading">
-        <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
-            <div class="col">
-                <label for="name" class="form-label">{{ $t('Name') }}</label>
-                <input
-                    :class="{'form-control' : !this.errors?.name, 'form-control is-invalid' : this.errors?.name }"
-                    type="text"
-                    aria-label="Name"
-                    name="name"
-                    id="name"
-                    v-model="product.name"
-                >
-                <span class="invalid-feedback" role="alert" v-if="this.errors?.name">
-                    <strong>{{ this.errors.name[0] }}</strong>
-                </span>
-            </div>
-            <div class="col">
-                <label for="code" class="form-label">{{ $t('Code') }}</label>
-                <input
-                    :class="{'form-control' : !this.errors?.code, 'form-control is-invalid' : this.errors?.code }"
-                    type="text"
-                    aria-label="Code"
-                    name="code"
-                    id="code"
-                    v-model="product.code"
-                >
-                <span class="invalid-feedback" role="alert" v-if="this.errors?.code">
-                    <strong>{{ this.errors.code[0] }}</strong>
-                </span>
+    <div class="row">
+        <div class="col-lg-8">
+            <form class="my-4" @submit.prevent="submit" enctype="multipart/form-data" v-if="!loading">
+                <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
+                    <div class="col">
+                        <label for="name" class="form-label">{{ $t('Name') }}</label>
+                        <input
+                            :class="{'form-control' : !this.errors?.name, 'form-control is-invalid' : this.errors?.name }"
+                            type="text"
+                            aria-label="Name"
+                            name="name"
+                            id="name"
+                            v-model="product.name"
+                        >
+                        <span class="invalid-feedback" role="alert" v-if="this.errors?.name">
+                            <strong>{{ this.errors.name[0] }}</strong>
+                        </span>
+                    </div>
+                    <div class="col">
+                        <label for="code" class="form-label">{{ $t('Code') }}</label>
+                        <input
+                            :class="{'form-control' : !this.errors?.code, 'form-control is-invalid' : this.errors?.code }"
+                            type="text"
+                            aria-label="Code"
+                            name="code"
+                            id="code"
+                            v-model="product.code"
+                        >
+                        <span class="invalid-feedback" role="alert" v-if="this.errors?.code">
+                            <strong>{{ this.errors.code[0] }}</strong>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
+                    <div class="col">
+                        <label for="price" class="form-label">{{ $t('Price') }}</label>
+                        <input
+                            :class="{'form-control' : !this.errors?.price, 'form-control is-invalid' : this.errors?.price }"
+                            type="text"
+                            aria-label="Price"
+                            name="price"
+                            id="price"
+                            v-model="product.price"
+                        >
+                        <span class="invalid-feedback" role="alert" v-if="this.errors?.price">
+                            <strong>{{ this.errors.price[0] }}</strong>
+                        </span>
+                    </div>
+                    <div class="col">
+                        <label for="category" class="form-label">{{ $t('Category') }}</label>
+                        <model-select
+                            :options="categories"
+                            v-model="category"
+                            :is-error="!!this.errors?.category_id"
+                            placeholder="Buscar categoría"
+                        ></model-select>
+                        <span class="text-danger small" role="alert" v-if="this.errors?.category_id">
+                            <strong>{{ this.errors.category_id[0] }}</strong>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
+                    <div class="col">
+                        <label for="stock" class="form-label">{{ $t('Stock') }}</label>
+                        <input
+                            :class="{'form-control' : !this.errors?.stock, 'form-control is-invalid' : this.errors?.stock }"
+                            type="number"
+                            aria-label="Stock"
+                            name="stock"
+                            id="stock"
+                            v-model="product.stock"
+                        >
+                        <span class="invalid-feedback" role="alert" v-if="this.errors?.stock">
+                            <strong>{{ this.errors.stock[0] }}</strong>
+                        </span>
+                    </div>
+                    <div class="col">
+                        <label for="image" class="form-label">
+                            {{ $t('Image') }}
+                            <small class="text-muted">({{ $t('minimun dimensions') }} 640x480)</small>
+                        </label>
+                        <input
+                            :class="{'form-control' : !this.errors?.image, 'form-control is-invalid' : this.errors?.image }"
+                            accept="image/*"
+                            type="file"
+                            aria-label="Image"
+                            name="image"
+                            id="image"
+                            ref="inputFile"
+                            @change="onFileChange($event)"
+                        >
+                        <span class="text-danger small" role="alert" v-if="this.errors?.image">
+                            <strong>{{ this.errors.image[0] }}</strong>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center d-lg-none mb-3">
+                    <template v-if="preview">
+                        <img :src="preview" class="img-fluid" width="280" height="280">
+                    </template>
+                    <template v-else>
+                        <p class="text-center text-muted">
+                            {{ $t('No image attached.') }}
+                        </p>
+                    </template>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="description" class="form-label">{{ $t('Description') }}</label>
+                        <textarea
+                            :class="{'form-control' : !this.errors?.description, 'form-control is-invalid' : this.errors?.description }"
+                            aria-label="Description"
+                            name="description"
+                            id="description"
+                            rows="3"
+                            v-model="product.description"
+                        ></textarea>
+                        <span class="text-danger small" role="alert" v-if="this.errors?.description">
+                            <strong>{{ this.errors.description[0] }}</strong>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">
+                        {{ $t('Save') }}
+                    </button>
+                </div>
+            </form>
+            <div class="row" v-else>
+                <div class="col d-flex justify-content-center align-items-center">
+                    <div class="spinner-border text-primary mt-4" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
-            <div class="col">
-                <label for="price" class="form-label">{{ $t('Price') }}</label>
-                <input
-                    :class="{'form-control' : !this.errors?.price, 'form-control is-invalid' : this.errors?.price }"
-                    type="text"
-                    aria-label="Price"
-                    name="price"
-                    id="price"
-                    v-model="product.price"
-                >
-                <span class="invalid-feedback" role="alert" v-if="this.errors?.price">
-                    <strong>{{ this.errors.price[0] }}</strong>
-                </span>
-            </div>
-            <div class="col">
-                <label for="category" class="form-label">{{ $t('Category') }}</label>
-                <model-select
-                    :options="categories"
-                    v-model="category"
-                    :is-error="!!this.errors?.category_id"
-                    placeholder="Buscar categoría"
-                ></model-select>
-                <span class="text-danger small" role="alert" v-if="this.errors?.category_id">
-                    <strong>{{ this.errors.category_id[0] }}</strong>
-                </span>
-            </div>
-        </div>
-
-        <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
-            <div class="col">
-                <label for="stock" class="form-label">{{ $t('Stock') }}</label>
-                <input
-                    :class="{'form-control' : !this.errors?.stock, 'form-control is-invalid' : this.errors?.stock }"
-                    type="number"
-                    aria-label="Stock"
-                    name="stock"
-                    id="stock"
-                    v-model="product.stock"
-                >
-                <span class="invalid-feedback" role="alert" v-if="this.errors?.stock">
-                    <strong>{{ this.errors.stock[0] }}</strong>
-                </span>
-            </div>
-            <div class="col">
-                <label for="image" class="form-label">{{ $t('Image') }}</label>
-                <input
-                    :class="{'form-control' : !this.errors?.image, 'form-control is-invalid' : this.errors?.image }"
-                    type="file"
-                    aria-label="Image"
-                    name="image"
-                    id="image"
-                    ref="inputFile"
-                    @change="onFileChange($event)"
-                >
-                <span class="text-danger small" role="alert" v-if="this.errors?.image">
-                    <strong>{{ this.errors.image[0] }}</strong>
-                </span>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col">
-                <label for="description" class="form-label">{{ $t('Description') }}</label>
-                <textarea
-                    :class="{'form-control' : !this.errors?.description, 'form-control is-invalid' : this.errors?.description }"
-                    aria-label="Description"
-                    name="description"
-                    id="description"
-                    rows="3"
-                    v-model="product.description"
-                ></textarea>
-                <span class="text-danger small" role="alert" v-if="this.errors?.description">
-                    <strong>{{ this.errors.description[0] }}</strong>
-                </span>
-            </div>
-        </div>
-
-
-        <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary">
-                {{ $t('Save') }}
-            </button>
-        </div>
-    </form>
-    <div class="row" v-else>
-        <div class="col d-flex justify-content-center align-items-center">
-            <div class="spinner-border text-primary mt-4" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
+        <div class="col-lg-4 align-self-center d-none d-lg-block">
+            <template v-if="preview">
+                <img :src="preview" class="img-fluid">
+            </template>
+            <template v-else>
+                <p class="text-center text-muted">
+                    {{ $t('No image attached.') }}
+                </p>
+            </template>
         </div>
     </div>
 </template>
@@ -154,6 +182,7 @@
                 },
                 errors: [],
                 image: null,
+                preview: null,
                 loading: false,
             }
         },
@@ -194,6 +223,7 @@
                             text: '',
                         },
                         this.image = null
+                        this.preview = null
                         this.$refs.inputFile.value = null
                     }
 
@@ -233,7 +263,20 @@
                     })
             },
             onFileChange(event) {
-                this.product.image = event.target.files[0];
+                var input = event.target;
+                if (input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.preview = e.target.result;
+                    }
+                    this.product.image = event.target.files[0];
+                    reader.readAsDataURL(input.files[0]);
+
+                    return ;
+                }
+
+                this.image = null
+                this.preview = null
             },
             getFormData(method) {
                 const formData = new FormData();
@@ -252,7 +295,7 @@
         watch: {
             category(newCat) {
                 this.product.category_id = newCat.value;
-            }
+            },
         }
     }
 </script>

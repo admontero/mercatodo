@@ -90,5 +90,21 @@
     "Product created": "Producto creado",
     "Product updated": "Producto actualizado",
     "Add to Cart": "Agregar a Carrito",
-    "Logs": "Registros"
+    "Logs": "Registros",
+    "minimun dimensions": "dimensiones mínimas",
+    "No image attached.": "Sin imagen adjuntada.",
+    "By price": "Por precio",
+    "Reset Search": "Reiniciar Búsqueda",
+    "Results": "Resultados",
+    "Search by category": "Búsqueda por categoría",
+    "Search by name": "Búsqueda por nombre",
+    "Newest": "Más recientes",
+    "Oldest": "Más antiguos",
+    "Highest price first": "Mayor precio primero",
+    "Lowest price first": "Menor precio primero",
+    "Load more": "Cargar más",
+    "No more products available": "No hay más productos disponibles",
+    "There are no products matching your search": "No hay productos que coincidan con su búsqueda",
+    "There are no products to display": "No hay productos para mostrar",
+    "No description available": "Sin descripción disponible"
 }

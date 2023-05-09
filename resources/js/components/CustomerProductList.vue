@@ -2,14 +2,14 @@
     <div class="px-lg-4">
         <div class="row g-3">
             <div class="col-md-3">
-                <h4 class="py-1">Productos</h4>
+                <h4 class="py-1">{{ $t('Products') }}</h4>
 
                 <hr class="d-none d-md-block py-1">
 
                 <input
                     class="form-control mb-3"
                     type="search"
-                    placeholder="Búsqueda por nombre"
+                    :placeholder="$t('Search by name')"
                     v-model="filters.name"
                 >
 
@@ -17,12 +17,12 @@
                     class="mb-3"
                     :options="categories"
                     v-model="category"
-                    placeholder="Búsqueda por categoría"
+                    :placeholder="$t('Search by category')"
                 ></model-select>
 
                 <div v-if="sliderEnabled">
                     <p class="text-muted">
-                        <small class="mb-3">Por Precio:</small>
+                        <small class="mb-3">{{ $t('By price') }}:</small>
                     </p>
 
                     <Slider
@@ -41,7 +41,7 @@
                         type="button"
                         @click="resetFilters"
                     >
-                        Reiniciar Búsqueda
+                        {{ $t('Reset Search') }}
                     </button>
                 </div>
             </div>
@@ -51,15 +51,15 @@
                         <div>
                             <p>
                                 <span class="text-primary">{{ total }}</span>
-                                Resultados
+                                {{ $t('Results') }}
                             </p>
                         </div>
                         <div>
                             <select class="form-select mb-3" v-model="filters.order">
-                                <option value="" selected>Más recientes</option>
-                                <option value="orderByOldest">Más antiguos</option>
-                                <option value="orderByPriceDESC">Mayor precio primero</option>
-                                <option value="orderByPriceASC">Menor precio primero</option>
+                                <option value="" selected>{{ $t('Newest') }}</option>
+                                <option value="orderByOldest">{{ $t('Oldest') }}</option>
+                                <option value="orderByPriceDESC">{{ $t('Highest price first') }}</option>
+                                <option value="orderByPriceASC">{{ $t('Lowest price first') }}</option>
                             </select>
                         </div>
                     </div>
@@ -72,18 +72,18 @@
                             ></customer-product-list-item>
                         </div>
                         <div class="d-flex justify-content-center align-items-center" v-if="moreExists">
-                            <button class="btn btn-dark" @click="loadMore">Cargar más...</button>
+                            <button class="btn btn-dark" @click="loadMore">{{ $t('Load more') }}...</button>
                         </div>
                         <div class="d-flex justify-content-center align-items-center" v-else-if="!moreExists && !loading">
-                            <p class="fw-semibold">No hay más productos disponibles.</p>
+                            <p class="fw-semibold">{{ $t('No more products available') }}.</p>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center align-items-center" v-else-if="total === 0 && !loading">
                         <p class="fw-semibold" v-if="queryString">
-                            No hay productos que coincidan con su búsqueda.
+                            {{ $t('There are no products matching your search') }}.
                         </p>
                         <p class="fw-semibold" v-else>
-                            No hay productos para mostrar.
+                            {{ $t('There are no products to display') }}.
                         </p>
                     </div>
                 </div>
