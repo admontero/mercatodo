@@ -7,7 +7,7 @@
                 <p class="small text-muted text-truncate">
                     <span v-if="!!product.description">{{ product.description }}</span>
                     <span class="fst-italic" v-else>
-                        --Sin descripción disponible--
+                        --{{ $t('No description available') }}--
                     </span>
                 </p>
             </div>
