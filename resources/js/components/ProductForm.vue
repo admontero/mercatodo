@@ -1,7 +1,7 @@
 <template>
-    <div class="row">
+    <div class="row" v-if="!loading">
         <div class="col-lg-8">
-            <form class="my-4" @submit.prevent="submit" enctype="multipart/form-data" v-if="!loading">
+            <form class="my-4" @submit.prevent="submit" enctype="multipart/form-data">
                 <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
                     <div class="col">
                         <label for="name" class="form-label">{{ $t('Name') }}</label>
@@ -132,13 +132,6 @@
                     </button>
                 </div>
             </form>
-            <div class="row" v-else>
-                <div class="col d-flex justify-content-center align-items-center">
-                    <div class="spinner-border text-primary mt-4" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="col-lg-4 align-self-center d-none d-lg-block">
             <template v-if="preview">
@@ -149,6 +142,13 @@
                     {{ $t('No image attached.') }}
                 </p>
             </template>
+        </div>
+    </div>
+    <div class="row" v-else>
+        <div class="col d-flex justify-content-center align-items-center">
+            <div class="spinner-border text-primary mt-4" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
     </div>
 </template>
