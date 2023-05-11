@@ -186,6 +186,10 @@
                 this.filters.maxPrice = value[1]
             },
             debouncedGetProducts: _.debounce(function () {
+                this.loading = true
+                this.page = 1
+                this.products = []
+                this.moreExists = false
                 this.getProducts()
             }, 500),
             loadMore() {
@@ -234,10 +238,6 @@
         watch: {
             filters: {
                 handler: function (){
-                    this.loading = true
-                    this.page = 1
-                    this.products = []
-                    this.moreExists = false
                     this.debouncedGetProducts()
                 },
                 deep: true
