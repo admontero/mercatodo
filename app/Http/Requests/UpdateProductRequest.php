@@ -28,7 +28,7 @@ class UpdateProductRequest extends FormRequest
             'description' => 'nullable|string|min:10',
             'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
             'stock' => 'nullable|numeric|gte:0',
-            'image' => 'nullable|image|dimensions:min_width=640,min_height=480',
+            'image' => 'nullable|image|dimensions:min_width=640,min_height=480|max:2048',
             'category_id' => 'required|numeric|exists:categories,id',
         ];
     }

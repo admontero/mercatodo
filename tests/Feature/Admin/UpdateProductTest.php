@@ -439,6 +439,27 @@ class UpdateProductTest extends TestCase
     /**
      * @test
      */
+    public function product_image_weight_cannot_be_greater_than_2_mb_if_you_want_updated_it(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $product = Product::factory()->create($this->getProductValidData());
+
+        $data = $this->getProductValidData([
+            'image' => UploadedFile::fake()->image('image.jpg', 640, 480)->size(4096),
+        ]);
+
+        Passport::actingAs($admin);
+
+        $response = $this->putJson(route('api.admin.products.update', $product), $data);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrorFor('image');
+    }
+
+    /**
+     * @test
+     */
     public function product_category_id_must_be_required_if_you_want_updated_it(): void
     {
         $admin = User::factory()->admin()->create();

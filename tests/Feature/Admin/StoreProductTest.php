@@ -407,6 +407,25 @@ class StoreProductTest extends TestCase
     /**
      * @test
      */
+    public function product_image_weight_cannot_be_greater_than_2_mb(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $data = $this->getProductValidData([
+            'image' => UploadedFile::fake()->image('image.jpg', 640, 480)->size(4096),
+        ]);
+
+        Passport::actingAs($admin);
+
+        $response = $this->postJson(route('api.admin.products.store'), $data);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrorFor('image');
+    }
+
+    /**
+     * @test
+     */
     public function product_category_id_must_be_required(): void
     {
         $admin = User::factory()->admin()->create();
