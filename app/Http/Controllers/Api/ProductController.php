@@ -18,10 +18,9 @@ class ProductController extends Controller
      */
     public function index(): ProductCollection
     {
-        $query = Product::with('category')->active();
-
-        $items = app(Pipeline::class)
-            ->send($query)
+        return new ProductCollection(
+            app(Pipeline::class)
+            ->send(Product::with('category')->active())
             ->through([
                 NameFilter::class,
                 CategoryFilter::class,
@@ -29,10 +28,7 @@ class ProductController extends Controller
                 ProductOrder::class,
             ])
             ->thenReturn()
-            ->paginate(15);
-
-        $products = new ProductCollection($items);
-
-        return $products;
+            ->paginate(15)
+        );
     }
 }

@@ -30,12 +30,14 @@ Route::group(['middleware' => ['auth:api']], function () {
 /** */
 
 /** Rutas públicas de productos */
-Route::get('/products', [App\Http\Controllers\Api\ProductController::class, 'index'])
-    ->name('api.products.index');
-Route::get('/products/price-range', App\Http\Controllers\Api\ProductPriceRangeController::class)
-    ->name('api.products.range-price');
-Route::get('/products/categories', App\Http\Controllers\Api\ProductCategoryController::class)
-    ->name('api.products.categories');
+Route::group(['middleware' => ['cache_product']], function () {
+    Route::get('/products', [App\Http\Controllers\Api\ProductController::class, 'index'])
+        ->name('api.products.index');
+    Route::get('/products/price-range', App\Http\Controllers\Api\ProductPriceRangeController::class)
+        ->name('api.products.range-price');
+    Route::get('/products/categories', App\Http\Controllers\Api\ProductCategoryController::class)
+        ->name('api.products.categories');
+});
 /** */
 
 /** Rutas protegidas del Administrador */
