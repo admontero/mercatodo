@@ -3,6 +3,11 @@
         <div class="bg-white rounded shadow-sm">
             <img :src="imageUrl" :alt="`${product.name}'s image'`" class="img-fluid card-img-top">
             <div class="px-4 pt-3">
+                <div class="d-flex justify-content-end align-items-center mb-2">
+                    <span class="badge bg-light text-uppercase fw-light text-truncate">
+                        {{ product.category.name }}
+                    </span>
+                </div>
                 <h6 class="text-truncate">{{ product.name }}</h6>
                 <p class="small text-muted text-truncate">
                     <span v-if="!!product.description">{{ product.description }}</span>
@@ -16,7 +21,13 @@
             </div>
             <div class="px-4 pb-3 pt-2">
                 <div class="d-grid gap-2">
-                    <a class="btn btn-primary btn-sm">{{ $t('Add to Cart') }}</a>
+                    <button
+                        class="btn btn-primary btn-sm"
+                        @click="addToCart(product)"
+                        :disabled="stockEmpty"
+                    >
+                        {{ $t('Add to Cart') }}
+                    </button>
                 </div>
             </div>
         </div>
@@ -50,6 +61,9 @@
                     icon: true,
                     rtl: false
                 });
+            },
+            addToCart(product) {
+                this.$store.commit('addToCart', product);
             }
         },
         computed: {
@@ -60,6 +74,13 @@
                 if (this.product.image) return 'storage/' + this.product.image
 
                 return 'https://picsum.photos/640/480';
+            },
+            stockEmpty() {
+                if (this.product.stock > 0) {
+                    return false
+                }
+
+                return true
             }
         }
     }
