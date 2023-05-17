@@ -88,6 +88,10 @@
                                     </form>
                                 </div>
                             </li>
+
+                            @role('customer')
+                                <cart-dropdown></cart-dropdown>
+                            @endrole
                         @endguest
                     </ul>
                 </div>
@@ -95,6 +99,7 @@
         </nav>
 
         <main class="py-4">
+            <cart-off-canvas></cart-off-canvas>
             @yield('content')
         </main>
     </div>

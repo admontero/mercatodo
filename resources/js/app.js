@@ -13,6 +13,10 @@ import CategoryForm from '@/components/CategoryForm.vue';
 import CustomerProductList from '@/components/CustomerProductList.vue';
 import AdminProductList from '@/components/AdminProductList.vue';
 import ProductForm from '@/components/ProductForm.vue';
+import CartDropdown from '@/components/CartDropdown.vue';
+import CartOffCanvas from '@/components/CartOffCanvas.vue';
+
+import store from './store.js';
 
 import 'vue-toastification/dist/index.css';
 import 'vue-search-select/dist/VueSearchSelect.css'
@@ -33,8 +37,12 @@ window.app = createApp({
         CustomerProductList,
         AdminProductList,
         ProductForm,
+        CartDropdown,
+        CartOffCanvas,
     },
 });
+
+window.app.use(store);
 
 window.app.use(i18nVue, {
     resolve: async lang => {

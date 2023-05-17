@@ -47,9 +47,9 @@
             </div>
             <div class="col-md-9">
                 <div>
-                    <div class="d-md-flex justify-content-between align-items-end" v-if="total !== null">
+                    <div class="d-md-flex justify-content-between align-items-end">
                         <div>
-                            <p>
+                            <p v-if="total !== null">
                                 <span class="text-primary">{{ total }}</span>
                                 {{ $t('Results') }}
                             </p>
@@ -63,37 +63,34 @@
                             </select>
                         </div>
                     </div>
-                    <div v-if="products.length">
+                    <div>
                         <div class="row">
                             <customer-product-list-item
                                 v-for="product in products"
                                 :key="product.id"
                                 :product="product"
                             ></customer-product-list-item>
+                            <template v-if="loading">
+                                <customer-product-list-item-skeleton
+                                    v-for="i in 15"
+                                    :key="'ske-' + i"
+                                ></customer-product-list-item-skeleton>
+                            </template>
                         </div>
                         <div class="d-flex justify-content-center align-items-center" v-if="moreExists">
                             <button class="btn btn-dark" @click="loadMore">{{ $t('Load more') }}...</button>
                         </div>
-                        <div class="d-flex justify-content-center align-items-center" v-else-if="!moreExists && !loading">
+                        <div class="d-flex justify-content-center align-items-center" v-else-if="total > 0 && !moreExists && !loading">
                             <p class="fw-semibold">{{ $t('No more products available') }}.</p>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center align-items-center" v-else-if="total === 0 && !loading">
+                    <div class="d-flex justify-content-center align-items-center" v-if="total === 0 && !loading">
                         <p class="fw-semibold" v-if="queryString">
                             {{ $t('There are no products matching your search') }}.
                         </p>
                         <p class="fw-semibold" v-else>
                             {{ $t('There are no products to display') }}.
                         </p>
-                    </div>
-                </div>
-                <div
-                    v-if="loading"
-                    class="d-flex justify-content-center align-items-center"
-                    :class="{'mt-4' : total === null, '' : total }"
-                >
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
             </div>
@@ -103,6 +100,7 @@
 
 <script>
     import CustomerProductListItem from './CustomerProductListItem.vue';
+    import CustomerProductListItemSkeleton from './CustomerProductListItemSkeleton.vue';
     import Slider from '@vueform/slider'
     import { ModelSelect } from 'vue-search-select';
     import _ from 'lodash';
@@ -110,6 +108,7 @@
     export default {
         components: {
             CustomerProductListItem,
+            CustomerProductListItemSkeleton,
             ModelSelect,
             Slider,
         },
@@ -147,7 +146,7 @@
         },
         methods: {
             async getProducts() {
-                this.loading = true;
+                this.loading = true
                 await axios.get(`/api/products?page=${this.page}&${this.queryString}`)
                     .then(res => {
                         this.products = [...this.products, ...res.data.data]
@@ -214,10 +213,12 @@
                 this.page = 1
                 this.products = []
                 this.moreExists = false
+                this.loading = true
             },
         },
         computed: {
             queryString() {
+                this.loading = true
                 return Object.keys(this.filters)
                     .map(key => {
                         if (this.filters[key] || this.filters[key] === 0) {
@@ -243,7 +244,7 @@
                 deep: true
             },
             category(newCat) {
-                this.filters.categoryId = newCat.value;
+                this.filters.categoryId = newCat.value
             },
         }
     }
