@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Http\Controllers\Admin;
 
-use App\Models\Category;
-use App\Models\User;
+use Domain\Category\Models\Category;
+use Domain\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Tests\TestCase;

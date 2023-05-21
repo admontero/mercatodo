@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\User;
+use Domain\Category\Models\Category;
+use Domain\Product\Models\Product;
+use Domain\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;

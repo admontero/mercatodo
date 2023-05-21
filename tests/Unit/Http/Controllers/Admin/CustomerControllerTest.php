@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Http\Controllers\Admin;
 
-use App\Models\User;
+use Domain\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
