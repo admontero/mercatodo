@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Policies;
 
-use App\Models\User;
+use Domain\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

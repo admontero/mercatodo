@@ -2,18 +2,22 @@
 
 namespace Database\Factories;
 
-use App\Models\CustomerProfile;
-use App\Models\User;
-use App\Models\UserStatuses\ActiveStatus;
-use App\Models\UserStatuses\InactiveStatus;
+use Domain\CustomerProfile\Models\CustomerProfile;
+use Domain\User\Models\User;
+use Domain\User\States\ActiveStatus;
+use Domain\User\States\InactiveStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
 class UserFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = User::class;
+
     /**
      * Syncs role/s of user with passed role/s.
      *

@@ -2,13 +2,18 @@
 
 namespace Database\Factories;
 
+use Domain\CustomerProfile\Models\CustomerProfile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CustomerProfile>
- */
 class CustomerProfileFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = CustomerProfile::class;
+
     /**
      * Define the model's default state.
      *

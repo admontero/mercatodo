@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Policies;
 
-use App\Models\Category;
-use App\Models\User;
+use Domain\Category\Models\Category;
+use Domain\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

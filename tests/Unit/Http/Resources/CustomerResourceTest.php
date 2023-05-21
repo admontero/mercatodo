@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Http\Resources;
 
-use App\Http\Resources\CustomerResource;
-use App\Models\User;
+use App\ApiAdmin\User\Resources\CustomerResource;
+use Domain\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
