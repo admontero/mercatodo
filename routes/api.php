@@ -19,23 +19,23 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 /** Autenticación */
-Route::post('/register', [App\Http\Controllers\Api\AuthController::class, 'register'])
+Route::post('/register', [App\Api\Auth\Controllers\AuthController::class, 'register'])
     ->name('api.register');
-Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login'])
+Route::post('/login', [App\Api\Auth\Controllers\AuthController::class, 'login'])
     ->name('api.login');
 Route::group(['middleware' => ['auth:api']], function () {
-    Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout'])
+    Route::post('/logout', [App\Api\Auth\Controllers\AuthController::class, 'logout'])
         ->name('api.logout');
 });
 /** */
 
 /** Rutas públicas de productos */
 Route::group(['middleware' => ['cache_product']], function () {
-    Route::get('/products', [App\Http\Controllers\Api\ProductController::class, 'index'])
+    Route::get('/products', [App\Api\Product\Controllers\ProductController::class, 'index'])
         ->name('api.products.index');
-    Route::get('/products/price-range', App\Http\Controllers\Api\ProductPriceRangeController::class)
+    Route::get('/products/price-range', App\Api\Product\Controllers\ProductPriceRangeController::class)
         ->name('api.products.range-price');
-    Route::get('/products/categories', App\Http\Controllers\Api\ProductCategoryController::class)
+    Route::get('/products/categories', App\Api\Category\Controllers\ProductCategoryController::class)
         ->name('api.products.categories');
 });
 /** */
@@ -43,44 +43,44 @@ Route::group(['middleware' => ['cache_product']], function () {
 /** Rutas protegidas del Administrador */
 Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
     //Customer routes
-    Route::get('/admin/customers', [App\Http\Controllers\Api\Admin\CustomerController::class, 'index'])
+    Route::get('/admin/customers', [App\ApiAdmin\User\Controllers\CustomerController::class, 'index'])
         ->name('api.admin.customers.index');
-    Route::get('/admin/customers/{user}', [App\Http\Controllers\Api\Admin\CustomerController::class, 'show'])
+    Route::get('/admin/customers/{user}', [App\ApiAdmin\User\Controllers\CustomerController::class, 'show'])
         ->name('api.admin.customers.show');
-    Route::put('/admin/customers/{user}', [App\Http\Controllers\Api\Admin\CustomerController::class, 'update'])
+    Route::put('/admin/customers/{user}', [App\ApiAdmin\User\Controllers\CustomerController::class, 'update'])
         ->name('api.admin.customers.update');
-    Route::post('/admin/customers/{user}/status', App\Http\Controllers\Api\Admin\CustomerStatusController::class)
+    Route::post('/admin/customers/{user}/status', App\ApiAdmin\User\Controllers\CustomerStatusController::class)
         ->name('api.admin.customers.update-status');
 
     //Categories routes
-    Route::get('/admin/categories', [App\Http\Controllers\Api\Admin\CategoryController::class, 'index'])
+    Route::get('/admin/categories', [App\ApiAdmin\Category\Controllers\CategoryController::class, 'index'])
         ->name('api.admin.categories.index');
-    Route::post('/admin/categories', [App\Http\Controllers\Api\Admin\CategoryController::class, 'store'])
+    Route::post('/admin/categories', [App\ApiAdmin\Category\Controllers\CategoryController::class, 'store'])
         ->name('api.admin.categories.store');
-    Route::get('/admin/categories/{category:slug}', [App\Http\Controllers\Api\Admin\CategoryController::class, 'show'])
+    Route::get('/admin/categories/{category:slug}', [App\ApiAdmin\Category\Controllers\CategoryController::class, 'show'])
         ->name('api.admin.categories.show');
-    Route::put('/admin/categories/{category:slug}', [App\Http\Controllers\Api\Admin\CategoryController::class, 'update'])
+    Route::put('/admin/categories/{category:slug}', [App\ApiAdmin\Category\Controllers\CategoryController::class, 'update'])
         ->name('api.admin.categories.update');
 
     //Product routes
-    Route::get('/admin/products', [App\Http\Controllers\Api\Admin\ProductController::class, 'index'])
+    Route::get('/admin/products', [App\ApiAdmin\Product\Controllers\ProductController::class, 'index'])
         ->name('api.admin.products.index');
-    Route::post('/admin/products', [App\Http\Controllers\Api\Admin\ProductController::class, 'store'])
+    Route::post('/admin/products', [App\ApiAdmin\Product\Controllers\ProductController::class, 'store'])
         ->name('api.admin.products.store');
-    Route::get('/admin/products/{product:slug}', [App\Http\Controllers\Api\Admin\ProductController::class, 'show'])
+    Route::get('/admin/products/{product:slug}', [App\ApiAdmin\Product\Controllers\ProductController::class, 'show'])
         ->name('api.admin.products.show');
-    Route::put('/admin/products/{product:slug}', [App\Http\Controllers\Api\Admin\ProductController::class, 'update'])
+    Route::put('/admin/products/{product:slug}', [App\ApiAdmin\Product\Controllers\ProductController::class, 'update'])
         ->name('api.admin.products.update');
-    Route::post('/admin/products/{product:slug}/status', App\Http\Controllers\Api\Admin\ProductStatusController::class)
+    Route::post('/admin/products/{product:slug}/status', App\ApiAdmin\Product\Controllers\ProductStatusController::class)
         ->name('api.admin.products.update-status');
 });
 /** */
 
 /** Rutas protegidas del Cliente */
 Route::group(['middleware' => ['auth:api', 'role:customer', 'verified']], function () {
-    Route::get('/customer/customers/{user}', [App\Http\Controllers\Api\Customer\CustomerController::class, 'show'])
+    Route::get('/customer/customers/{user}', [App\ApiCustomer\User\Controllers\CustomerController::class, 'show'])
         ->name('api.customer.customers.show');
-    Route::put('/customer/customers/{user}/update-profile', App\Http\Controllers\Api\Customer\UpdateProfileController::class)
+    Route::put('/customer/customers/{user}/update-profile', App\ApiCustomer\User\Controllers\UpdateProfileController::class)
         ->name('api.customer.customers.update-profile');
 });
 /** */

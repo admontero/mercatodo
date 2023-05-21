@@ -2,16 +2,21 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
-use App\Models\ProductStatuses\ActiveStatus;
-use App\Models\ProductStatuses\InactiveStatus;
+use Domain\Category\Models\Category;
+use Domain\Product\Models\Product;
+use Domain\Product\States\ActiveStatus;
+use Domain\Product\States\InactiveStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
- */
 class ProductFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Product::class;
+
     /**
      * Define the model's default state.
      *

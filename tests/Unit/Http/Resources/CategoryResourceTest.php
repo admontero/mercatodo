@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Http\Resources;
 
-use App\Http\Resources\CategoryResource;
-use App\Models\Category;
+use App\ApiAdmin\Category\Resources\CategoryResource;
+use Domain\Category\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
