@@ -19,7 +19,7 @@ class CustomerResource extends JsonResource
         return [
             'id' => $this->id,
             'email' => $this->email,
-            'status' => (string) $this->status,
+            'state' => (string) $this->state,
             'first_name' => $this->profileable->first_name ?? null,
             'last_name' => $this->profileable->last_name ?? null,
             'document_type' => $this->profileable->document_type ?? null,

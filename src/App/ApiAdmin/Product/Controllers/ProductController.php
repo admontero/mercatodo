@@ -28,7 +28,7 @@ class ProductController extends Controller
 
         $products = new ProductCollection(
             Product::with('category:id,name,created_at')
-                ->select(['id', 'name', 'slug', 'code', 'price', 'stock', 'category_id', 'status', 'created_at'])
+                ->select(['id', 'name', 'slug', 'code', 'price', 'stock', 'category_id', 'state', 'created_at'])
                 ->latest()
                 ->paginate(10)
         );

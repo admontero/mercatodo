@@ -4,8 +4,8 @@ namespace Database\Factories;
 
 use Domain\Category\Models\Category;
 use Domain\Product\Models\Product;
-use Domain\Product\States\ActiveStatus;
-use Domain\Product\States\InactiveStatus;
+use Domain\Product\States\Activated;
+use Domain\Product\States\Inactivated;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
@@ -41,7 +41,7 @@ class ProductFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => ActiveStatus::class,
+                'state' => Activated::class,
             ];
         });
     }
@@ -53,7 +53,7 @@ class ProductFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => InactiveStatus::class,
+                'state' => Inactivated::class,
             ];
         });
     }

@@ -3,7 +3,10 @@
 namespace Tests\Unit\Models;
 
 use Domain\CustomerProfile\Models\CustomerProfile;
+use Domain\Order\Models\Order;
 use Domain\User\Models\User;
+use Domain\User\States\Activated;
+use Domain\User\States\Inactivated;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -27,19 +30,33 @@ class UserTest extends TestCase
     /**
      * @test
      */
+    public function a_user_has_many_orders(): void
+    {
+        $user = User::factory()->create();
+
+        Order::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        $this->assertInstanceOf(Order::class, $user->orders()->first());
+    }
+
+    /**
+     * @test
+     */
     public function a_user_status_can_be_changed(): void
     {
         $user = User::factory()->create();
 
-        $this->assertEquals('activated', (string) $user->status);
+        $this->assertEquals('activated', (string) $user->state);
 
-        $user->changeStatus();
+        $user->state->transitionTo(Inactivated::class);
 
-        $this->assertEquals('inactivated', (string) $user->status);
+        $this->assertEquals('inactivated', (string) $user->state);
 
-        $user->changeStatus();
+        $user->state->transitionTo(Activated::class);
 
-        $this->assertEquals('activated', (string) $user->status);
+        $this->assertEquals('activated', (string) $user->state);
     }
 
     /**

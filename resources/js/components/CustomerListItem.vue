@@ -3,11 +3,11 @@
         <th scope="row">{{ customer.first_name }} {{ customer.last_name }}</th>
         <td>{{ customer.email }}</td>
         <td>
-            <span class="badge bg-success text-uppercase" v-if="customer.status === 'activated'">
-                {{ $t(customer.status) }}
+            <span class="badge bg-success text-uppercase" v-if="customer.state === 'activated'">
+                {{ $t(customer.state) }}
             </span>
-            <span class="badge bg-warning text-uppercase" v-else-if="customer.status === 'inactivated'">
-                {{ $t(customer.status) }}
+            <span class="badge bg-warning text-uppercase" v-else-if="customer.state === 'inactivated'">
+                {{ $t(customer.state) }}
             </span>
         </td>
         <td>{{ customer.ago }}</td>
@@ -48,9 +48,9 @@
             }
         },
         methods: {
-            refreshUser(status) {
-                this.customer.status = status;
-                this.toast.success(trans(`Customer ${status}`), {
+            refreshUser(state) {
+                this.customer.state = state;
+                this.toast.success(trans(`Customer ${state}`), {
                     position: "bottom-left",
                     timeout: 3000,
                     closeOnClick: true,

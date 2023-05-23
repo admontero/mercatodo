@@ -5,11 +5,11 @@
         <td>{{ productPrice }}</td>
         <td>{{ product.stock }}</td>
         <td>
-            <span class="badge bg-success text-uppercase" v-if="product.status === 'activated'">
-                {{ $t(product.status) }}
+            <span class="badge bg-success text-uppercase" v-if="product.state === 'activated'">
+                {{ $t(product.state) }}
             </span>
-            <span class="badge bg-warning text-uppercase" v-else-if="product.status === 'inactivated'">
-                {{ $t(product.status) }}
+            <span class="badge bg-warning text-uppercase" v-else-if="product.state === 'inactivated'">
+                {{ $t(product.state) }}
             </span>
         </td>
         <td>{{ product.ago }}</td>
@@ -50,9 +50,9 @@
             }
         },
         methods: {
-            refreshProduct(status) {
-                this.product.status = status;
-                this.toast.success(trans(`Product ${status}`), {
+            refreshProduct(state) {
+                this.product.state = state;
+                this.toast.success(trans(`Product ${state}`), {
                     position: "bottom-left",
                     timeout: 3000,
                     closeOnClick: true,
