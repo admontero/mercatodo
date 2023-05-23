@@ -4,10 +4,11 @@ namespace App\ApiAdmin\User\Controllers;
 
 use App\Controller;
 use Domain\User\Models\User;
+use Domain\User\States\Activated;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class CustomerStatusController extends Controller
+class CustomerActivationController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -16,8 +17,8 @@ class CustomerStatusController extends Controller
     {
         $this->authorize('update-status', $user);
 
-        $user->changeStatus();
+        $user->state->transitionTo(Activated::class);
 
-        return response()->json(['status' => (string) $user->status]);
+        return response()->json(['state' => (string) $user->state]);
     }
 }

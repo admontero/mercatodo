@@ -3,7 +3,7 @@
 namespace Support\Middlewares;
 
 use Closure;
-use Domain\User\States\InactiveStatus;
+use Domain\User\States\Inactivated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,7 @@ class RedirectIfCustomerIsDisabled
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()?->status instanceof InactiveStatus) {
+        if (auth()->check() && auth()->user()?->state instanceof Inactivated) {
             Auth::logout();
 
             $request->session()->invalidate();

@@ -3,15 +3,18 @@
 namespace Domain\User\Models;
 
 use Database\Factories\UserFactory;
-use Domain\User\States\ActiveStatus;
+use Domain\Order\Models\Order;
+use Domain\User\States\UserState;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Spatie\ModelStates\HasStates;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -20,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory;
     use Notifiable;
     use HasRoles;
+    use HasStates;
 
     /**
      * The attributes that are mass assignable.
@@ -48,13 +52,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-    ];
-
-    /**
-     * @var array<string, mixed>
-     */
-    protected $attributes = [
-        'status' => ActiveStatus::class,
+        'state' => UserState::class,
     ];
 
     /**
@@ -78,29 +76,20 @@ class User extends Authenticatable implements MustVerifyEmail
         return UserFactory::new();
     }
 
-    protected static function booted(): void
-    {
-        static::created(function ($user) {
-            $user->update(['status' => ActiveStatus::class]);
-        });
-    }
-
-    public function changeStatus(): void
-    {
-        $this->status->handle();
-    }
-
-    public function getStatusAttribute(string $status): mixed
-    {
-        return new $status($this);
-    }
-
     /**
      * @return MorphTo<\Illuminate\Database\Eloquent\Model,User>
      */
     public function profileable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    /**
+     * @return HasMany<Order>
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 
     public function scopeCustomer(Builder $query): void
