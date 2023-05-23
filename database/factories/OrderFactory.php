@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Domain\Order\Models\Order;
-use Domain\Product\Models\Product;
 use Domain\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

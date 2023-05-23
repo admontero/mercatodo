@@ -6,7 +6,6 @@ use Domain\Order\Models\Order;
 use Domain\OrderProduct\Models\OrderProduct;
 use Domain\Product\Models\Product;
 use Domain\User\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 

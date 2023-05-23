@@ -4,7 +4,6 @@ namespace Domain\Order\Policies;
 
 use Domain\Order\Models\Order;
 use Domain\User\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class OrderPolicy
 {
