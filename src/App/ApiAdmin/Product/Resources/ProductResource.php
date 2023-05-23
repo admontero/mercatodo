@@ -27,7 +27,7 @@ class ProductResource extends JsonResource
             'stock' => $this->stock,
             'image' => $this->image,
             'category' => CategoryResource::make($this->whenLoaded('category')),
-            'status' => (string) $this->status,
+            'state' => (string) $this->state,
             'ago' => Carbon::parse($this->created_at)->diffForHumans(),
         ];
     }

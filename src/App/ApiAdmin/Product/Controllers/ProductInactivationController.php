@@ -4,10 +4,11 @@ namespace App\ApiAdmin\Product\Controllers;
 
 use App\Controller;
 use Domain\Product\Models\Product;
+use Domain\Product\States\Inactivated;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class ProductStatusController extends Controller
+class ProductInactivationController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -16,8 +17,8 @@ class ProductStatusController extends Controller
     {
         $this->authorize('update-status', $product);
 
-        $product->changeStatus();
+        $product->state->transitionTo(Inactivated::class);
 
-        return response()->json(['status' => (string) $product->status]);
+        return response()->json(['state' => (string) $product->state]);
     }
 }

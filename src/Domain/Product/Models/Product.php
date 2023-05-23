@@ -4,12 +4,16 @@ namespace Domain\Product\Models;
 
 use Database\Factories\ProductFactory;
 use Domain\Category\Models\Category;
-use Domain\Product\States\ActiveStatus;
+use Domain\Order\Models\Order;
+use Domain\Product\States\Activated;
+use Domain\Product\States\ProductState;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\ModelStates\HasStates;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -17,6 +21,7 @@ class Product extends Model
 {
     use HasFactory;
     use HasSlug;
+    use HasStates;
 
     /**
      * The attributes that are mass assignable.
@@ -33,11 +38,8 @@ class Product extends Model
         'category_id',
     ];
 
-    /**
-     * @var array<string, mixed>
-     */
-    protected $attributes = [
-        'status' => ActiveStatus::class,
+    protected $casts = [
+        'state' => ProductState::class,
     ];
 
     /**
@@ -60,23 +62,6 @@ class Product extends Model
             ->doNotGenerateSlugsOnUpdate();
     }
 
-    protected static function booted(): void
-    {
-        static::created(function ($product) {
-            $product->update(['status' => ActiveStatus::class]);
-        });
-    }
-
-    public function changeStatus(): void
-    {
-        $this->status->handle();
-    }
-
-    public function getStatusAttribute(string $status): mixed
-    {
-        return new $status($this);
-    }
-
     public function getRouteKeyName(): string
     {
         return 'slug';
@@ -91,10 +76,20 @@ class Product extends Model
     }
 
     /**
+     * @return BelongsToMany<Order>
+     */
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class)
+            ->withPivot('unit_price', 'quantity')
+            ->withTimestamps();
+    }
+
+    /**
      * @param Builder<\Domain\User\Models\User> $query
      */
     public function scopeActive(Builder $query): void
     {
-        $query->where('status', ActiveStatus::class);
+        $query->where('state', Activated::class);
     }
 }

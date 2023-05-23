@@ -25,7 +25,7 @@ class CustomerResourceTest extends TestCase
 
         $this->assertEquals($customer->id, $customerResource['id']);
         $this->assertEquals($customer->email, $customerResource['email']);
-        $this->assertEquals($customer->status, $customerResource['status']);
+        $this->assertEquals($customer->state, $customerResource['state']);
         $this->assertEquals($customer->profileable?->first_name, $customerResource['first_name']);
         $this->assertEquals($customer->profileable?->last_name, $customerResource['last_name']);
         $this->assertEquals($customer->profileable?->document_type, $customerResource['document_type']);

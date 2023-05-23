@@ -4,8 +4,8 @@ namespace Database\Factories;
 
 use Domain\CustomerProfile\Models\CustomerProfile;
 use Domain\User\Models\User;
-use Domain\User\States\ActiveStatus;
-use Domain\User\States\InactiveStatus;
+use Domain\User\States\Activated;
+use Domain\User\States\Inactivated;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -78,7 +78,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => ActiveStatus::class,
+                'state' => Activated::class,
             ];
         });
     }
@@ -90,7 +90,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => InactiveStatus::class,
+                'state' => Inactivated::class,
             ];
         });
     }

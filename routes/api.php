@@ -49,8 +49,10 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
         ->name('api.admin.customers.show');
     Route::put('/admin/customers/{user}', [App\ApiAdmin\User\Controllers\CustomerController::class, 'update'])
         ->name('api.admin.customers.update');
-    Route::post('/admin/customers/{user}/status', App\ApiAdmin\User\Controllers\CustomerStatusController::class)
-        ->name('api.admin.customers.update-status');
+    Route::post('/admin/customers/{user}/activate', App\ApiAdmin\User\Controllers\CustomerActivationController::class)
+        ->name('api.admin.customers.activate');
+    Route::post('/admin/customers/{user}/inactivate', App\ApiAdmin\User\Controllers\CustomerInactivationController::class)
+        ->name('api.admin.customers.inactivate');
 
     //Categories routes
     Route::get('/admin/categories', [App\ApiAdmin\Category\Controllers\CategoryController::class, 'index'])
@@ -71,8 +73,10 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
         ->name('api.admin.products.show');
     Route::put('/admin/products/{product:slug}', [App\ApiAdmin\Product\Controllers\ProductController::class, 'update'])
         ->name('api.admin.products.update');
-    Route::post('/admin/products/{product:slug}/status', App\ApiAdmin\Product\Controllers\ProductStatusController::class)
-        ->name('api.admin.products.update-status');
+    Route::post('/admin/products/{product:slug}/activate', App\ApiAdmin\Product\Controllers\ProductActivationController::class)
+        ->name('api.admin.products.activate');
+    Route::post('/admin/products/{product:slug}/inactivate', App\ApiAdmin\Product\Controllers\ProductInactivationController::class)
+        ->name('api.admin.products.inactivate');
 });
 /** */
 

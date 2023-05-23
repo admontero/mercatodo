@@ -27,11 +27,11 @@ class UpdateCustomerStatusTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $this->postJson(route('api.admin.customers.update-status', $customer));
+        $this->postJson(route('api.admin.customers.inactivate', $customer));
 
         $customer->refresh();
 
-        $this->assertEquals('inactivated', $customer->status);
+        $this->assertEquals('inactivated', $customer->state);
     }
 
     /**
@@ -51,36 +51,36 @@ class UpdateCustomerStatusTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $this->postJson(route('api.admin.customers.update-status', $customer));
+        $this->postJson(route('api.admin.customers.activate', $customer));
 
         $customer->refresh();
 
-        $this->assertEquals('activated', $customer->status);
+        $this->assertEquals('activated', $customer->state);
     }
 
     /**
      * @test
      */
-    public function guest_user_can_not_update_a_customer_status(): void
+    public function guest_user_can_not_inactivate_a_customer_status(): void
     {
         $customer = User::factory()
             ->customer()
             ->withCustomerProfile()
             ->create();
 
-        $response = $this->postJson(route('api.admin.customers.update-status', $customer));
+        $response = $this->postJson(route('api.admin.customers.inactivate', $customer));
 
         $response->assertStatus(401);
 
         $customer->refresh();
 
-        $this->assertEquals('activated', $customer->status);
+        $this->assertEquals('activated', $customer->state);
     }
 
     /**
      * @test
      */
-    public function customer_user_can_not_update_a_customer_status(): void
+    public function customer_user_can_not_inactivate_a_customer_status(): void
     {
         $customer = User::factory()
             ->customer()
@@ -89,12 +89,12 @@ class UpdateCustomerStatusTest extends TestCase
 
         Passport::actingAs($customer);
 
-        $response = $this->postJson(route('api.admin.customers.update-status', $customer));
+        $response = $this->postJson(route('api.admin.customers.inactivate', $customer));
 
         $response->assertStatus(403);
 
         $customer->refresh();
 
-        $this->assertEquals('activated', $customer->status);
+        $this->assertEquals('activated', $customer->state);
     }
 }

@@ -25,11 +25,11 @@ class UpdateProductStatusTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $this->postJson(route('api.admin.products.update-status', $product));
+        $this->postJson(route('api.admin.products.inactivate', $product));
 
         $product->refresh();
 
-        $this->assertEquals('inactivated', $product->status);
+        $this->assertEquals('inactivated', $product->state);
     }
 
     /**
@@ -45,31 +45,31 @@ class UpdateProductStatusTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $this->postJson(route('api.admin.products.update-status', $product));
+        $this->postJson(route('api.admin.products.activate', $product));
 
         $product->refresh();
 
-        $this->assertEquals('activated', $product->status);
+        $this->assertEquals('activated', $product->state);
     }
 
     /**
      * @test
      */
-    public function guest_user_can_not_update_a_product_status(): void
+    public function guest_user_can_not_inactivate_a_product_status(): void
     {
         $product = Product::factory()->create();
 
-        $response = $this->postJson(route('api.admin.products.update-status', $product));
+        $response = $this->postJson(route('api.admin.products.inactivate', $product));
 
         $response->assertStatus(401);
 
-        $this->assertEquals('activated', $product->status);
+        $this->assertEquals('activated', $product->state);
     }
 
     /**
      * @test
      */
-    public function customer_user_can_not_update_a_product_status(): void
+    public function customer_user_can_not_inactivate_a_product_status(): void
     {
         $customer = User::factory()
             ->customer()
@@ -80,10 +80,10 @@ class UpdateProductStatusTest extends TestCase
 
         Passport::actingAs($customer);
 
-        $response = $this->postJson(route('api.admin.products.update-status', $product));
+        $response = $this->postJson(route('api.admin.products.inactivate', $product));
 
         $response->assertStatus(403);
 
-        $this->assertEquals('activated', $product->status);
+        $this->assertEquals('activated', $product->state);
     }
 }

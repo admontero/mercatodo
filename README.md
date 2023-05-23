@@ -81,6 +81,7 @@ Ejecuta todos los seeders configurados para la aplicación
 - [intervention/image](https://github.com/Intervention/image) - Para manipular (redimensionar, cortar, ajustar) las imágenes.
 - [larastan](https://github.com/nunomaduro/larastan) - Para analizar y mejorar la calidad del código.
 - [laravel-debugbar](https://github.com/barryvdh/laravel-debugbar) - Para monitorizar el rendimiento de la aplicación.
+- [laravel-model-states](https://github.com/spatie/laravel-model-states) - Para gestionar los cambios de estado de los modelos, implementando el patrón state y máquinas de estado.
 - [laravel-permission](https://github.com/spatie/laravel-permission) - Para la gestión de roles y permisos.
 - [log-viewer](https://github.com/opcodesio/log-viewer) - Para la gestión de logs.
 - [passport](https://github.com/laravel/passport) - Para la autenticación de usuarios.
