@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Domain\Country\Models\Country;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ListCountriesTest extends TestCase

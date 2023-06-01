@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Domain\Country\Models\Country;
 use Domain\State\Models\State;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ListStatesTest extends TestCase

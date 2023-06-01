@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Domain\City\Models\City;
 use Domain\State\Models\State;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ListCitiesTest extends TestCase
