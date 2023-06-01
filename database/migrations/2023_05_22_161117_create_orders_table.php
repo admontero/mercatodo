@@ -12,6 +12,7 @@ return new class () extends Migration {
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->unique();
             $table->decimal('total_price', 16, 2);
             $table->string('state');
             $table->unsignedBigInteger('user_id');

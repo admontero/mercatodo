@@ -13,12 +13,15 @@
                     v-model="filters.name"
                 >
 
-                <model-select
+                <multiselect
                     class="mb-3"
+                    v-model="selectedCategory"
                     :options="categories"
-                    v-model="category"
+                    label="name"
+                    track-by="id"
                     :placeholder="$t('Search by category')"
-                ></model-select>
+                    @update:modelValue="onChangeCategory"
+                ></multiselect>
 
                 <div v-if="sliderEnabled">
                     <p class="text-muted">
@@ -99,17 +102,17 @@
 </template>
 
 <script>
-    import CustomerProductListItem from './CustomerProductListItem.vue';
-    import CustomerProductListItemSkeleton from './CustomerProductListItemSkeleton.vue';
+    import CustomerProductListItem from './CustomerProductListItem.vue'
+    import CustomerProductListItemSkeleton from './CustomerProductListItemSkeleton.vue'
     import Slider from '@vueform/slider'
-    import { ModelSelect } from 'vue-search-select';
-    import _ from 'lodash';
+    import Multiselect from 'vue-multiselect'
+    import _ from 'lodash'
 
     export default {
         components: {
             CustomerProductListItem,
             CustomerProductListItemSkeleton,
-            ModelSelect,
+            Multiselect,
             Slider,
         },
         data() {
@@ -124,10 +127,7 @@
                     order: '',
                     categoryId: '',
                 },
-                category: {
-                    value: '',
-                    text: '',
-                },
+                selectedCategory: null,
                 moreExists: false,
                 value: null,
                 minPrice: null,
@@ -136,7 +136,7 @@
         },
         created() {
             this.getCategories().then(() => {
-                this.categories = this.categories.map(c => ({ value: c.id, text: c.name }))
+                this.categories = this.categories
             })
 
             this.getPriceRange()
@@ -184,6 +184,15 @@
                 this.filters.minPrice = value[0]
                 this.filters.maxPrice = value[1]
             },
+            onChangeCategory(value) {
+                if (!value) {
+                    this.selectedCategory = null
+                    this.filters.categoryId = null
+                    return
+                }
+
+                this.filters.categoryId = value.id
+            },
             debouncedGetProducts: _.debounce(function () {
                 this.loading = true
                 this.page = 1
@@ -203,10 +212,7 @@
                     categoryId: '',
                 };
 
-                this.category = {
-                    value: '',
-                    text: '',
-                };
+                this.selectedCategory = null;
 
                 this.getPriceRange()
 
@@ -242,9 +248,6 @@
                     this.debouncedGetProducts()
                 },
                 deep: true
-            },
-            category(newCat) {
-                this.filters.categoryId = newCat.value
             },
         }
     }

@@ -30,6 +30,9 @@ class CustomerResourceTest extends TestCase
         $this->assertEquals($customer->profileable?->last_name, $customerResource['last_name']);
         $this->assertEquals($customer->profileable?->document_type, $customerResource['document_type']);
         $this->assertEquals($customer->profileable?->document, $customerResource['document']);
+        $this->assertEquals($customer->profileable?->country_id, $customerResource['country_id']);
+        $this->assertEquals($customer->profileable?->state_id, $customerResource['state_id']);
+        $this->assertEquals($customer->profileable?->city_id, $customerResource['city_id']);
         $this->assertEquals($customer->profileable?->address, $customerResource['address']);
         $this->assertEquals($customer->profileable?->phone, $customerResource['phone']);
         $this->assertEquals($customer->profileable?->cell_phone, $customerResource['cell_phone']);

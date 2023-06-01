@@ -2,14 +2,14 @@
     <li class="list-group-item">
         <div class="d-flex gap-2">
             <div class="w-25">
-                <img class="img-fluid" :src="imageUrl" :alt="`${product.name}'s image'`">
+                <img class="img-fluid" :src="imageUrl" :alt="`${product.name}'s image'`" />
             </div>
-            <div class="flex-grow-1">
+            <div class="w-50">
                 <h4 class="text-black-50 small">{{ product.name }}</h4>
                 <p>$ {{ accumulatedPrice }}</p>
             </div>
-            <div class="w-25 d-flex flex-column justify-content-between">
-                <div class="d-flex justify-content-end">
+            <div class="w-25">
+                <div class="d-flex justify-content-end mb-3">
                     <a
                         class="link-danger"
                         role="button"

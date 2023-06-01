@@ -2,7 +2,10 @@
 
 namespace Database\Factories;
 
+use Domain\City\Models\City;
+use Domain\Country\Models\Country;
 use Domain\CustomerProfile\Models\CustomerProfile;
+use Domain\State\Models\State;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CustomerProfileFactory extends Factory
@@ -24,6 +27,9 @@ class CustomerProfileFactory extends Factory
         return [
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
+            'country_id' => Country::factory(),
+            'state_id' => State::factory(),
+            'city_id' => City::factory(),
         ];
     }
 }

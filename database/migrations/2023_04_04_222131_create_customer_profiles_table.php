@@ -16,6 +16,12 @@ return new class () extends Migration {
             $table->string('last_name', 80);
             $table->enum('document_type', ['CC', 'CE', 'P'])->nullable();
             $table->string('document', 30)->nullable();
+            $table->unsignedBigInteger('country_id')->nullable();
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('set null');
+            $table->unsignedBigInteger('state_id')->nullable();
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('set null');
+            $table->unsignedBigInteger('city_id')->nullable();
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('set null');
             $table->string('address', 120)->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('cell_phone', 25)->nullable();

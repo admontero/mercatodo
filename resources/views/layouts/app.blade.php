@@ -88,11 +88,11 @@
                                     </form>
                                 </div>
                             </li>
-
-                            @role('customer')
-                                <cart-dropdown></cart-dropdown>
-                            @endrole
                         @endguest
+
+                        @unlessrole('admin')
+                            <cart-dropdown></cart-dropdown>
+                        @endunlessrole
                     </ul>
                 </div>
             </div>
