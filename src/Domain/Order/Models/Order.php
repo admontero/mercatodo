@@ -22,6 +22,7 @@ class Order extends Model
     use HasStates;
 
     protected $fillable = [
+        'code',
         'total_price',
         'user_id',
     ];

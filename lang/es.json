@@ -109,5 +109,20 @@
     "No description available": "Sin descripción disponible",
     "My Cart": "Mi Carrito",
     "Product out of stock": "Producto sin stock",
-    "Your cart is empty": "Tú carrito está vacío"
+    "Your cart is empty": "Tú carrito está vacío",
+    "Continue Purchase": "Continuar Compra",
+    "To continue shopping, continue browsing through the products with the help of the searches and filters": "Para seguir comprando, sigue navegando entre los productos con ayuda de las búsquedas y filtros",
+    "select products": "seleccionar productos",
+    "Your order": "Tu pedido",
+    "Product": "Producto",
+    "Quantity": "Cantidad",
+    "per unit": "por unidad",
+    "Continue shopping": "Seguir comprando",
+    "Country": "País",
+    "State": "Estado / Departamento",
+    "City": "Ciudad",
+    "Search country": "Buscar país",
+    "Search state": "Buscar estado / departamento",
+    "Search city": "Buscar ciudad",
+    "Search category": "Buscar categoría"
 }
