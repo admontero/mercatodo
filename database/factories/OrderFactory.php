@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Domain\Order\Models\Order;
 use Domain\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class OrderFactory extends Factory
 {
@@ -23,6 +24,7 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
+            'code' => time() . Str::random(6),
             'total_price' => fake()->randomNumber(7, false),
             'user_id' => User::factory()->customer(),
         ];

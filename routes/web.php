@@ -39,6 +39,9 @@ Route::get('/', [App\Web\Product\Controllers\ProductController::class, 'index'])
 Route::group(['middleware' => ['auth', 'verified', 'role:customer']], function () {
     Route::get('/profile', [App\Web\Profile\Controllers\ProfileController::class, 'edit'])
         ->name('profile.edit');
+
+    Route::get('/checkout', [App\Web\Checkout\Controllers\CheckoutController::class, 'index'])
+        ->name('checkout.index');
 });
 /** */
 

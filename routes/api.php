@@ -29,6 +29,13 @@ Route::group(['middleware' => ['auth:api']], function () {
 });
 /** */
 
+Route::get('/countries', App\Api\Country\Controllers\CountryController::class)
+    ->name('api.countries');
+Route::get('/countries/{country}/states', App\Api\State\Controllers\StateController::class)
+    ->name('api.countries.states');
+Route::get('/states/{state}/cities', App\Api\City\Controllers\CityController::class)
+    ->name('api.states.cities');
+
 /** Rutas públicas de productos */
 Route::group(['middleware' => ['cache_product']], function () {
     Route::get('/products', [App\Api\Product\Controllers\ProductController::class, 'index'])

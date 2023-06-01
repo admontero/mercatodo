@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Admin;
 
 use Domain\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -42,6 +42,9 @@ class UpdateCustomerTest extends TestCase
             'last_name' => 'Actualizado',
             'document_type' => 'CC',
             'document' => '12345678',
+            'country_id' => '1',
+            'state_id' => '5',
+            'city_id' => '167',
         ];
 
         Passport::actingAs($this->admin);
@@ -59,6 +62,9 @@ class UpdateCustomerTest extends TestCase
             'last_name' => $data['last_name'],
             'document_type' => $data['document_type'],
             'document' => $data['document'],
+            'country_id' => $data['country_id'],
+            'state_id' => $data['state_id'],
+            'city_id' => $data['city_id'],
         ]);
     }
 
@@ -291,6 +297,144 @@ class UpdateCustomerTest extends TestCase
         $response
             ->assertStatus(422)
             ->assertJsonValidationErrorFor('document');
+    }
+
+    /**
+     * @test
+     */
+    public function country_id_must_be_numeric(): void
+    {
+        $data = [
+            'first_name' => 'Usuario',
+            'last_name' => 'Actualizado',
+            'document_type' => 'CC',
+            'document' => '19328472',
+            'country_id' => 'Colombia',
+        ];
+
+        Passport::actingAs($this->admin);
+
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
+
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrorFor('country_id');
+    }
+
+    /**
+     * @test
+     */
+    public function country_id_must_exists_at_the_countries_table(): void
+    {
+        $data = [
+            'first_name' => 'Usuario',
+            'last_name' => 'Actualizado',
+            'document_type' => 'CC',
+            'document' => '19328472',
+            'country_id' => '0',
+        ];
+
+        Passport::actingAs($this->admin);
+
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
+
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrorFor('country_id');
+    }
+
+    /**
+     * @test
+     */
+    public function state_id_must_be_numeric(): void
+    {
+        $data = [
+            'first_name' => 'Usuario',
+            'last_name' => 'Actualizado',
+            'document_type' => 'CC',
+            'document' => '19328472',
+            'country_id' => '1',
+            'state_id' => 'Valle del Cauca',
+        ];
+
+        Passport::actingAs($this->admin);
+
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
+
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrorFor('state_id');
+    }
+
+    /**
+     * @test
+     */
+    public function state_id_must_exists_at_the_states_table(): void
+    {
+        $data = [
+            'first_name' => 'Usuario',
+            'last_name' => 'Actualizado',
+            'document_type' => 'CC',
+            'document' => '19328472',
+            'country_id' => '1',
+            'state_id' => '0',
+        ];
+
+        Passport::actingAs($this->admin);
+
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
+
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrorFor('state_id');
+    }
+
+    /**
+     * @test
+     */
+    public function city_id_must_be_numeric(): void
+    {
+        $data = [
+            'first_name' => 'Usuario',
+            'last_name' => 'Actualizado',
+            'document_type' => 'CC',
+            'document' => '19328472',
+            'country_id' => '1',
+            'state_id' => '5',
+            'city_id' => 'Cali',
+        ];
+
+        Passport::actingAs($this->admin);
+
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
+
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrorFor('city_id');
+    }
+
+    /**
+     * @test
+     */
+    public function city_id_must_exists_at_the_cities_table(): void
+    {
+        $data = [
+            'first_name' => 'Usuario',
+            'last_name' => 'Actualizado',
+            'document_type' => 'CC',
+            'document' => '19328472',
+            'country_id' => '1',
+            'state_id' => '5',
+            'city_id' => '0',
+        ];
+
+        Passport::actingAs($this->admin);
+
+        $response = $this->putJson(route('api.admin.customers.update', $this->customer), $data);
+
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrorFor('city_id');
     }
 
     /**

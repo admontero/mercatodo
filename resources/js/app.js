@@ -15,11 +15,12 @@ import AdminProductList from '@/components/AdminProductList.vue';
 import ProductForm from '@/components/ProductForm.vue';
 import CartDropdown from '@/components/CartDropdown.vue';
 import CartOffCanvas from '@/components/CartOffCanvas.vue';
+import Checkout from '@/components/Checkout.vue';
 
 import store from './store.js';
 
 import 'vue-toastification/dist/index.css';
-import 'vue-search-select/dist/VueSearchSelect.css'
+import 'vue-multiselect/dist/vue-multiselect.css';
 
 window.app = createApp({
     setup() {
@@ -39,6 +40,7 @@ window.app = createApp({
         ProductForm,
         CartDropdown,
         CartOffCanvas,
+        Checkout,
     },
 });
 

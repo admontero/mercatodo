@@ -50,12 +50,14 @@
                     </div>
                     <div class="col">
                         <label for="category" class="form-label">{{ $t('Category') }}</label>
-                        <model-select
+                        <multiselect
+                            v-model="selectedCategory"
                             :options="categories"
-                            v-model="category"
-                            :is-error="!!this.errors?.category_id"
-                            placeholder="Buscar categoría"
-                        ></model-select>
+                            label="name"
+                            track-by="id"
+                            :placeholder="$t('Search category')"
+                            @update:modelValue="onChangeCategory"
+                        ></multiselect>
                         <span class="text-danger small" role="alert" v-if="this.errors?.category_id">
                             <strong>{{ this.errors.category_id[0] }}</strong>
                         </span>
@@ -156,7 +158,7 @@
 <script>
     import { useToast } from "vue-toastification";
     import { trans } from 'laravel-vue-i18n';
-    import { ModelSelect } from 'vue-search-select';
+    import Multiselect from 'vue-multiselect'
 
     export default {
         setup() {
@@ -170,29 +172,25 @@
             }
         },
         components: {
-            ModelSelect,
+            Multiselect,
         },
         data() {
             return {
                 product: {},
                 categories: [],
-                category: {
-                    value: '',
-                    text: '',
-                },
+                selectedCategory: null,
                 errors: [],
                 image: null,
                 preview: null,
                 loading: false,
             }
         },
-        created() {
-            this.getCategories().then(() => {
-                this.categories = this.categories.map(c => ({ value: c.id, text: c.name }))
-            })
+        mounted() {
             if (this.productSlug) {
-                this.getProduct()
+                return this.getProduct()
             }
+
+            this.getCategories()
         },
         methods: {
             submit() {
@@ -218,10 +216,7 @@
 
                     if (method === 'post') {
                         this.product = {}
-                        this.category = {
-                            value: '',
-                            text: '',
-                        },
+                        this.selectedCategory = null,
                         this.image = null
                         this.preview = null
                         this.$refs.inputFile.value = null
@@ -246,16 +241,15 @@
                 this.loading = true;
                 await axios.get(`/api/admin/products/${this.productSlug}`)
                     .then(res => {
-                        this.product.name = res.data.name;
-                        this.product.code = res.data.code;
-                        this.product.price = res.data.price;
-                        this.product.stock = res.data.stock;
-                        this.product.description = res.data.description;
-                        this.product.category_id = res.data.category.id;
+                        this.product.name = res.data.name
+                        this.product.code = res.data.code
+                        this.product.price = res.data.price
+                        this.product.stock = res.data.stock
+                        this.product.description = res.data.description
+                        this.product.category_id = res.data.category.id
                         this.product.image = null;
-                        this.category.value = res.data.category.id;
-                        this.category.name = this.categories.filter(c => c.value === res.data.category.id).name
-                        this.loading = false;
+                        this.selectedCategory = { 'id': res.data.category.id }
+                        this.loadCategory()
                     })
                     .catch(err => {
                         console.log(err)
@@ -290,12 +284,29 @@
                 if (method === 'put') formData.append('_method', 'PUT');
 
                 return formData;
-            }
-        },
-        watch: {
-            category(newCat) {
-                this.product.category_id = newCat.value;
             },
+            onChangeCategory(value) {
+                if (!value) {
+                    this.selectedCategory = null
+                    this.product.category_id = null
+                    return
+                }
+
+                this.product.category_id = value.id
+            },
+            loadCategory() {
+                axios.get('/api/products/categories')
+                    .then(res => {
+                        this.categories = res.data
+                        if (!this.selectedCategory?.id)
+                            return this.loading = false
+
+                        this.selectedCategory.name = this.categories.find(c => c.id === this.selectedCategory.id).name
+                        this.loading = false
+                    }).catch(err => {
+                        console.log(err.response.data)
+                    })
+            }
         }
     }
 </script>
