@@ -256,7 +256,7 @@ class StoreOrderTest extends TestCase
     public function it_returns_an_error_view_if_order_request_information_fails(): void
     {
         $this->withoutVite();
-        
+
         Product::factory()->create(['id' => 1,'name' => 'Balon','code' => '12345678','price' => '100000.00','stock' => 40]);
         Product::factory()->create(['id' => 2,'name' => 'Celular','code' => '87654321','price' => '700000.00','stock' => 21]);
 
