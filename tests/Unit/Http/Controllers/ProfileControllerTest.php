@@ -14,7 +14,7 @@ class ProfileControllerTest extends TestCase
     /**
      * @test
      */
-    public function it_return_the_profile_edit_view(): void
+    public function it_returns_the_profile_edit_view(): void
     {
         $this->withoutVite();
 

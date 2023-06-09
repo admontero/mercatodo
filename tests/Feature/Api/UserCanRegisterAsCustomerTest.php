@@ -50,6 +50,18 @@ class UserCanRegisterAsCustomerTest extends TestCase
     /**
      * @test
      */
+    public function users_cannot_register_from_api_route_if_data_is_missing(): void
+    {
+        $response = $this->postJson(route('api.register'), []);
+
+        $response->assertUnprocessable()
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors']);
+    }
+
+    /**
+     * @test
+     */
     public function user_first_name_is_required_from_api_route(): void
     {
         $userData = $this->getUserValidData([

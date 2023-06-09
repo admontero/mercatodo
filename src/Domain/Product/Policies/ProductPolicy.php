@@ -20,14 +20,6 @@ class ProductPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Product $product): bool
-    {
-        return false;
-    }
-
-    /**
      * Determine whether the user can create models.
      */
     public function create(User $user): bool

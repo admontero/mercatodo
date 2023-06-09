@@ -93,5 +93,15 @@ Route::group(['middleware' => ['auth:api', 'role:customer', 'verified']], functi
         ->name('api.customer.customers.show');
     Route::put('/customer/customers/{user}/update-profile', App\ApiCustomer\User\Controllers\UpdateProfileController::class)
         ->name('api.customer.customers.update-profile');
+
+    //Payment routes
+    Route::post('/customer/payments', [App\ApiCustomer\Payment\Controllers\PaymentController::class, 'processPayment'])
+        ->name('api.customer.payments.processPayment');
+    Route::put('/customer/payments/{order:code}', [App\ApiCustomer\Payment\Controllers\PaymentController::class, 'retryPayment'])
+        ->name('api.customer.payments.retryPayment');
+
+    //Order routes
+    Route::get('/customer/orders', [App\ApiCustomer\Order\Controllers\OrderController::class, 'index'])
+        ->name('api.customer.orders.index');
 });
 /** */

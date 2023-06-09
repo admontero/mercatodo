@@ -37,11 +37,21 @@ Route::get('/', [App\Web\Product\Controllers\ProductController::class, 'index'])
 
 /** Rutas protegidas del Cliente */
 Route::group(['middleware' => ['auth', 'verified', 'role:customer']], function () {
+    //Profile
     Route::get('/profile', [App\Web\Profile\Controllers\ProfileController::class, 'edit'])
         ->name('profile.edit');
 
+    //Checkout
     Route::get('/checkout', [App\Web\Checkout\Controllers\CheckoutController::class, 'index'])
         ->name('checkout.index');
+
+    //Orders
+    Route::get('/orders', [App\Web\Order\Controllers\OrderController::class, 'index'])
+        ->name('orders.index');
+
+    //Payments
+    Route::get('orders/{order:code}/payment', [App\Web\Payment\Controllers\PaymentController::class, 'paymentReturn'])
+        ->name('orders.paymentReturn');
 });
 /** */
 
@@ -53,17 +63,14 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'admin'], func
     //Customers
     Route::get('/customers', [App\WebAdmin\User\Controllers\CustomerController::class, 'index'])
         ->name('admin.customers.index');
-
     Route::get('/customers/{customer}/edit', [App\WebAdmin\User\Controllers\CustomerController::class, 'edit'])
         ->name('admin.customers.edit');
 
     //Categories
     Route::get('/categories', [App\WebAdmin\Category\Controllers\CategoryController::class, 'index'])
         ->name('admin.categories.index');
-
     Route::get('/categories/create', [App\WebAdmin\Category\Controllers\CategoryController::class, 'create'])
         ->name('admin.categories.create');
-
     Route::get('/categories/{category:slug}/edit', [App\WebAdmin\Category\Controllers\CategoryController::class, 'edit'])
         ->name('admin.categories.edit');
 

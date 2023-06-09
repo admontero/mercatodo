@@ -84,14 +84,14 @@
                             <button class="btn btn-dark" @click="loadMore">{{ $t('Load more') }}...</button>
                         </div>
                         <div class="d-flex justify-content-center align-items-center" v-else-if="total > 0 && !moreExists && !loading">
-                            <p class="fw-semibold">{{ $t('No more products available') }}.</p>
+                            <p>{{ $t('No more products available') }}.</p>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center align-items-center" v-if="total === 0 && !loading">
-                        <p class="fw-semibold" v-if="queryString">
+                        <p v-if="queryString">
                             {{ $t('There are no products matching your search') }}.
                         </p>
-                        <p class="fw-semibold" v-else>
+                        <p v-else>
                             {{ $t('There are no products to display') }}.
                         </p>
                     </div>

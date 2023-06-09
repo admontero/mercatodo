@@ -1,7 +1,10 @@
 <template>
     <div class="py-3 px-5" v-if="$store.state.cartCount > 0">
         <h3 class="fs-2 text-start text-primary fw-semibold">{{ $t('Your order') }}</h3>
-        <div class="row gx-4 mt-4">
+        <div class="alert alert-dismissible alert-danger" v-if="this.error">
+            <span>{{ $t('There is a problem to process the purchase, try it later please.') }}</span>
+        </div>
+        <div class="row gx-4 mt-4" v-if="!loading">
             <div class="col-md-8">
                 <table class="table">
                     <thead>
@@ -26,15 +29,32 @@
                     {{ $t('Continue shopping') }}
                 </a>
                 <div class="p-3 border rounded">
+                    <select
+                        class="form-control mb-3"
+                        id="provider"
+                        name="provider"
+                        v-model="order.provider"
+                    >
+                        <option :value="processor" v-for="(processor, index) in processors" :key="index">
+                            {{ processor }}
+                        </option>
+                    </select>
                     <div class="d-flex justify-content-between align-items-center text-primary mb-3">
                         <h5>Total: </h5>
                         <h5 class="fw-semibold">$ {{ total }}</h5>
                     </div>
                     <div class="d-grid gap-2">
-                        <a href="/checkout" class="btn btn-primary" role="button">
-                            {{ $t('Continue Purchase') }}
+                        <a @click="pay" class="btn btn-primary" role="button">
+                            {{ $t('Finalize Purchase') }}
                         </a>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" v-else>
+            <div class="col d-flex justify-content-center align-items-center">
+                <div class="spinner-border text-primary mt-4" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
         </div>
@@ -57,9 +77,48 @@
     import { IconChevronLeft } from '@tabler/icons-vue';
 
     export default {
+        props: {
+            processors: {
+                type: Array,
+                required: true
+            }
+        },
         components: {
             CheckoutProductItem,
             IconChevronLeft,
+        },
+        data() {
+            return {
+                order: {},
+                loading: false,
+                error: '',
+            }
+        },
+        mounted() {
+            this.order.provider = this.processors[0]
+        },
+        methods: {
+            pay() {
+                this.loading = true
+                this.error = ''
+                axios.post('/api/customer/payments', this.getFormData())
+                    .then(res => {
+                        this.$store.dispatch('clearCart');
+                        window.location.href = res.data.url
+                    })
+                    .catch(err => {
+                        this.error = err.response.data.message
+                        this.loading = false
+                    })
+            },
+            getFormData() {
+                const formData = new FormData();
+                if (this.order.provider) formData.append('provider', this.order.provider)
+                formData.append('products', JSON.stringify(this.$store.state.cart))
+                formData.append('total', this.$store.state.cart.reduce((accumulator, product) => accumulator + (product.price * product.quantity), 0))
+
+                return formData;
+            },
         },
         computed: {
             total() {

@@ -10,6 +10,10 @@ class CheckoutController extends Controller
 {
     public function index(Request $request): View
     {
-        return view('checkout.index');
+        return view('checkout.index', [
+            'processors' => [
+                'PlaceToPay',
+            ],
+        ]);
     }
 }

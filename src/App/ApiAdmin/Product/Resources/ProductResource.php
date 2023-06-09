@@ -29,6 +29,12 @@ class ProductResource extends JsonResource
             'category' => CategoryResource::make($this->whenLoaded('category')),
             'state' => (string) $this->state,
             'ago' => Carbon::parse($this->created_at)->diffForHumans(),
+            'pivot' => $this->whenPivotLoaded('order_product', function () {
+                return [
+                    'price' => $this->getRelationValue('pivot')->price,
+                    'quantity' => $this->getRelationValue('pivot')->quantity,
+                ];
+            }),
         ];
     }
 }

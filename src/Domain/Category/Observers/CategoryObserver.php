@@ -22,28 +22,4 @@ class CategoryObserver
     {
         Cache::flush();
     }
-
-    /**
-     * Handle the Category "deleted" event.
-     */
-    public function deleted(Category $category): void
-    {
-        //
-    }
-
-    /**
-     * Handle the Category "restored" event.
-     */
-    public function restored(Category $category): void
-    {
-        //
-    }
-
-    /**
-     * Handle the Category "force deleted" event.
-     */
-    public function forceDeleted(Category $category): void
-    {
-        //
-    }
 }

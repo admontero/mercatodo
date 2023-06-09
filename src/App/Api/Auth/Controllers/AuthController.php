@@ -72,7 +72,7 @@ class AuthController extends Controller
 
             return response()->json(['token' => $token], 200);
         } else {
-            return response()->json(['error' => 'Credenciales erróneas']);
+            return response()->json(['error' => 'Credenciales erróneas'], 422);
         }
     }
 
