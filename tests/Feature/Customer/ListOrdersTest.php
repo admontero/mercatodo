@@ -5,7 +5,6 @@ namespace Tests\Feature\Customer;
 use Domain\Order\Models\Order;
 use Domain\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 

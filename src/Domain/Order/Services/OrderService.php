@@ -7,7 +7,6 @@ use Domain\Order\Models\Order;
 use Domain\Order\States\Canceled;
 use Domain\Order\States\Completed;
 use Domain\Order\States\Pending;
-use Illuminate\Http\Request;
 
 class OrderService
 {

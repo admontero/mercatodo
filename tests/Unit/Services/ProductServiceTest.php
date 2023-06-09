@@ -31,6 +31,6 @@ class ProductServiceTest extends TestCase
 
         $request = Request::create(route('api.admin.products.update', $product), 'PUT', $data);
 
-        $this->assertNull((new ProductService)->uploadImage($request, $product));
+        $this->assertNull((new ProductService())->uploadImage($request, $product));
     }
 }

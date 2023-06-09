@@ -30,7 +30,7 @@ class UserPolicyTest extends TestCase
 
         Passport::actingAs($this->customer);
 
-        $policy = New UserPolicy();
+        $policy = new UserPolicy();
 
         $canViewCustomer = $policy->viewAnyCustomer($this->customer, $customer);
 
@@ -46,7 +46,7 @@ class UserPolicyTest extends TestCase
 
         Passport::actingAs($this->customer);
 
-        $policy = New UserPolicy();
+        $policy = new UserPolicy();
 
         $canUpdateCustomer = $policy->updateCustomer($this->customer, $customer);
 
@@ -62,7 +62,7 @@ class UserPolicyTest extends TestCase
 
         Passport::actingAs($this->customer);
 
-        $policy = New UserPolicy();
+        $policy = new UserPolicy();
 
         $canUpdateStateCustomer = $policy->updateStatus($this->customer, $customer);
 
@@ -78,7 +78,7 @@ class UserPolicyTest extends TestCase
 
         Passport::actingAs($this->customer);
 
-        $policy = New UserPolicy();
+        $policy = new UserPolicy();
 
         $canViewCustomer = $policy->viewCustomer($this->customer, $customer);
 
@@ -94,7 +94,7 @@ class UserPolicyTest extends TestCase
 
         Passport::actingAs($this->customer);
 
-        $policy = New UserPolicy();
+        $policy = new UserPolicy();
 
         $canUpdateCustomerProfile = $policy->updateCustomerProfile($this->customer, $customer);
 

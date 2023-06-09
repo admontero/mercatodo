@@ -29,7 +29,7 @@ class CategoryPolicyTest extends TestCase
     {
         Passport::actingAs($this->customer);
 
-        $policy = New CategoryPolicy();
+        $policy = new CategoryPolicy();
 
         $canViewAny = $policy->viewAny($this->customer);
 
@@ -44,7 +44,7 @@ class CategoryPolicyTest extends TestCase
     {
         Passport::actingAs($this->customer);
 
-        $policy = New CategoryPolicy();
+        $policy = new CategoryPolicy();
 
         $canViewCategory = $policy->view($this->customer, new Category());
 
@@ -58,7 +58,7 @@ class CategoryPolicyTest extends TestCase
     {
         Passport::actingAs($this->customer);
 
-        $policy = New CategoryPolicy();
+        $policy = new CategoryPolicy();
 
         $canCreateCategory = $policy->create($this->customer, new Category());
 
@@ -74,7 +74,7 @@ class CategoryPolicyTest extends TestCase
 
         Passport::actingAs($this->customer);
 
-        $policy = New CategoryPolicy();
+        $policy = new CategoryPolicy();
 
         $canUpdateCategory = $policy->update($this->customer, $category);
 

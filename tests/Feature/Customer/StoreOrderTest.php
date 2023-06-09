@@ -12,7 +12,6 @@ use Domain\Product\Models\Product;
 use Domain\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -308,7 +307,7 @@ class StoreOrderTest extends TestCase
     protected function getProductsArray(): array
     {
         return Product::with('category')->get()
-            ->map(function($p) {
+            ->map(function ($p) {
                 $p->quantity = 1;
                 return $p;
             })

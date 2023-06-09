@@ -25,7 +25,8 @@ class PlaceToPayPayment extends PaymentBase
         $order = (new OrderService())->createOrder(OrderDTO::fromStoreRequest($request));
 
         try {
-            $result = Http::post(config('placetopay.url').'/api/session',
+            $result = Http::post(
+                config('placetopay.url').'/api/session',
                 $this->createRequest($order, $request->ip(), $request->userAgent())
             );
 
@@ -53,7 +54,8 @@ class PlaceToPayPayment extends PaymentBase
         }
 
         try {
-            $result = Http::post(config('placetopay.url').'/api/session',
+            $result = Http::post(
+                config('placetopay.url').'/api/session',
                 $this->createRequest($order, $request->ip(), $request->userAgent())
             );
 

@@ -3,7 +3,6 @@
 namespace App\Web\Payment\Controllers;
 
 use App\Controller;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Services\PlaceToPayPayment;
 
