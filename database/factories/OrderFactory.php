@@ -3,9 +3,9 @@
 namespace Database\Factories;
 
 use Domain\Order\Models\Order;
+use Domain\Order\States\Incompleted;
 use Domain\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class OrderFactory extends Factory
 {
@@ -24,9 +24,12 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'code' => time() . Str::random(6),
-            'total_price' => fake()->randomNumber(7, false),
+            'code' => time() . random_int(1000, 9999),
+            'currency' => 'COP',
+            'provider' => 'PlaceToPay',
+            'total' => fake()->randomNumber(7, false),
             'user_id' => User::factory()->customer(),
+            'state' => Incompleted::class,
         ];
     }
 }

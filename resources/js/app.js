@@ -16,6 +16,7 @@ import ProductForm from '@/components/ProductForm.vue';
 import CartDropdown from '@/components/CartDropdown.vue';
 import CartOffCanvas from '@/components/CartOffCanvas.vue';
 import Checkout from '@/components/Checkout.vue';
+import CustomerOrderList from '@/components/CustomerOrderList.vue';
 
 import store from './store.js';
 
@@ -41,6 +42,7 @@ window.app = createApp({
         CartDropdown,
         CartOffCanvas,
         Checkout,
+        CustomerOrderList,
     },
 });
 

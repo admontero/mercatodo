@@ -4,8 +4,8 @@ namespace Domain\Order\States;
 
 class Canceled extends OrderState
 {
-    public function color(): string
+    public function __toString(): string
     {
-        return 'red';
+        return 'canceled';
     }
 }

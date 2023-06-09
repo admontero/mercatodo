@@ -28,7 +28,7 @@ class OrderSeeder extends Seeder
                     ->state(new Sequence(function (Sequence $sequence) use ($order) {
                         $product = Product::inRandomOrder()->first();
                         return [
-                            'unit_price' => $product->price,
+                            'price' => $product->price,
                             'quantity' => random_int(1, 3),
                             'order_id' => $order->id,
                             'product_id' => $product->id,
@@ -37,8 +37,8 @@ class OrderSeeder extends Seeder
                     ->create();
 
                 $order->update([
-                    'total_price' => $order->products->map(function ($p) {
-                        return $p->pivot->unit_price * $p->pivot->quantity;
+                    'total' => $order->products->map(function ($p) {
+                        return $p->pivot->price * $p->pivot->quantity;
                     })->sum(),
                 ]);
             });

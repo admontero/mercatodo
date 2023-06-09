@@ -30,7 +30,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         /** Admin Gates */
-        Gate::define('view-customer', function (User $user) {
+        Gate::define('access-admin-dashboard', function (User $user) {
             if ($user->hasRole('admin')) {
                 return true;
             }
@@ -38,7 +38,15 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
-        Gate::define('update-customer', function (User $user, User $model) {
+        Gate::define('access-customer-list', function (User $user) {
+            if ($user->hasRole('admin')) {
+                return true;
+            }
+
+            return false;
+        });
+
+        Gate::define('access-customer-edit', function (User $user, User $model) {
             if ($user->hasRole('admin') and $model->hasRole('customer')) {
                 return true;
             }
@@ -46,7 +54,15 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
-        Gate::define('manage-category', function (User $user) {
+        Gate::define('access-category-views', function (User $user) {
+            if ($user->hasRole('admin')) {
+                return true;
+            }
+
+            return false;
+        });
+
+        Gate::define('access-product-views', function (User $user) {
             if ($user->hasRole('admin')) {
                 return true;
             }
@@ -56,7 +72,7 @@ class AuthServiceProvider extends ServiceProvider
         /** */
 
         /** Customer Gates */
-        Gate::define('update-profile', function (User $user) {
+        Gate::define('access-profile-edit', function (User $user) {
             if ($user->hasRole('customer')) {
                 return true;
             }

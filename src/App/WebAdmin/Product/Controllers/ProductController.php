@@ -13,6 +13,8 @@ class ProductController extends Controller
      */
     public function index(): View
     {
+        $this->authorize('access-product-views');
+
         return view('backoffice.products.index');
     }
 
@@ -21,6 +23,8 @@ class ProductController extends Controller
      */
     public function create(): View
     {
+        $this->authorize('access-product-views');
+
         return view('backoffice.products.create');
     }
 
@@ -29,6 +33,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product): View
     {
+        $this->authorize('access-product-views');
+
         return view('backoffice.products.edit', compact('product'));
     }
 }

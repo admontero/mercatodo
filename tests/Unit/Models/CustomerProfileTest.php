@@ -34,7 +34,7 @@ class CustomerProfileTest extends TestCase
      */
     public function a_customer_profile_belongs_to_country(): void
     {
-        $customer_profile = CustomerProfile::factory()->create();
+        $customer_profile = CustomerProfile::factory()->withCountry()->create();
 
         $this->assertInstanceOf(Country::class, $customer_profile->country);
     }
@@ -44,7 +44,7 @@ class CustomerProfileTest extends TestCase
      */
     public function a_customer_profile_belongs_to_state(): void
     {
-        $customer_profile = CustomerProfile::factory()->create();
+        $customer_profile = CustomerProfile::factory()->withState()->create();
 
         $this->assertInstanceOf(State::class, $customer_profile->state);
     }
@@ -54,7 +54,7 @@ class CustomerProfileTest extends TestCase
      */
     public function a_customer_profile_belongs_to_city(): void
     {
-        $customer_profile = CustomerProfile::factory()->create();
+        $customer_profile = CustomerProfile::factory()->withCity()->create();
 
         $this->assertInstanceOf(City::class, $customer_profile->city);
     }

@@ -30,7 +30,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark bg-primary shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-primary shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -40,9 +40,22 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="vr me-3 text-white d-none d-md-inline-block" style="width: 1.5px;"></div>
+
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        @auth
+                            @role('customer')
+                                <li class="nav-item">
+                                    <a
+                                        class="nav-link @if (request()->routeIs('orders.*')) active @endif"
+                                        href="{{ route('orders.index') }}"
+                                    >
+                                        {{ __('Orders') }}
+                                    </a>
+                                </li>
+                            @endrole
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->

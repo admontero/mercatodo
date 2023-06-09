@@ -31,4 +31,23 @@ class UserCanLoginTest extends TestCase
         $this->assertNotNull(auth()->user());
         $this->assertInstanceOf(User::class, auth()->user());
     }
+
+    /**
+     * @test
+     */
+    public function it_returns_a_message_error_if_credentials_are_wrong(): void
+    {
+        $admin = User::factory()->admin()->create([
+            'password' => bcrypt('12345678'),
+        ]);
+
+        $response = $this->postJson(route('api.login'), [
+            'email' => $admin->email,
+            'password' => '',
+        ]);
+
+        $response->assertUnprocessable()
+            ->assertJsonStructure(['error'])
+            ->assertJsonFragment(['error' => 'Credenciales erróneas']);
+    }
 }

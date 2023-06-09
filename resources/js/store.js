@@ -73,6 +73,25 @@ export default createStore({
         saveCart(state) {
             window.localStorage.setItem('cart', JSON.stringify(state.cart))
             window.localStorage.setItem('cartCount', state.cartCount)
+        },
+        updateCart(state, cart) {
+            state.cart = cart
+            window.localStorage.setItem('cart', JSON.stringify(state.cart))
+            window.localStorage.setItem('cartCount', state.cart.length)
+        },
+        loadToCart(state, products) {
+            state.cart = products.map(function (product) {
+                product.quantity = product.pivot.quantity
+                return product
+            })
+            state.cartCount = products.length
+
+            this.commit('saveCart');
         }
     },
+    actions: {
+        clearCart({ commit }) {
+            commit('updateCart', []);
+        }
+    }
 })

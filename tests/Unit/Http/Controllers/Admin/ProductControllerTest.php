@@ -15,7 +15,7 @@ class ProductControllerTest extends TestCase
     /**
      * @test
      */
-    public function index_method_must_returns_the_post_index_view(): void
+    public function it_returns_the_post_index_view(): void
     {
         $this->withoutVite();
 
@@ -33,7 +33,7 @@ class ProductControllerTest extends TestCase
     /**
      * @test
      */
-    public function create_method_must_returns_the_post_create_view(): void
+    public function it_returns_the_post_create_view(): void
     {
         $this->withoutVite();
 
@@ -51,7 +51,7 @@ class ProductControllerTest extends TestCase
     /**
      * @test
      */
-    public function edit_method_must_returns_the_product_edit_view(): void
+    public function it_returns_the_product_edit_view(): void
     {
         $this->withoutVite();
 
