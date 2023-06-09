@@ -134,6 +134,8 @@ class StoreOrderTest extends TestCase
     /** @test */
     public function a_order_can_be_completed(): void
     {
+        $this->withoutVite();
+
         $order = $this->getNewOrder(Pending::class);
 
         Passport::actingAs($this->customer);
@@ -163,6 +165,8 @@ class StoreOrderTest extends TestCase
     /** @test */
     public function a_order_can_be_canceled(): void
     {
+        $this->withoutVite();
+
         $order = $this->getNewOrder(Pending::class);
 
         Passport::actingAs($this->customer);
@@ -192,6 +196,8 @@ class StoreOrderTest extends TestCase
     /** @test */
     public function a_order_may_still_be_pending(): void
     {
+        $this->withoutVite();
+
         $order = $this->getNewOrder(Pending::class);
 
         Passport::actingAs($this->customer);
@@ -221,6 +227,8 @@ class StoreOrderTest extends TestCase
     /** @test */
     public function it_returns_the_current_order_state_if_is_not_pending(): void
     {
+        $this->withoutVite();
+
         $order = $this->getNewOrder(Completed::class);
 
         Passport::actingAs($this->customer);
@@ -236,6 +244,8 @@ class StoreOrderTest extends TestCase
     /** @test */
     public function it_returns_payment_error_if_order_does_not_exists(): void
     {
+        $this->withoutVite();
+
         Passport::actingAs($this->customer);
 
         $this->get('/orders/5235234/payment')
@@ -245,6 +255,8 @@ class StoreOrderTest extends TestCase
     /** @test */
     public function it_returns_an_error_view_if_order_request_information_fails(): void
     {
+        $this->withoutVite();
+        
         Product::factory()->create(['id' => 1,'name' => 'Balon','code' => '12345678','price' => '100000.00','stock' => 40]);
         Product::factory()->create(['id' => 2,'name' => 'Celular','code' => '87654321','price' => '700000.00','stock' => 21]);
 
