@@ -15,7 +15,7 @@ class CategoryControllerTest extends TestCase
     /**
      * @test
      */
-    public function index_method_must_returns_the_category_index_view(): void
+    public function it_returns_the_category_index_view(): void
     {
         $this->withoutVite();
 
@@ -33,7 +33,7 @@ class CategoryControllerTest extends TestCase
     /**
      * @test
      */
-    public function create_method_must_returns_the_category_create_view(): void
+    public function it_returns_the_category_create_view(): void
     {
         $this->withoutVite();
 
@@ -51,7 +51,7 @@ class CategoryControllerTest extends TestCase
     /**
      * @test
      */
-    public function edit_method_must_returns_the_category_edit_view(): void
+    public function it_returns_the_category_edit_view(): void
     {
         $this->withoutVite();
 

@@ -12,7 +12,7 @@ class ProductControllerTest extends TestCase
     /**
      * @test
      */
-    public function index_method_must_returns_the_product_index_view(): void
+    public function it_returns_the_product_index_view(): void
     {
         $this->withoutVite();
 

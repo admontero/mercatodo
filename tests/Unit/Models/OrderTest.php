@@ -16,6 +16,16 @@ class OrderTest extends TestCase
     /**
      * @test
      */
+    public function route_key_name_is_set_to_code(): void
+    {
+        $order = Order::factory()->create();
+
+        $this->assertEquals('code', $order->getRouteKeyName(), 'The route key name must be code');
+    }
+
+    /**
+     * @test
+     */
     public function a_order_belongs_to_a_user(): void
     {
         $user = User::factory()->create();

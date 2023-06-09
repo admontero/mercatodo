@@ -24,7 +24,7 @@ class OrderProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'unit_price' => fake()->randomNumber(6, false),
+            'price' => fake()->randomNumber(6, false),
             'quantity' => fake()->randomNumber(1),
             'order_id' => Order::factory(),
             'product_id' => Product::factory(),

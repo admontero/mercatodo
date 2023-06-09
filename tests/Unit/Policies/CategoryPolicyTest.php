@@ -3,8 +3,10 @@
 namespace Tests\Unit\Policies;
 
 use Domain\Category\Models\Category;
+use Domain\Category\Policies\CategoryPolicy;
 use Domain\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class CategoryPolicyTest extends TestCase
@@ -23,11 +25,30 @@ class CategoryPolicyTest extends TestCase
     /**
      * @test
      */
-    public function no_category_cannot_be_viewed_by_a_customer(): void
+    public function a_category_cannot_be_viewed_by_any(): void
     {
-        $this->be($this->customer);
+        Passport::actingAs($this->customer);
 
-        $this->assertFalse(auth()->user()->can('viewAny', new Category()));
+        $policy = New CategoryPolicy();
+
+        $canViewAny = $policy->viewAny($this->customer);
+
+        $this->assertFalse($canViewAny);
+
+    }
+
+    /**
+     * @test
+     */
+    public function a_category_cannot_be_viewed_by_a_customer(): void
+    {
+        Passport::actingAs($this->customer);
+
+        $policy = New CategoryPolicy();
+
+        $canViewCategory = $policy->view($this->customer, new Category());
+
+        $this->assertFalse($canViewCategory);
     }
 
     /**
@@ -35,9 +56,13 @@ class CategoryPolicyTest extends TestCase
      */
     public function a_category_cannot_be_created_by_a_customer(): void
     {
-        $this->be($this->customer);
+        Passport::actingAs($this->customer);
 
-        $this->assertFalse(auth()->user()->can('create', new Category()));
+        $policy = New CategoryPolicy();
+
+        $canCreateCategory = $policy->create($this->customer, new Category());
+
+        $this->assertFalse($canCreateCategory);
     }
 
     /**
@@ -47,8 +72,12 @@ class CategoryPolicyTest extends TestCase
     {
         $category = Category::factory()->create();
 
-        $this->be($this->customer);
+        Passport::actingAs($this->customer);
 
-        $this->assertFalse(auth()->user()->can('update', $category));
+        $policy = New CategoryPolicy();
+
+        $canUpdateCategory = $policy->update($this->customer, $category);
+
+        $this->assertFalse($canUpdateCategory);
     }
 }

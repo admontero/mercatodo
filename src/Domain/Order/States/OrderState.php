@@ -7,13 +7,12 @@ use Spatie\ModelStates\StateConfig;
 
 abstract class OrderState extends State
 {
-    abstract public function color(): string;
-
     public static function config(): StateConfig
     {
         return parent::config()
-            ->default(Pending::class)
-            ->allowTransition(Pending::class, Paid::class)
+            ->default(Incompleted::class)
+            ->allowTransition(Incompleted::class, Pending::class)
+            ->allowTransition(Pending::class, Completed::class)
             ->allowTransition(Pending::class, Canceled::class)
         ;
     }

@@ -23,7 +23,11 @@ class Order extends Model
 
     protected $fillable = [
         'code',
-        'total_price',
+        'total',
+        'currency',
+        'provider',
+        'request_id',
+        'url',
         'user_id',
     ];
 
@@ -40,13 +44,18 @@ class Order extends Model
         return OrderFactory::new();
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'code';
+    }
+
     /**
      * @return BelongsToMany<Product>
      */
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)
-            ->withPivot('unit_price', 'quantity')
+            ->withPivot('price', 'quantity')
             ->withTimestamps();
     }
 

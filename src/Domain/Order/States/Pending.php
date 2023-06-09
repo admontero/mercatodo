@@ -4,8 +4,8 @@ namespace Domain\Order\States;
 
 class Pending extends OrderState
 {
-    public function color(): string
+    public function __toString(): string
     {
-        return 'yellow';
+        return 'pending';
     }
 }

@@ -124,5 +124,16 @@
     "Search country": "Buscar país",
     "Search state": "Buscar estado / departamento",
     "Search city": "Buscar ciudad",
-    "Search category": "Buscar categoría"
+    "Search category": "Buscar categoría",
+    "Finalize Purchase": "Finalizar Compra",
+    "My Orders": "Mis Pedidos",
+    "Date of order": "Fecha del pedido",
+    "pending": "pendiente",
+    "canceled": "cancelada",
+    "completed": "completada",
+    "incompleted": "incompleta",
+    "unt": "und",
+    "There are no orders to display": "No hay pedidos para mostrar",
+    "Retry Purchase": "Reintentar Compra",
+    "Reorder": "Hacer Pedido de Nuevo"
 }

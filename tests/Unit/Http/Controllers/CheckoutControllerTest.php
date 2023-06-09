@@ -12,7 +12,7 @@ class CheckoutControllerTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function index_method_returns_the_checkout_cart_view(): void
+    public function it_returns_the_checkout_cart_view(): void
     {
         $this->withoutVite();
 

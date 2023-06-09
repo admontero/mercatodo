@@ -27,9 +27,36 @@ class CustomerProfileFactory extends Factory
         return [
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'country_id' => Country::factory(),
-            'state_id' => State::factory(),
-            'city_id' => City::factory(),
         ];
+    }
+
+    /**
+     * Add a country to the profile
+     */
+    public function withCountry(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'country_id' => Country::factory(),
+        ]);
+    }
+
+    /**
+     * Add a state to the profile
+     */
+    public function withState(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'state_id' => State::factory(),
+        ]);
+    }
+
+    /**
+     * Add a city to the profile
+     */
+    public function withCity(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'city_id' => City::factory(),
+        ]);
     }
 }
