@@ -2,6 +2,9 @@
 
 namespace Tests\Feature\Admin;
 
+use Domain\City\Models\City;
+use Domain\Country\Models\Country;
+use Domain\State\Models\State;
 use Domain\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\Passport;
@@ -37,14 +40,18 @@ class UpdateCustomerTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
+        $country = Country::factory()->create();
+        $state = State::factory()->create(['country_id' => $country->id]);
+        $city = City::factory()->create(['state_id' => $state->id]);
+
         $data = [
             'first_name' => 'Cliente',
             'last_name' => 'Actualizado',
             'document_type' => 'CC',
             'document' => '12345678',
-            'country_id' => '1',
-            'state_id' => '5',
-            'city_id' => '167',
+            'country_id' => $country->id,
+            'state_id' => $state->id,
+            'city_id' => $city->id,
         ];
 
         Passport::actingAs($this->admin);

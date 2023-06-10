@@ -11,7 +11,5 @@ abstract class PaymentBase
 {
     abstract public function pay(StoreOrderRequest $request): JsonResponse;
 
-    abstract public function retryPay(Request $request, Order $order): JsonResponse;
-
     abstract public function sendNotification(): void;
 }

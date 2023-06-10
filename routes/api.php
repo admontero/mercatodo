@@ -97,8 +97,6 @@ Route::group(['middleware' => ['auth:api', 'role:customer', 'verified']], functi
     //Payment routes
     Route::post('/customer/payments', [App\ApiCustomer\Payment\Controllers\PaymentController::class, 'processPayment'])
         ->name('api.customer.payments.processPayment');
-    Route::put('/customer/payments/{order:code}', [App\ApiCustomer\Payment\Controllers\PaymentController::class, 'retryPayment'])
-        ->name('api.customer.payments.retryPayment');
 
     //Order routes
     Route::get('/customer/orders', [App\ApiCustomer\Order\Controllers\OrderController::class, 'index'])

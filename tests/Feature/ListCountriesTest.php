@@ -21,7 +21,7 @@ class ListCountriesTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertJsonCount(21)
+            ->assertJsonCount(20)
             ->assertJsonFragment([
                 'id' => $countries->first()->id,
                 'name' => $countries->first()->name,

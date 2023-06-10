@@ -65,4 +65,28 @@ class ProductService
 
         return null;
     }
+
+    public function checkStockAvailable(string $id, int $qty): void
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            throw new \Exception('El producto a comprar no existe.', 500);
+        }
+
+        if ($product->stock < $qty) {
+            throw new \Exception('No hay existencias suficientes para crear la orden.', 500);
+        }
+    }
+
+    public function getProductById(string $id): Product
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            throw new \Exception('El producto a comprar no existe.', 500);
+        }
+
+        return $product;
+    }
 }

@@ -10,8 +10,7 @@ abstract class OrderState extends State
     public static function config(): StateConfig
     {
         return parent::config()
-            ->default(Incompleted::class)
-            ->allowTransition(Incompleted::class, Pending::class)
+            ->default(Pending::class)
             ->allowTransition(Pending::class, Completed::class)
             ->allowTransition(Pending::class, Canceled::class)
         ;

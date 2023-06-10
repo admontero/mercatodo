@@ -6,7 +6,7 @@ use Domain\Order\DTOs\OrderDTO;
 use Domain\Order\Models\Order;
 use Domain\Order\States\Canceled;
 use Domain\Order\States\Completed;
-use Domain\Order\States\Pending;
+use Domain\Product\Services\ProductService;
 
 class OrderService
 {
@@ -14,14 +14,19 @@ class OrderService
     {
         $order = Order::create([
             'code' => $this->generateOrderCode(),
-            'total' => $dto->total,
             'provider' => $dto->provider,
             'user_id' => auth()->id(),
         ]);
 
-        foreach (json_decode($dto->products, true) as $item) {
-            $order->products()->attach($item['id'], ['price' => $item['price'], 'quantity' => $item['quantity']]);
+        foreach ($dto->products as $item) {
+            (new ProductService())->checkStockAvailable($item['id'], $item['quantity']);
+
+            $product = (new ProductService())->getProductById($item['id']);
+
+            $order->products()->attach($item['id'], ['price' => $product->price, 'quantity' => $item['quantity']]);
         }
+
+        $this->updateOrderTotal($order);
 
         return $order;
     }
@@ -29,13 +34,6 @@ class OrderService
     public function updateOrder(Order $order): Order
     {
         $order->save();
-
-        return $order;
-    }
-
-    public function updateToPending(Order $order): Order
-    {
-        $order->state->transitionTo(Pending::class);
 
         return $order;
     }
@@ -60,6 +58,17 @@ class OrderService
             ->where('user_id', auth()->id())
             ->where('code', $code)
             ->first();
+    }
+
+    public function updateOrderTotal(Order $order): void
+    {
+        $total = $order->products->map(function ($p) {
+            return $p->pivot->price * $p->pivot->quantity;
+        })->sum();
+
+        $order->update([
+            'total' => $total
+        ]);
     }
 
     private function generateOrderCode(): string

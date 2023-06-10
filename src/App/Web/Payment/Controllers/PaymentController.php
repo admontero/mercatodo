@@ -10,6 +10,8 @@ class PaymentController extends Controller
 {
     public function paymentReturn(PlaceToPayPayment $placeToPayPayment, string $code): View
     {
+        $this->authorize('access-payment-return');
+
         return $placeToPayPayment->getRequestInformation($code);
     }
 }

@@ -2,10 +2,7 @@
 
 namespace Tests;
 
-use Database\Seeders\CitySeeder;
-use Database\Seeders\CountrySeeder;
 use Database\Seeders\RoleSeeder;
-use Database\Seeders\StateSeeder;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -18,9 +15,6 @@ abstract class TestCase extends BaseTestCase
 
         $this->artisan('passport:install', ['--no-interaction' => true]);
 
-        $this->seed(CountrySeeder::class);
-        $this->seed(StateSeeder::class);
-        $this->seed(CitySeeder::class);
         $this->seed(RoleSeeder::class);
     }
 

@@ -79,6 +79,30 @@ class AuthServiceProvider extends ServiceProvider
 
             return false;
         });
+
+        Gate::define('access-checkout-index', function (User $user) {
+            if ($user->hasRole('customer')) {
+                return true;
+            }
+
+            return false;
+        });
+
+        Gate::define('access-payment-return', function (User $user) {
+            if ($user->hasRole('customer')) {
+                return true;
+            }
+
+            return false;
+        });
+
+        Gate::define('access-order-list', function (User $user) {
+            if ($user->hasRole('customer')) {
+                return true;
+            }
+
+            return false;
+        });
         /** */
     }
 }

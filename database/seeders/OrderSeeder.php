@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use Domain\Order\Models\Order;
+use Domain\Order\States\Canceled;
+use Domain\Order\States\Completed;
+use Domain\Order\States\Pending;
 use Domain\OrderProduct\Models\OrderProduct;
 use Domain\Product\Models\Product;
 use Domain\User\Models\User;
@@ -36,10 +39,13 @@ class OrderSeeder extends Seeder
                     }))
                     ->create();
 
+                $states = [Pending::class, Canceled::class, Completed::class];
+
                 $order->update([
                     'total' => $order->products->map(function ($p) {
                         return $p->pivot->price * $p->pivot->quantity;
                     })->sum(),
+                    'state' => $states[array_rand($states)],
                 ]);
             });
     }

@@ -5,7 +5,6 @@ namespace Tests\Feature\Customer;
 use Domain\Order\Models\Order;
 use Domain\Order\States\Canceled;
 use Domain\Order\States\Completed;
-use Domain\Order\States\Incompleted;
 use Domain\Order\States\Pending;
 use Domain\OrderProduct\Models\OrderProduct;
 use Domain\Product\Models\Product;
@@ -78,65 +77,11 @@ class StoreOrderTest extends TestCase
     }
 
     /** @test */
-    public function customer_can_retry_the_pay_a_order_if_state_is_incompleted(): void
-    {
-        $order = $this->getNewOrder();
-
-        Passport::actingAs($this->customer);
-
-        $mockResponse = [
-            'status' => [
-                'status' => 'OK',
-                'reason' => 'PC',
-                'message' => 'La petición se ha procesado correctamente',
-                'date' => '2021-11-30T15:08:27-05:00'
-            ],
-            'requestId' =>  1,
-            'processUrl' => 'https://checkout-co.placetopay.com/session/1/cc9b8690b1f7228c78b759ce27d7e80a'
-        ];
-
-        Http::fake([config('placetopay.url') . '/*' => Http::response($mockResponse)]);
-
-        $this->putJson(route('api.customer.payments.retryPayment', $order))
-            ->assertSuccessful()
-            ->assertJsonStructure(['url']);
-    }
-
-    /** @test */
-    public function it_returns_an_error_message_if_order_retry_pay_fails(): void
-    {
-        Product::factory()->create(['id' => 1,'name' => 'Balon','code' => '12345678','price' => '100000.00','stock' => 40]);
-        Product::factory()->create(['id' => 2,'name' => 'Celular','code' => '87654321','price' => '700000.00','stock' => 21]);
-
-        $order = $this->getNewOrder();
-
-        Passport::actingAs($this->customer);
-
-        Http::fake([config('placetopay.url') . '/*' => Http::response([], 500)]);
-
-        $this->putJson(route('api.customer.payments.retryPayment', $order))
-            ->assertStatus(500)
-            ->assertJsonStructure(['message']);
-    }
-
-    /** @test */
-    public function customer_cannot_retry_the_pay_a_order_if_state_is_not_incompleted(): void
-    {
-        $order = $this->getNewOrder(Pending::class);
-
-        Passport::actingAs($this->customer);
-
-        $this->putJson(route('api.customer.payments.retryPayment', $order))
-            ->assertUnprocessable()
-            ->assertJsonFragment(['message' => 'No se puede reintentar el pago de esta order']);
-    }
-
-    /** @test */
     public function a_order_can_be_completed(): void
     {
         $this->withoutVite();
 
-        $order = $this->getNewOrder(Pending::class);
+        $order = $this->getNewOrder();
 
         Passport::actingAs($this->customer);
 
@@ -167,7 +112,7 @@ class StoreOrderTest extends TestCase
     {
         $this->withoutVite();
 
-        $order = $this->getNewOrder(Pending::class);
+        $order = $this->getNewOrder();
 
         Passport::actingAs($this->customer);
 
@@ -198,7 +143,7 @@ class StoreOrderTest extends TestCase
     {
         $this->withoutVite();
 
-        $order = $this->getNewOrder(Pending::class);
+        $order = $this->getNewOrder();
 
         Passport::actingAs($this->customer);
 
@@ -262,7 +207,7 @@ class StoreOrderTest extends TestCase
 
         Passport::actingAs($this->customer);
 
-        $order = $this->getNewOrder(Pending::class);
+        $order = $this->getNewOrder();
 
         Http::fake([config('placetopay.url') . '/*' => Http::response([], 500)]);
 
@@ -270,7 +215,7 @@ class StoreOrderTest extends TestCase
             ->assertViewIs('payment.error');
     }
 
-    protected function getNewOrder(string $state = Incompleted::class): Order
+    protected function getNewOrder(string $state = Pending::class): Order
     {
         Order::factory()
             ->state(new Sequence(
@@ -306,7 +251,6 @@ class StoreOrderTest extends TestCase
     protected function getOrderValidData(array $invalidData = []): array
     {
         $validData = [
-            'total' => '800000.00',
             'provider' => 'PlaceToPay',
             'products' => json_encode(
                 $this->getProductsArray()

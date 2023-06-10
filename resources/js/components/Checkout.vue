@@ -115,7 +115,6 @@
                 const formData = new FormData();
                 if (this.order.provider) formData.append('provider', this.order.provider)
                 formData.append('products', JSON.stringify(this.$store.state.cart))
-                formData.append('total', this.$store.state.cart.reduce((accumulator, product) => accumulator + (product.price * product.quantity), 0))
 
                 return formData;
             },
