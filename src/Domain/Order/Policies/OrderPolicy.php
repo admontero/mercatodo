@@ -2,7 +2,6 @@
 
 namespace Domain\Order\Policies;
 
-use Domain\Order\Models\Order;
 use Domain\Role\Enums\RoleEnum;
 use Domain\User\Models\User;
 

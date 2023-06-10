@@ -8,8 +8,6 @@ use Domain\Order\States\Pending;
 use Domain\Order\Traits\OrderTrait;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class ConsultSessionPlaceToPay extends Command
 {

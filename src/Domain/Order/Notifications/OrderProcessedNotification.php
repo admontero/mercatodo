@@ -21,7 +21,8 @@ class OrderProcessedNotification extends Notification implements ShouldQueue
      */
     public function __construct(
         public Order $order
-    ) {}
+    ) {
+    }
 
     /**
      * Get the notification's delivery channels.
@@ -45,7 +46,7 @@ class OrderProcessedNotification extends Notification implements ShouldQueue
             default => '',
         };
 
-        return (new MailMessage)
+        return (new MailMessage())
                     ->subject('Order ' . $state)
                     ->line('Hi' . ' ' . $notifiable->profileable?->first_name . ' ' . $notifiable->profileable?->last_name)
                     ->line('Your Order #' . $this->order->code . ' has been ' . $state . '.')

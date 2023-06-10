@@ -4,8 +4,6 @@ namespace Domain\Order\Listeners;
 
 use Domain\Order\Events\OrderCanceled;
 use Domain\Product\Services\ProductService;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class RestoreProductStock
 {

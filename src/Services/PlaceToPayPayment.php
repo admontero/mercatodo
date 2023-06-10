@@ -10,7 +10,6 @@ use Domain\Order\Services\OrderService;
 use Domain\Order\States\Pending;
 use Domain\Order\Traits\OrderTrait;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;

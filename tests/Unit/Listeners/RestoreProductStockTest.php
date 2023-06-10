@@ -7,7 +7,6 @@ use Domain\Order\Events\OrderCreated;
 use Domain\Order\Listeners\RestoreProductStock;
 use Domain\Order\Listeners\SubtractProductStock;
 use Domain\Order\Models\Order;
-use Domain\Order\Services\OrderService;
 use Domain\Order\States\Pending;
 use Domain\Product\Models\Product;
 use Domain\User\Models\User;
