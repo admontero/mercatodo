@@ -10,13 +10,12 @@ use Domain\Order\States\Canceled;
 use Domain\Order\States\Completed;
 use Domain\Product\Services\ProductService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
     public function createOrder(OrderDTO $dto): Order
     {
-        $order = DB::transaction(function() use ($dto) {
+        $order = DB::transaction(function () use ($dto) {
             $order = Order::create([
                 'code' => $this->generateOrderCode(),
                 'provider' => $dto->provider,
