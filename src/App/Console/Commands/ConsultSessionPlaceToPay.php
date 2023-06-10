@@ -39,13 +39,16 @@ class ConsultSessionPlaceToPay extends Command
                 'auth' => $this->getAuth(),
             ]);
 
-            $status = $result->json()['status']['status'];
+            if ($result->ok()) {
+                $status = $result->json()['status']['status'];
 
-            match($status) {
-                'APPROVED' => (new OrderService())->updateToCompleted($order),
-                'REJECTED' => (new OrderService())->updateToCanceled($order),
-                default => null,
-            };
+                match($status) {
+                    'APPROVED' => (new OrderService())->updateToCompleted($order),
+                    'REJECTED' => (new OrderService())->updateToCanceled($order),
+                    default => null,
+                };
+            }
+
         }
     }
 }
