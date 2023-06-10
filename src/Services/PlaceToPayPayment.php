@@ -5,6 +5,7 @@ namespace Services;
 use App\ApiCustomer\Order\Requests\StoreOrderRequest;
 use Carbon\Carbon;
 use Domain\Order\DTOs\OrderDTO;
+use Domain\Order\Events\OrderCreated;
 use Domain\Order\Models\Order;
 use Domain\Order\Services\OrderService;
 use Domain\Order\States\Pending;
@@ -30,14 +31,18 @@ class PlaceToPayPayment extends PaymentBase
                 $this->createRequest($order, $request->ip(), $request->userAgent())
             );
 
+            if (!$result->ok()) {
+                throw new \Exception('Hubo un error al crear el pago.', 500);
+            }
+
             $order->request_id = $result->json()['requestId'];
             $order->url = $result->json()['processUrl'];
 
             $order = (new OrderService())->updateOrder($order);
 
-            $this->sendNotification($order);
+            OrderCreated::dispatch($order);
 
-            $order->refresh();
+            $this->sendNotification($order);
 
             return response()->json(['url' => $order->url], 200);
         } catch (\Exception $e) {
@@ -67,6 +72,10 @@ class PlaceToPayPayment extends PaymentBase
             $result = Http::post(config('placetopay.url') . '/api/session/' . $order->request_id, [
                 'auth' => $this->getAuth(),
             ]);
+
+            if (!$result->ok()) {
+                throw new \Exception('Hubo un error en la consulta del pago.', 500);
+            }
 
             $status = $result->json()['status']['status'];
 

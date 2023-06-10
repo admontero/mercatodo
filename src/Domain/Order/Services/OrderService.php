@@ -4,34 +4,37 @@ namespace Domain\Order\Services;
 
 use Domain\Order\DTOs\OrderDTO;
 use Domain\Order\Events\OrderCanceled;
-use Domain\Order\Events\OrderCreated;
 use Domain\Order\Models\Order;
 use Domain\Order\Notifications\OrderProcessedNotification;
 use Domain\Order\States\Canceled;
 use Domain\Order\States\Completed;
 use Domain\Product\Services\ProductService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
     public function createOrder(OrderDTO $dto): Order
     {
-        $order = Order::create([
-            'code' => $this->generateOrderCode(),
-            'provider' => $dto->provider,
-            'user_id' => auth()->id(),
-        ]);
+        $order = DB::transaction(function() use ($dto) {
+            $order = Order::create([
+                'code' => $this->generateOrderCode(),
+                'provider' => $dto->provider,
+                'user_id' => auth()->id(),
+            ]);
 
-        foreach ($dto->products as $item) {
-            (new ProductService())->checkStockAvailable($item['id'], $item['quantity']);
+            foreach ($dto->products as $item) {
+                (new ProductService())->checkStockAvailable($item['id'], $item['quantity']);
 
-            $product = (new ProductService())->getProductById($item['id']);
+                $product = (new ProductService())->getProductById($item['id']);
 
-            $order->products()->attach($item['id'], ['price' => $product->price, 'quantity' => $item['quantity']]);
-        }
+                $order->products()->attach($item['id'], ['price' => $product->price, 'quantity' => $item['quantity']]);
+            }
 
-        $this->updateOrderTotal($order);
+            $this->updateOrderTotal($order);
 
-        OrderCreated::dispatch($order);
+            return $order;
+        });
 
         return $order;
     }
@@ -39,6 +42,8 @@ class OrderService
     public function updateOrder(Order $order): Order
     {
         $order->save();
+
+        $order->refresh();
 
         return $order;
     }
