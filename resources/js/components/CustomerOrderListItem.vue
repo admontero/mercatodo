@@ -14,9 +14,6 @@
                 </div>
                 <div class="text-end">
                     <span class="d-block fw-semibold"># {{ order.code }}</span>
-                    <span class="badge bg-warning text-uppercase" v-if="order.state === 'incompleted'">
-                        {{ $t(order.state) }}
-                    </span>
                     <span class="badge bg-info text-uppercase" v-if="order.state === 'pending'">
                         {{ $t(order.state) }}
                     </span>
@@ -44,16 +41,9 @@
                             {{ $t('Continue Purchase') }}
                         </a>
                     </div>
-                    <div class="d-flex justify-content-end" v-if="order.state === 'incompleted'">
-                        <form @submit.prevent="retryPay">
-                            <button class="btn btn-sm btn-primary" type="submit">
-                                {{ $t('Retry Purchase') }}
-                            </button>
-                        </form>
-                    </div>
                     <div class="d-flex justify-content-end" v-if="order.state === 'canceled'">
                         <button class="btn btn-sm btn-primary" @click="newOrder">
-                            {{ $t('Reorder') }}
+                            {{ $t('Retry Purchase') }}
                         </button>
                     </div>
                 </div>

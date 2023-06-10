@@ -3,10 +3,13 @@
 namespace Domain\Order\Services;
 
 use Domain\Order\DTOs\OrderDTO;
+use Domain\Order\Events\OrderCanceled;
+use Domain\Order\Events\OrderCreated;
 use Domain\Order\Models\Order;
+use Domain\Order\Notifications\OrderProcessedNotification;
 use Domain\Order\States\Canceled;
 use Domain\Order\States\Completed;
-use Domain\Order\States\Pending;
+use Domain\Product\Services\ProductService;
 
 class OrderService
 {
@@ -14,14 +17,21 @@ class OrderService
     {
         $order = Order::create([
             'code' => $this->generateOrderCode(),
-            'total' => $dto->total,
             'provider' => $dto->provider,
             'user_id' => auth()->id(),
         ]);
 
-        foreach (json_decode($dto->products, true) as $item) {
-            $order->products()->attach($item['id'], ['price' => $item['price'], 'quantity' => $item['quantity']]);
+        foreach ($dto->products as $item) {
+            (new ProductService())->checkStockAvailable($item['id'], $item['quantity']);
+
+            $product = (new ProductService())->getProductById($item['id']);
+
+            $order->products()->attach($item['id'], ['price' => $product->price, 'quantity' => $item['quantity']]);
         }
+
+        $this->updateOrderTotal($order);
+
+        OrderCreated::dispatch($order);
 
         return $order;
     }
@@ -33,16 +43,11 @@ class OrderService
         return $order;
     }
 
-    public function updateToPending(Order $order): Order
-    {
-        $order->state->transitionTo(Pending::class);
-
-        return $order;
-    }
-
     public function updateToCompleted(Order $order): Order
     {
         $order->state->transitionTo(Completed::class);
+
+        $this->sendOrderProcessedNotification($order);
 
         return $order;
     }
@@ -50,6 +55,10 @@ class OrderService
     public function updateToCanceled(Order $order): Order
     {
         $order->state->transitionTo(Canceled::class);
+
+        OrderCanceled::dispatch($order);
+
+        $this->sendOrderProcessedNotification($order);
 
         return $order;
     }
@@ -60,6 +69,22 @@ class OrderService
             ->where('user_id', auth()->id())
             ->where('code', $code)
             ->first();
+    }
+
+    public function updateOrderTotal(Order $order): void
+    {
+        $total = $order->products->map(function ($p) {
+            return $p->getRelationValue('pivot')->price * $p->getRelationValue('pivot')->quantity;
+        })->sum();
+
+        $order->update([
+            'total' => $total
+        ]);
+    }
+
+    public function sendOrderProcessedNotification(Order $order): void
+    {
+        $order->user?->notify(new OrderProcessedNotification($order));
     }
 
     private function generateOrderCode(): string

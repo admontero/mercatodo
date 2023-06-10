@@ -14,7 +14,7 @@ class OrderController extends Controller
      */
     public function index(Request $request): OrderCollection
     {
-        //$this->authorize('view-any', new Product());
+        $this->authorize('view-any', new Order());
 
         $orders = new OrderCollection(
             Order::with(['user', 'products.category'])

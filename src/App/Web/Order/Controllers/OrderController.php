@@ -12,6 +12,8 @@ class OrderController extends Controller
      */
     public function index(): View
     {
+        $this->authorize('access-order-list');
+
         return view('orders.index');
     }
 }

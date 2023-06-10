@@ -3,6 +3,7 @@
 namespace Support\Middlewares;
 
 use Closure;
+use Domain\Role\Enums\RoleEnum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +24,7 @@ class RedirectIfAuthenticated
                 /** @var \Domain\User\Models\User $user */
                 $user = Auth::user();
 
-                if ($user->hasRole('admin')) {
+                if ($user->hasRole(RoleEnum::ADMIN->value)) {
                     return redirect(route('admin.dashboard'));
                 }
 

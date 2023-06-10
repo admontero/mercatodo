@@ -13,7 +13,7 @@ return new class () extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
-            $table->decimal('total', 16, 2);
+            $table->decimal('total', 16, 2)->nullable();
             $table->enum('currency', ['COP'])->default('COP');
             $table->string('provider');
             $table->string('request_id')->nullable();

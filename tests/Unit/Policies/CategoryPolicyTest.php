@@ -25,7 +25,7 @@ class CategoryPolicyTest extends TestCase
     /**
      * @test
      */
-    public function a_category_cannot_be_viewed_by_any(): void
+    public function a_category_cannot_be_viewed_by_any_customer(): void
     {
         Passport::actingAs($this->customer);
 
@@ -34,7 +34,6 @@ class CategoryPolicyTest extends TestCase
         $canViewAny = $policy->viewAny($this->customer);
 
         $this->assertFalse($canViewAny);
-
     }
 
     /**

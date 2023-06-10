@@ -3,6 +3,7 @@
 namespace Domain\Category\Policies;
 
 use Domain\Category\Models\Category;
+use Domain\Role\Enums\RoleEnum;
 use Domain\User\Models\User;
 
 class CategoryPolicy
@@ -12,7 +13,7 @@ class CategoryPolicy
      */
     public function viewAny(User $user): bool
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole(RoleEnum::ADMIN->value)) {
             return true;
         }
 
@@ -24,7 +25,7 @@ class CategoryPolicy
      */
     public function view(User $user, Category $category): bool
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole(RoleEnum::ADMIN->value)) {
             return true;
         }
 
@@ -36,7 +37,7 @@ class CategoryPolicy
      */
     public function create(User $user): bool
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole(RoleEnum::ADMIN->value)) {
             return true;
         }
 
@@ -48,7 +49,7 @@ class CategoryPolicy
      */
     public function update(User $user, Category $category): bool
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole(RoleEnum::ADMIN->value)) {
             return true;
         }
 

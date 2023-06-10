@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Domain\Order\Models\Order;
-use Domain\Order\States\Incompleted;
+use Domain\Order\States\Pending;
 use Domain\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,12 +24,12 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'code' => time() . random_int(1000, 9999),
+            'code' => fake()->unique()->ean8(),
             'currency' => 'COP',
             'provider' => 'PlaceToPay',
             'total' => fake()->randomNumber(7, false),
             'user_id' => User::factory()->customer(),
-            'state' => Incompleted::class,
+            'state' => Pending::class,
         ];
     }
 }

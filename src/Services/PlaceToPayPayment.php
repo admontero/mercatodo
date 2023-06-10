@@ -7,24 +7,24 @@ use Carbon\Carbon;
 use Domain\Order\DTOs\OrderDTO;
 use Domain\Order\Models\Order;
 use Domain\Order\Services\OrderService;
-use Domain\Order\States\Incompleted;
 use Domain\Order\States\Pending;
+use Domain\Order\Traits\OrderTrait;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class PlaceToPayPayment extends PaymentBase
 {
+    use OrderTrait;
+
     public function pay(StoreOrderRequest $request): JsonResponse
     {
         Log::info('[PAY]: Pago con PlaceToPay');
 
-        $order = (new OrderService())->createOrder(OrderDTO::fromStoreRequest($request));
-
         try {
+            $order = (new OrderService())->createOrder(OrderDTO::fromStoreRequest($request));
+
             $result = Http::post(
                 config('placetopay.url').'/api/session',
                 $this->createRequest($order, $request->ip(), $request->userAgent())
@@ -35,7 +35,7 @@ class PlaceToPayPayment extends PaymentBase
 
             $order = (new OrderService())->updateOrder($order);
 
-            $order = (new OrderService())->updateToPending($order);
+            $this->sendNotification($order);
 
             $order->refresh();
 
@@ -45,38 +45,10 @@ class PlaceToPayPayment extends PaymentBase
         }
     }
 
-    public function retryPay(Request $request, Order $order): JsonResponse
-    {
-        Log::info('[PAY]: Reintento de Pago con PlaceToPay');
-
-        if ($order->state->getValue() !== Incompleted::class) {
-            return response()->json(['message' => 'No se puede reintentar el pago de esta order'], 422);
-        }
-
-        try {
-            $result = Http::post(
-                config('placetopay.url').'/api/session',
-                $this->createRequest($order, $request->ip(), $request->userAgent())
-            );
-
-            $order->request_id = $result->json()['requestId'];
-            $order->url = $result->json()['processUrl'];
-
-            $order = (new OrderService())->updateOrder($order);
-
-            $order = (new OrderService())->updateToPending($order);
-
-            $order->refresh();
-
-            return response()->json(['url' => $order->url], 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
-        }
-    }
-
-    public function sendNotification(): void
+    public function sendNotification(Order $order): void
     {
         Log::info('[PAY]: Enviamos la notificacion PlaceToPay');
+        (new OrderService())->sendOrderProcessedNotification($order);
     }
 
     public function getRequestInformation(string $code): View
@@ -113,28 +85,6 @@ class PlaceToPayPayment extends PaymentBase
     /**
      * @return array<string, mixed>
      */
-    private function getAuth(): array
-    {
-        $nonce = Str::random();
-        $seed = date('c');
-
-        return [
-            'login' => config('placetopay.login'),
-            'tranKey' => base64_encode(
-                hash(
-                    'sha256',
-                    $nonce.$seed.config('placetopay.tranKey'),
-                    true
-                )
-            ),
-            'nonce' => base64_encode($nonce),
-            'seed' => $seed,
-        ];
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
     private function createRequest(Order $order, ?string $ipAddress, ?string $userAgent): array
     {
         return [
@@ -152,7 +102,7 @@ class PlaceToPayPayment extends PaymentBase
                 'shipping' => $this->getCustomerData(),
                 'items' => $this->getOrderItems($order),
             ],
-            'expiration' => Carbon::now()->addHour(),
+            'expiration' => Carbon::now()->addMinutes(15),
             'returnUrl' => route('orders.paymentReturn', $order->code),
             'ipAddress' => $ipAddress,
             'userAgent' => $userAgent,

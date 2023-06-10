@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Domain\CustomerProfile\Models\CustomerProfile;
+use Domain\Role\Enums\RoleEnum;
 use Domain\User\Models\User;
 use Domain\User\States\Activated;
 use Domain\User\States\Inactivated;
@@ -60,7 +61,7 @@ class UserFactory extends Factory
      */
     public function admin(): self
     {
-        return $this->assignRole('admin');
+        return $this->assignRole(RoleEnum::ADMIN->value);
     }
 
     /**
@@ -68,7 +69,7 @@ class UserFactory extends Factory
      */
     public function customer(): self
     {
-        return $this->assignRole('customer');
+        return $this->assignRole(RoleEnum::CUSTOMER->value);
     }
 
     /**

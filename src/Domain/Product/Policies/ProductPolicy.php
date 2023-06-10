@@ -3,6 +3,7 @@
 namespace Domain\Product\Policies;
 
 use Domain\Product\Models\Product;
+use Domain\Role\Enums\RoleEnum;
 use Domain\User\Models\User;
 
 class ProductPolicy
@@ -12,7 +13,7 @@ class ProductPolicy
      */
     public function viewAny(User $user): bool
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole(RoleEnum::ADMIN->value)) {
             return true;
         }
 
@@ -24,7 +25,7 @@ class ProductPolicy
      */
     public function create(User $user): bool
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole(RoleEnum::ADMIN->value)) {
             return true;
         }
 
@@ -36,7 +37,7 @@ class ProductPolicy
      */
     public function update(User $user, Product $product): bool
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole(RoleEnum::ADMIN->value)) {
             return true;
         }
 
@@ -48,7 +49,7 @@ class ProductPolicy
      */
     public function updateStatus(User $user, Product $product): bool
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole(RoleEnum::ADMIN->value)) {
             return true;
         }
 

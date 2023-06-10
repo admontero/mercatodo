@@ -15,6 +15,20 @@ class StoreOrderRequest extends FormRequest
     }
 
     /**
+     * Get data to be validated from the request.
+     *
+     * @return array<string, string>
+     */
+    public function validationData()
+    {
+        $this->merge([
+            'products' => json_decode($this->input('products'), true)
+        ]);
+
+        return $this->all();
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, mixed>
@@ -22,10 +36,9 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'total' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
             'provider' => 'required|string',
-            'products' => 'required|string',
-            'products.*.price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
+            'products' => 'required|array',
+            'products.*.id' => 'required|numeric|exists:products,id',
             'products.*.quantity' => 'required|numeric|gt:0',
         ];
     }
