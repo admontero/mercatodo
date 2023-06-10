@@ -3,6 +3,7 @@
 namespace Domain\Order\Policies;
 
 use Domain\Order\Models\Order;
+use Domain\Role\Enums\RoleEnum;
 use Domain\User\Models\User;
 
 class OrderPolicy
@@ -12,7 +13,7 @@ class OrderPolicy
      */
     public function viewAny(User $user): bool
     {
-        if ($user->hasRole('customer')) {
+        if ($user->hasRole(RoleEnum::CUSTOMER->value)) {
             return true;
         }
 
@@ -24,7 +25,7 @@ class OrderPolicy
      */
     public function createOrder(User $user): bool
     {
-        if ($user->hasRole('customer')) {
+        if ($user->hasRole(RoleEnum::CUSTOMER->value)) {
             return true;
         }
 

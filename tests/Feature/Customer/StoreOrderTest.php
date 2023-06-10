@@ -2,6 +2,10 @@
 
 namespace Tests\Feature\Customer;
 
+use Domain\Order\Events\OrderCanceled;
+use Domain\Order\Events\OrderCreated;
+use Domain\Order\Listeners\RestoreProductStock;
+use Domain\Order\Listeners\SubtractProductStock;
 use Domain\Order\Models\Order;
 use Domain\Order\States\Canceled;
 use Domain\Order\States\Completed;
@@ -11,6 +15,7 @@ use Domain\Product\Models\Product;
 use Domain\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -34,6 +39,10 @@ class StoreOrderTest extends TestCase
     /** @test */
     public function customer_can_pay_a_order(): void
     {
+        Event::fake([
+            OrderCreated::class
+        ]);
+
         Product::factory()->create(['id' => 1,'name' => 'Balon','code' => '12345678','price' => '100000.00','stock' => 40]);
         Product::factory()->create(['id' => 2,'name' => 'Celular','code' => '87654321','price' => '700000.00','stock' => 21]);
 
@@ -57,6 +66,17 @@ class StoreOrderTest extends TestCase
         $this->postJson(route('api.customer.payments.processPayment'), $data)
             ->assertSuccessful()
             ->assertJsonStructure(['url']);
+
+        $order = Order::first();
+
+        Event::assertDispatched(function (OrderCreated $event) use ($order) {
+            return $event->order->id === $order->id;
+        });
+
+        Event::assertListening(
+            OrderCreated::class,
+            SubtractProductStock::class
+        );
     }
 
     /** @test */
@@ -112,6 +132,10 @@ class StoreOrderTest extends TestCase
     {
         $this->withoutVite();
 
+        Event::fake([
+            OrderCanceled::class
+        ]);
+
         $order = $this->getNewOrder();
 
         Passport::actingAs($this->customer);
@@ -136,6 +160,15 @@ class StoreOrderTest extends TestCase
         $order->refresh();
 
         $this->assertEquals(Canceled::class, $order->state->getValue());
+
+        Event::assertDispatched(function (OrderCanceled $event) use ($order) {
+            return $event->order->id === $order->id;
+        });
+
+        Event::assertListening(
+            OrderCanceled::class,
+            RestoreProductStock::class
+        );
     }
 
     /** @test */
@@ -201,9 +234,6 @@ class StoreOrderTest extends TestCase
     public function it_returns_an_error_view_if_order_request_information_fails(): void
     {
         $this->withoutVite();
-
-        Product::factory()->create(['id' => 1,'name' => 'Balon','code' => '12345678','price' => '100000.00','stock' => 40]);
-        Product::factory()->create(['id' => 2,'name' => 'Celular','code' => '87654321','price' => '700000.00','stock' => 21]);
 
         Passport::actingAs($this->customer);
 

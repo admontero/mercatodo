@@ -66,7 +66,7 @@ class ProductService
         return null;
     }
 
-    public function checkStockAvailable(string $id, int $qty): void
+    public function checkStockAvailable(int $id, int $qty): void
     {
         $product = Product::find($id);
 
@@ -79,7 +79,7 @@ class ProductService
         }
     }
 
-    public function getProductById(string $id): Product
+    public function getProductById(int $id): Product
     {
         $product = Product::find($id);
 

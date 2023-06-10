@@ -2,6 +2,7 @@
 
 namespace Domain\User\Policies;
 
+use Domain\Role\Enums\RoleEnum;
 use Domain\User\Models\User;
 
 class UserPolicy
@@ -11,7 +12,7 @@ class UserPolicy
      */
     public function viewAnyCustomer(User $user): bool
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole(RoleEnum::ADMIN->value)) {
             return true;
         }
 
@@ -23,11 +24,11 @@ class UserPolicy
      */
     public function viewCustomer(User $user, User $model): bool
     {
-        if ($user->hasRole('admin') && $model->hasRole('customer')) {
+        if ($user->hasRole(RoleEnum::ADMIN->value) && $model->hasRole(RoleEnum::CUSTOMER->value)) {
             return true;
         }
 
-        if ($user->hasRole('customer') && $model->hasRole('customer') && $user->id === $model->id) {
+        if ($user->hasRole(RoleEnum::CUSTOMER->value) && $model->hasRole(RoleEnum::CUSTOMER->value) && $user->id === $model->id) {
             return true;
         }
 
@@ -39,7 +40,7 @@ class UserPolicy
      */
     public function updateCustomer(User $user, User $model): bool
     {
-        if ($user->hasRole('admin') and $model->hasRole('customer')) {
+        if ($user->hasRole(RoleEnum::ADMIN->value) and $model->hasRole(RoleEnum::CUSTOMER->value)) {
             return true;
         }
 
@@ -51,7 +52,7 @@ class UserPolicy
      */
     public function updateCustomerProfile(User $user, User $model): bool
     {
-        if ($user->hasRole('customer') and $model->hasRole('customer') and $user->id === $model->id) {
+        if ($user->hasRole(RoleEnum::CUSTOMER->value) and $model->hasRole(RoleEnum::CUSTOMER->value) and $user->id === $model->id) {
             return true;
         }
 
@@ -63,7 +64,7 @@ class UserPolicy
      */
     public function updateStatus(User $user, User $model): bool
     {
-        if ($user->hasRole('admin') and $model->hasRole('customer')) {
+        if ($user->hasRole(RoleEnum::ADMIN->value) and $model->hasRole(RoleEnum::CUSTOMER->value)) {
             return true;
         }
 

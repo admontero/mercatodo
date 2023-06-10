@@ -3,6 +3,7 @@
 namespace App\Web\Auth\Controllers;
 
 use App\Controller;
+use Domain\Role\Enums\RoleEnum;
 use Domain\User\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\RedirectResponse;
@@ -25,7 +26,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, User $user): RedirectResponse
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole(RoleEnum::ADMIN->value)) {
             return redirect(route('admin.dashboard'));
         }
 

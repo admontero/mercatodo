@@ -19,7 +19,7 @@ class ConsultSessionPlaceToPayTest extends TestCase
      */
     public function consult_session_place_to_pay_command_is_succesful_when_order_is_completed(): void
     {
-        Order::factory(1)->create(['state' => Pending::class]);
+        Order::factory(3)->create(['state' => Pending::class]);
 
         $mockResponse = [
             'requestId' => 1,
@@ -38,6 +38,7 @@ class ConsultSessionPlaceToPayTest extends TestCase
             ->assertExitCode(0);
 
         $this->assertEquals(Completed::class, Order::first()->state->getValue());
+        $this->assertEquals(3, Order::where('state', Completed::class)->count());
     }
 
     /**
@@ -45,7 +46,7 @@ class ConsultSessionPlaceToPayTest extends TestCase
      */
     public function consult_session_place_to_pay_command_is_succesful_when_order_is_canceled(): void
     {
-        Order::factory(1)->create(['state' => Pending::class]);
+        Order::factory(2)->create(['state' => Pending::class]);
 
         $mockResponse = [
             'requestId' => 1,
@@ -64,6 +65,7 @@ class ConsultSessionPlaceToPayTest extends TestCase
             ->assertExitCode(0);
 
         $this->assertEquals(Canceled::class, Order::first()->state->getValue());
+        $this->assertEquals(2, Order::where('state', Canceled::class)->count());
     }
 
     /**
@@ -71,7 +73,7 @@ class ConsultSessionPlaceToPayTest extends TestCase
      */
     public function consult_session_place_to_pay_command_is_succesful_when_order_still_pending(): void
     {
-        Order::factory(1)->create(['state' => Pending::class]);
+        Order::factory(5)->create(['state' => Pending::class]);
 
         $mockResponse = [
             'requestId' => 1,
@@ -90,5 +92,6 @@ class ConsultSessionPlaceToPayTest extends TestCase
             ->assertExitCode(0);
 
         $this->assertEquals(Pending::class, Order::first()->state->getValue());
+        $this->assertEquals(5, Order::where('state', Pending::class)->count());
     }
 }

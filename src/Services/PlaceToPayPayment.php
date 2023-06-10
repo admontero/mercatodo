@@ -36,6 +36,8 @@ class PlaceToPayPayment extends PaymentBase
 
             $order = (new OrderService())->updateOrder($order);
 
+            $this->sendNotification($order);
+
             $order->refresh();
 
             return response()->json(['url' => $order->url], 200);
@@ -44,9 +46,10 @@ class PlaceToPayPayment extends PaymentBase
         }
     }
 
-    public function sendNotification(): void
+    public function sendNotification(Order $order): void
     {
         Log::info('[PAY]: Enviamos la notificacion PlaceToPay');
+        (new OrderService())->sendOrderProcessedNotification($order);
     }
 
     public function getRequestInformation(string $code): View

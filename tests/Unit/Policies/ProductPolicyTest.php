@@ -23,7 +23,7 @@ class ProductPolicyTest extends TestCase
     /**
      * @test
      */
-    public function no_product_cannot_be_viewed_by_a_customer(): void
+    public function a_product_cannot_be_viewed_by_a_customer(): void
     {
         $this->be($this->customer);
 

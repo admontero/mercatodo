@@ -3,7 +3,10 @@
 namespace Domain\Order\Services;
 
 use Domain\Order\DTOs\OrderDTO;
+use Domain\Order\Events\OrderCanceled;
+use Domain\Order\Events\OrderCreated;
 use Domain\Order\Models\Order;
+use Domain\Order\Notifications\OrderProcessedNotification;
 use Domain\Order\States\Canceled;
 use Domain\Order\States\Completed;
 use Domain\Product\Services\ProductService;
@@ -28,6 +31,8 @@ class OrderService
 
         $this->updateOrderTotal($order);
 
+        OrderCreated::dispatch($order);
+
         return $order;
     }
 
@@ -42,12 +47,18 @@ class OrderService
     {
         $order->state->transitionTo(Completed::class);
 
+        $this->sendOrderProcessedNotification($order);
+
         return $order;
     }
 
     public function updateToCanceled(Order $order): Order
     {
         $order->state->transitionTo(Canceled::class);
+
+        OrderCanceled::dispatch($order);
+
+        $this->sendOrderProcessedNotification($order);
 
         return $order;
     }
@@ -63,12 +74,17 @@ class OrderService
     public function updateOrderTotal(Order $order): void
     {
         $total = $order->products->map(function ($p) {
-            return $p->pivot->price * $p->pivot->quantity;
+            return $p->getRelationValue('pivot')->price * $p->getRelationValue('pivot')->quantity;
         })->sum();
 
         $order->update([
             'total' => $total
         ]);
+    }
+
+    public function sendOrderProcessedNotification(Order $order): void
+    {
+        $order->user?->notify(new OrderProcessedNotification($order));
     }
 
     private function generateOrderCode(): string

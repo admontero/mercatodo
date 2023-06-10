@@ -32,22 +32,22 @@ class ConsultSessionPlaceToPay extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
-        $orders = Order::query()->where('state', Pending::class)->get();
+        $orders = Order::where('state', Pending::class)->get();
 
         foreach ($orders as $order) {
             $result = Http::post(config('placetopay.url') . '/api/session/' . $order->id, [
                 'auth' => $this->getAuth(),
             ]);
+
+            $status = $result->json()['status']['status'];
+
+            match($status) {
+                'APPROVED' => (new OrderService())->updateToCompleted($order),
+                'REJECTED' => (new OrderService())->updateToCanceled($order),
+                default => null,
+            };
         }
-
-        $status = $result->json()['status']['status'];
-
-        match($status) {
-            'APPROVED' => (new OrderService())->updateToCompleted($order),
-            'REJECTED' => (new OrderService())->updateToCanceled($order),
-            default => null,
-        };
     }
 }

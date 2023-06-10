@@ -1,0 +1,31 @@
+<?php
+
+namespace Domain\Order\Listeners;
+
+use Domain\Order\Events\OrderCanceled;
+use Domain\Product\Services\ProductService;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+
+class RestoreProductStock
+{
+    /**
+     * Create the event listener.
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Handle the event.
+     */
+    public function handle(OrderCanceled $event): void
+    {
+        foreach ($event->order->products as $p) {
+            $product = (new ProductService())->getProductById($p->id);
+            $product->stock += $p->getRelationValue('pivot')->quantity;
+            $product->save();
+        }
+    }
+}

@@ -4,6 +4,10 @@ namespace Support\Providers;
 
 use Domain\Category\Models\Category;
 use Domain\Category\Observers\CategoryObserver;
+use Domain\Order\Events\OrderCanceled;
+use Domain\Order\Events\OrderCreated;
+use Domain\Order\Listeners\RestoreProductStock;
+use Domain\Order\Listeners\SubtractProductStock;
 use Domain\Product\Models\Product;
 use Domain\Product\Observers\ProductObserver;
 use Illuminate\Auth\Events\Registered;
@@ -21,6 +25,12 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        OrderCreated::class => [
+            SubtractProductStock::class,
+        ],
+        OrderCanceled::class => [
+            RestoreProductStock::class,
         ],
     ];
 
