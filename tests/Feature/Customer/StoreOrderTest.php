@@ -67,6 +67,11 @@ class StoreOrderTest extends TestCase
             ->assertSuccessful()
             ->assertJsonStructure(['url']);
 
+        $this->assertDatabaseHas('orders', [
+            'total' => '800000',
+            'provider' => 'PlaceToPay',
+        ]);
+
         $order = Order::first();
 
         Event::assertDispatched(function (OrderCreated $event) use ($order) {

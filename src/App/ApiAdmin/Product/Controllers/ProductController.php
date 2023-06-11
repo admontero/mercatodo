@@ -16,8 +16,7 @@ class ProductController extends Controller
 {
     public function __construct(
         protected ProductService $service
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of the resource.
