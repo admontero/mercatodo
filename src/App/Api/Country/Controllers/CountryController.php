@@ -11,7 +11,8 @@ class CountryController extends Controller
 {
     public function __construct(
         protected CountryService $service
-    ) {}
+    ) {
+    }
 
     /**
      * Handle the incoming request.

@@ -12,7 +12,8 @@ class StateController extends Controller
 {
     public function __construct(
         protected StateService $service
-    ) {}
+    ) {
+    }
 
     /**
      * Handle the incoming request.

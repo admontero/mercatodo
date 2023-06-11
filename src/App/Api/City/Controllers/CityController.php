@@ -12,7 +12,8 @@ class CityController extends Controller
 {
     public function __construct(
         protected CityService $service
-    ) {}
+    ) {
+    }
 
     /**
      * Handle the incoming request.

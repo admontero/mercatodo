@@ -4,7 +4,6 @@ namespace Domain\Country\Services;
 
 use Domain\Country\Models\Country;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class CountryService
@@ -14,7 +13,7 @@ class CountryService
      */
     public function getCountries(): Collection
     {
-        return Cache::tags('localizations')->remember('countries', now()->addMinutes(15), function() {
+        return Cache::tags('localizations')->remember('countries', now()->addMinutes(15), function () {
             return Country::select('id', 'name')->get();
         });
     }
