@@ -4,18 +4,23 @@ namespace App\Api\State\Controllers;
 
 use App\Controller;
 use Domain\Country\Models\Country;
-use Domain\State\Models\State;
+use Domain\State\Services\StateService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class StateController extends Controller
 {
+    public function __construct(
+        protected StateService $service
+    ) {
+    }
+
     /**
      * Handle the incoming request.
      */
     public function __invoke(Request $request, Country $country): JsonResponse
     {
-        $states = State::where('country_id', $country->id)->select('id', 'name')->get();
+        $states = $this->service->getStates($country);
 
         return response()->json($states);
     }

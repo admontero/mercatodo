@@ -5,6 +5,7 @@ namespace Domain\Product\Services;
 use Domain\Product\DTOs\ProductDTO;
 use Domain\Product\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -71,10 +72,12 @@ class ProductService
         $product = Product::find($id);
 
         if (!$product) {
+            Log::channel('placetopay')->info('[PAY]: Producto de la orden no encontrado');
             throw new \Exception('El producto a comprar no existe.', 500);
         }
 
         if ($product->stock < $qty) {
+            Log::channel('placetopay')->info('[PAY]: Existencia insuficiente en el stock de productos');
             throw new \Exception('No hay existencias suficientes para crear la orden.', 500);
         }
     }
@@ -84,6 +87,7 @@ class ProductService
         $product = Product::find($id);
 
         if (!$product) {
+            Log::channel('placetopay')->info('[PAY]: Producto de la orden no encontrado');
             throw new \Exception('El producto a comprar no existe.', 500);
         }
 

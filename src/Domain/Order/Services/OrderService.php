@@ -10,11 +10,14 @@ use Domain\Order\States\Canceled;
 use Domain\Order\States\Completed;
 use Domain\Product\Services\ProductService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
     public function createOrder(OrderDTO $dto): Order
     {
+        Log::channel('placetopay')->info('[PAY]: Creamos la orden con los datos requeridos');
+
         $order = DB::transaction(function () use ($dto) {
             $order = Order::create([
                 'code' => $this->generateOrderCode(),
@@ -49,6 +52,8 @@ class OrderService
 
     public function updateToCompleted(Order $order): Order
     {
+        Log::channel('placetopay')->info('[PAY]: Orden pagada');
+
         $order->state->transitionTo(Completed::class);
 
         $this->sendOrderProcessedNotification($order);
@@ -58,6 +63,8 @@ class OrderService
 
     public function updateToCanceled(Order $order): Order
     {
+        Log::channel('placetopay')->info('[PAY]: Orden cancelada');
+
         $order->state->transitionTo(Canceled::class);
 
         OrderCanceled::dispatch($order);
@@ -65,6 +72,13 @@ class OrderService
         $this->sendOrderProcessedNotification($order);
 
         return $order;
+    }
+
+    public function deleteOrder(Order $order = null): void
+    {
+        if ($order) {
+            $order->delete();
+        }
     }
 
     public function getOrderByCode(string $code): ?Order
