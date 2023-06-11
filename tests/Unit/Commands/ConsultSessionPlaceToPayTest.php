@@ -6,9 +6,9 @@ use Domain\Order\Models\Order;
 use Domain\Order\States\Canceled;
 use Domain\Order\States\Completed;
 use Domain\Order\States\Pending;
-use Illuminate\Console\Events\ScheduledTaskFinished;
+use Illuminate\Console\Scheduling\Event;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
@@ -21,12 +21,18 @@ class ConsultSessionPlaceToPayTest extends TestCase
      */
     public function consult_session_place_to_pay_command_executes_each_minute(): void
     {
-        Event::fake();
-        $this->travelTo(now()->addMinute());
-        $this->artisan('schedule:run');
+        $schedule = app()->make(Schedule::class);
 
-        Event::assertDispatched(ScheduledTaskFinished::class, function ($event) {
-            return strpos($event->task->command, 'app:consult-session-place-to-pay') !== false;
+        $events = collect($schedule->events())->filter(function (Event $event) {
+            return stripos($event->command, 'app:consult-session-place-to-pay');
+        });
+
+        if ($events->count() == 0) {
+            $this->fail('No events found');
+        }
+
+        $events->each(function (Event $event) {
+            $this->assertEquals('* * * * *', $event->expression);
         });
     }
 
