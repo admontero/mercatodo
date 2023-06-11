@@ -2,19 +2,13 @@
 
 namespace Tests\Unit\Commands;
 
-use App\Console\Commands\ConsultSessionPlaceToPay;
-use Database\Seeders\OrderSeeder;
-use Database\Seeders\ProductSeeder;
-use Database\Seeders\UserSeeder;
 use Domain\Order\Models\Order;
 use Domain\Order\States\Canceled;
 use Domain\Order\States\Completed;
 use Domain\Order\States\Pending;
-use Illuminate\Console\Events\ScheduledTaskFinished;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
