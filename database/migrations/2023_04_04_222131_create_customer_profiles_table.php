@@ -14,7 +14,7 @@ return new class () extends Migration {
             $table->id();
             $table->string('first_name', 60);
             $table->string('last_name', 80);
-            $table->enum('document_type', ['CC', 'CE', 'P'])->nullable();
+            $table->enum('document_type', ['CC', 'CE', 'PPN'])->nullable();
             $table->string('document', 30)->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('set null');
