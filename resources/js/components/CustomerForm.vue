@@ -61,8 +61,8 @@
                                 {{ $t('Foreigner Card') }}
                             </option>
                             <option
-                                value="P"
-                                :selected="customer.document_type === 'P'"
+                                value="PPN"
+                                :selected="customer.document_tyPPNe === 'PPN'"
                             >
                                 {{ $t('Passport') }}
                             </option>
