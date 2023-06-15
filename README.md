@@ -85,6 +85,7 @@ Ejecuta todos los seeders configurados para la aplicación
 - [laravel-permission](https://github.com/spatie/laravel-permission) - Para la gestión de roles y permisos.
 - [log-viewer](https://github.com/opcodesio/log-viewer) - Para la gestión de logs.
 - [passport](https://github.com/laravel/passport) - Para la autenticación de usuarios.
+- [php-cs-fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer) - Para arreglar automáticamente los errores en estándares de código.
 - [predis](https://github.com/predis/predis) - Para interactuar con Redis.
 - [spanish](https://github.com/laravel/ui) - Para laravel en español (traducciones por defecto).
 - [ui](https://github.com/laravel/ui) - Para el scaffolding de bootstrap y vue incluyendo el login y registro.
