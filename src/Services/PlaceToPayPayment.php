@@ -31,9 +31,9 @@ class PlaceToPayPayment extends PaymentBase
                 $this->createRequest($order, $request->ip(), $request->userAgent())
             );
 
-            if (!$result->ok()) {
+            if (! $result->ok()) {
                 Log::channel('placetopay')->info('[PAY]: Error en la respuesta del servicio de PlaceToPay', [
-                    'result' => $result
+                    'result' => $result,
                 ]);
                 throw new \Exception('Hubo un error al crear el pago.', 500);
             }
@@ -51,6 +51,7 @@ class PlaceToPayPayment extends PaymentBase
         } catch (\Exception $e) {
             (new OrderService())->deleteOrder($order);
             Log::channel('placetopay')->info('[PAY]: Error al generar la orden');
+
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
@@ -67,31 +68,33 @@ class PlaceToPayPayment extends PaymentBase
 
         $order = (new OrderService())->getOrderByCode($code);
 
-        if (!$order) {
+        if (! $order) {
             Log::channel('placetopay')->info('[PAY]: Error, la orden no fue encontrada en el sistema');
+
             return view('payment.error');
         }
 
         if ($order->state->getValue() !== Pending::class) {
             Log::channel('placetopay')->info('[PAY]: Error, la orden ya ha actualizado su estado');
+
             return view('payment.success', compact('order'));
         }
 
         try {
-            $result = Http::post(config('placetopay.url') . '/api/session/' . $order->request_id, [
+            $result = Http::post(config('placetopay.url').'/api/session/'.$order->request_id, [
                 'auth' => $this->getAuth(),
             ]);
 
-            if (!$result->ok()) {
+            if (! $result->ok()) {
                 Log::channel('placetopay')->info('[PAY]: Error en la respuesta del servicio de PlaceToPay', [
-                    'result' => $result
+                    'result' => $result,
                 ]);
                 throw new \Exception('Hubo un error en la consulta del pago.', 500);
             }
 
             $status = $result->json()['status']['status'];
 
-            match($status) {
+            match ($status) {
                 'APPROVED' => (new OrderService())->updateToCompleted($order),
                 'REJECTED' => (new OrderService())->updateToCanceled($order),
                 default => $order,
@@ -100,6 +103,7 @@ class PlaceToPayPayment extends PaymentBase
             return view('payment.success', compact('order'));
         } catch (\Exception $e) {
             Log::channel('placetopay')->info('[PAY]: Error al consultar el pago de la orden');
+
             return view('payment.error', compact('order'));
         }
     }
@@ -140,19 +144,19 @@ class PlaceToPayPayment extends PaymentBase
     {
         return [
             'document' => auth()->user()?->profileable?->document,
-                'documentType' => auth()->user()?->profileable?->document_type,
-                'name' => auth()->user()?->profileable?->first_name,
-                'surname' => auth()->user()?->profileable?->last_name,
-                'email' => auth()->user()?->email,
-                'mobile' => auth()->user()?->profileable?->cell_phone,
-                'address' => [
-                    'street' => auth()->user()?->profileable?->address,
-                    'city' => auth()->user()?->profileable?->city?->name,
-                    'state' => auth()->user()?->profileable?->state?->name,
-                    'country' => auth()->user()?->profileable?->country?->name,
-                    'phone' => auth()->user()?->profileable?->phone,
-                ],
-            ];
+            'documentType' => auth()->user()?->profileable?->document_type,
+            'name' => auth()->user()?->profileable?->first_name,
+            'surname' => auth()->user()?->profileable?->last_name,
+            'email' => auth()->user()?->email,
+            'mobile' => auth()->user()?->profileable?->cell_phone,
+            'address' => [
+                'street' => auth()->user()?->profileable?->address,
+                'city' => auth()->user()?->profileable?->city?->name,
+                'state' => auth()->user()?->profileable?->state?->name,
+                'country' => auth()->user()?->profileable?->country?->name,
+                'phone' => auth()->user()?->profileable?->phone,
+            ],
+        ];
     }
 
     /**

@@ -22,7 +22,7 @@ class StoreOrderRequest extends FormRequest
     public function validationData()
     {
         $this->merge([
-            'products' => json_decode($this->input('products'), true)
+            'products' => json_decode($this->input('products'), true),
         ]);
 
         return $this->all();

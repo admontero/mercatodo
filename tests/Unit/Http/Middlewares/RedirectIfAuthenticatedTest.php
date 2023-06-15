@@ -21,7 +21,7 @@ class RedirectIfAuthenticatedTest extends TestCase
     {
         $admin = User::factory()->admin()->create([
             'email' => 'admin@test.com',
-            'password' => bcrypt('12345678')
+            'password' => bcrypt('12345678'),
         ]);
 
         Auth::shouldReceive('guard')->andReturnSelf();
@@ -47,7 +47,7 @@ class RedirectIfAuthenticatedTest extends TestCase
     {
         $customer = User::factory()->customer()->create([
             'email' => 'customer@test.com',
-            'password' => bcrypt('12345678')
+            'password' => bcrypt('12345678'),
         ]);
 
         Auth::shouldReceive('guard')->andReturnSelf();

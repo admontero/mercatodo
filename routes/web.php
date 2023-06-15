@@ -28,12 +28,10 @@ Route::get('verify-email/{id}/{hash}', [App\Web\Auth\Controllers\VerificationCon
     ->name('verification.verify');
 Route::post('email/verification-notification', [App\Web\Auth\Controllers\VerificationController::class, 'resend'])
     ->name('verification.resend');
-/** */
 
 /** Rutas públicas de productos */
 Route::get('/', [App\Web\Product\Controllers\ProductController::class, 'index'])
     ->name('products.index');
-/** */
 
 /** Rutas protegidas del Cliente */
 Route::group(['middleware' => ['auth', 'verified', 'role:customer']], function () {
@@ -53,7 +51,6 @@ Route::group(['middleware' => ['auth', 'verified', 'role:customer']], function (
     Route::get('orders/{order:code}/payment', [App\Web\Payment\Controllers\PaymentController::class, 'paymentReturn'])
         ->name('orders.paymentReturn');
 });
-/** */
 
 /** Rutas protegidas del Administrador */
 Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'admin'], function () {
@@ -82,4 +79,3 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'admin'], func
     Route::get('/products/{product:slug}/edit', [App\WebAdmin\Product\Controllers\ProductController::class, 'edit'])
         ->name('admin.products.edit');
 });
-/** */

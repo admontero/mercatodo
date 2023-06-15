@@ -15,7 +15,7 @@ class StateService
     public function getStates(Country $country): Collection
     {
         return Cache::tags('localizations')
-            ->remember('states.' . $country->id, now()->addMinutes(15), function () use ($country) {
+            ->remember('states.'.$country->id, now()->addMinutes(15), function () use ($country) {
                 return State::where('country_id', $country->id)->select('id', 'name')->get();
             });
     }

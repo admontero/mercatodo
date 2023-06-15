@@ -30,6 +30,7 @@ class OrderSeeder extends Seeder
                     ->count(random_int(1, 5))
                     ->state(new Sequence(function (Sequence $sequence) use ($order) {
                         $product = Product::inRandomOrder()->first();
+
                         return [
                             'price' => $product->price,
                             'quantity' => random_int(1, 3),

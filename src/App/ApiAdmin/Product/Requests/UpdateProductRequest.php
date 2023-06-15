@@ -24,7 +24,7 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|max:120',
-            'code' => ['required', 'string', 'max:30', Rule::unique('products', 'code')->ignore($this->product->id),],
+            'code' => ['required', 'string', 'max:30', Rule::unique('products', 'code')->ignore($this->product->id)],
             'description' => 'nullable|string|min:10',
             'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
             'stock' => 'nullable|numeric|gte:0',

@@ -24,10 +24,10 @@ class CategoryQueryBuilderTest extends TestCase
         ]);
 
         Product::factory(10)->create([
-            'category_id' => $category2->id
+            'category_id' => $category2->id,
         ]);
 
-        $response = $this->getJson('/api/products?categoryId=' . $category->id);
+        $response = $this->getJson('/api/products?categoryId='.$category->id);
 
         $response
             ->assertStatus(200)

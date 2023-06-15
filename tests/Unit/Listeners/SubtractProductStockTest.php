@@ -22,8 +22,8 @@ class SubtractProductStockTest extends TestCase
     public function subtract_product_stock_when_order_is_created(): void
     {
         $customer = User::factory()->customer()->withCustomerProfile()->create();
-        $product1 = Product::factory()->create(['id' => 1,'name' => 'Balon','code' => '12345678','price' => '100000.00','stock' => 40]);
-        $product2 = Product::factory()->create(['id' => 2,'name' => 'Celular','code' => '87654321','price' => '700000.00','stock' => 21]);
+        $product1 = Product::factory()->create(['id' => 1, 'name' => 'Balon', 'code' => '12345678', 'price' => '100000.00', 'stock' => 40]);
+        $product2 = Product::factory()->create(['id' => 2, 'name' => 'Celular', 'code' => '87654321', 'price' => '700000.00', 'stock' => 21]);
 
         Order::factory()
             ->state(new Sequence(

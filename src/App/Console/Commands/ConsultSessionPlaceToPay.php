@@ -35,20 +35,19 @@ class ConsultSessionPlaceToPay extends Command
         $orders = Order::where('state', Pending::class)->get();
 
         foreach ($orders as $order) {
-            $result = Http::post(config('placetopay.url') . '/api/session/' . $order->id, [
+            $result = Http::post(config('placetopay.url').'/api/session/'.$order->request_id, [
                 'auth' => $this->getAuth(),
             ]);
 
             if ($result->ok()) {
                 $status = $result->json()['status']['status'];
 
-                match($status) {
+                match ($status) {
                     'APPROVED' => (new OrderService())->updateToCompleted($order),
                     'REJECTED' => (new OrderService())->updateToCanceled($order),
                     default => null,
                 };
             }
-
         }
     }
 }

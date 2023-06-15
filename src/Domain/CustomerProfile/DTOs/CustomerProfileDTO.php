@@ -22,7 +22,7 @@ class CustomerProfileDTO
     ) {
     }
 
-    public static function fromHttpRequest(Request $request): CustomerProfileDTO
+    public static function fromHttpRequest(Request $request): self
     {
         return new self(
             first_name: $request->input('first_name'),
@@ -38,7 +38,7 @@ class CustomerProfileDTO
         );
     }
 
-    public static function fromUpdateCustomerRequest(UpdateCustomerRequest $request): CustomerProfileDTO
+    public static function fromUpdateCustomerRequest(UpdateCustomerRequest $request): self
     {
         return new self(
             first_name: $request->validated('first_name'),
@@ -54,7 +54,7 @@ class CustomerProfileDTO
         );
     }
 
-    public static function fromUpdateProfileRequest(UpdateCustomerProfileRequest $request): CustomerProfileDTO
+    public static function fromUpdateProfileRequest(UpdateCustomerProfileRequest $request): self
     {
         return new self(
             first_name: $request->validated('first_name'),

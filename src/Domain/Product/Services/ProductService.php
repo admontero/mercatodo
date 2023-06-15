@@ -42,7 +42,6 @@ class ProductService
     public function uploadImage(Request $request, Product $product = null): ?string
     {
         if ($request->hasFile('image')) {
-
             /** @var string $previousPath */
             $previousPath = $product->image ?? '';
 
@@ -50,7 +49,7 @@ class ProductService
                 Storage::disk('public')->delete($previousPath);
             }
 
-            $filename  = time() . '.' . $request->image->extension();
+            $filename = time().'.'.$request->image->extension();
 
             $imagePath = $request->image->storeAs('products', $filename, 'public');
 
@@ -71,7 +70,7 @@ class ProductService
     {
         $product = Product::find($id);
 
-        if (!$product) {
+        if (! $product) {
             Log::channel('placetopay')->info('[PAY]: Producto de la orden no encontrado');
             throw new \Exception('El producto a comprar no existe.', 500);
         }
@@ -86,7 +85,7 @@ class ProductService
     {
         $product = Product::find($id);
 
-        if (!$product) {
+        if (! $product) {
             Log::channel('placetopay')->info('[PAY]: Producto de la orden no encontrado');
             throw new \Exception('El producto a comprar no existe.', 500);
         }

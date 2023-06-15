@@ -26,7 +26,7 @@ class ShowCustomerTest extends TestCase
             ->assertSuccessful()
             ->assertStatus(200)
             ->assertJson([
-                'email' => $customer->email
+                'email' => $customer->email,
             ]);
     }
 

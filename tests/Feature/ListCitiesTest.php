@@ -19,7 +19,7 @@ class ListCitiesTest extends TestCase
         $state = State::factory()->create();
 
         $cities = City::factory(35)->create([
-            'state_id' => $state->id
+            'state_id' => $state->id,
         ]);
 
         $response = $this->getJson(route('api.states.cities', $state->id));

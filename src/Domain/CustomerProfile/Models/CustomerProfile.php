@@ -31,7 +31,6 @@ class CustomerProfile extends Model
     ];
 
     /**
-     *
      * @var array<int, string>
      */
     protected $with = [

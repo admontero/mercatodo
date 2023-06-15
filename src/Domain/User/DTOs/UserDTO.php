@@ -12,7 +12,7 @@ class UserDTO
     ) {
     }
 
-    public static function fromHttpRequest(Request $request): UserDTO
+    public static function fromHttpRequest(Request $request): self
     {
         return new self(
             email: $request->input('email'),

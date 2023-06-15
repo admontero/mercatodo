@@ -9,7 +9,7 @@ class PriceQueryBuilder
 {
     public function handle(Builder $query, Closure $next): Builder
     {
-        if (! request()->has('minPrice') || !request()->has('maxPrice')) {
+        if (! request()->has('minPrice') || ! request()->has('maxPrice')) {
             return $next($query);
         }
 

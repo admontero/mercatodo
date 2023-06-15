@@ -96,7 +96,7 @@ class OrderService
         })->sum();
 
         $order->update([
-            'total' => $total
+            'total' => $total,
         ]);
     }
 
@@ -108,7 +108,7 @@ class OrderService
     private function generateOrderCode(): string
     {
         do {
-            $code = time() . random_int(1000, 9999);
+            $code = time().random_int(1000, 9999);
         } while (Order::where('code', $code)->first());
 
         return $code;
