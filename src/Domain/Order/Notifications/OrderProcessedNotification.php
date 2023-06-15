@@ -47,9 +47,9 @@ class OrderProcessedNotification extends Notification implements ShouldQueue
         };
 
         return (new MailMessage())
-                    ->subject('Order ' . $state)
-                    ->line('Hi' . ' ' . $notifiable->profileable?->first_name . ' ' . $notifiable->profileable?->last_name)
-                    ->line('Your Order #' . $this->order->code . ' has been ' . $state . '.')
+                    ->subject('Order '.$state)
+                    ->line('Hi'.' '.$notifiable->profileable?->first_name.' '.$notifiable->profileable?->last_name)
+                    ->line('Your Order #'.$this->order->code.' has been '.$state.'.')
                     ->line('Thank you for using our application!');
     }
 }

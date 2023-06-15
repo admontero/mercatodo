@@ -13,7 +13,7 @@ class OrderDTO
     ) {
     }
 
-    public static function fromStoreRequest(StoreOrderRequest $request): OrderDTO
+    public static function fromStoreRequest(StoreOrderRequest $request): self
     {
         return new self(
             provider: $request->validated('provider'),

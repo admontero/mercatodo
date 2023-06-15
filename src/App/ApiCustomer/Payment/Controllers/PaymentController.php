@@ -15,6 +15,7 @@ class PaymentController extends Controller
         $this->authorize('create-order', new Order());
 
         $processor = $paymentFactory->initializePayment('PlaceToPay');
+
         return $processor->pay($request);
     }
 }

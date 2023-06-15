@@ -29,7 +29,7 @@ class CacheProductResponseMiddleware
     public function terminate(Request $request, Response $response): void
     {
         if (Cache::has($this->cacheKey($request))) {
-            return ;
+            return;
         }
 
         Cache::put($this->cacheKey($request), $response->getContent(), now()->addDay());

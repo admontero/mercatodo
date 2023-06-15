@@ -70,7 +70,6 @@ class AuthServiceProvider extends ServiceProvider
 
             return false;
         });
-        /** */
 
         /** Customer Gates */
         Gate::define('access-profile-edit', function (User $user) {
@@ -104,6 +103,6 @@ class AuthServiceProvider extends ServiceProvider
 
             return false;
         });
-        /** */
+
     }
 }

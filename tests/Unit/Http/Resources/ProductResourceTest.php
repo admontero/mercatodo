@@ -46,6 +46,7 @@ class ProductResourceTest extends TestCase
             ->count(random_int(1, 5))
             ->state(new Sequence(function (Sequence $sequence) use ($order) {
                 $product = Product::factory()->create();
+
                 return [
                     'price' => $product->price,
                     'quantity' => random_int(1, 3),

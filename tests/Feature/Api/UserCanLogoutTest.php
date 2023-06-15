@@ -27,17 +27,17 @@ class UserCanLogoutTest extends TestCase
         $token = $responseLogin->getData()->token;
 
         $responseCustomers = $this->getJson(route('api.admin.customers.index'), [
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
         ]);
 
         $responseCustomers->assertStatus(200);
 
         $responseLogout = $this->postJson(route('api.logout'), [], [
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
         ]);
 
         $responseLogout->assertJsonFragment([
-            'success' => 'Logout Succesfully'
+            'success' => 'Logout Succesfully',
         ]);
     }
 }

@@ -32,8 +32,8 @@ class ShowProductTest extends TestCase
                 'name' => $product->name,
                 'code' => $product->code,
                 'category' => [
-                    'id' => $product->category_id
-                ]
+                    'id' => $product->category_id,
+                ],
             ]);
     }
 

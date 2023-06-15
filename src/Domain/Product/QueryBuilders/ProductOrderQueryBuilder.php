@@ -13,7 +13,7 @@ class ProductOrderQueryBuilder
             return $next($query)->latest();
         }
 
-        [$field, $sort] = match(request()->input('order')) {
+        [$field, $sort] = match (request()->input('order')) {
             'orderByOldest' => ['created_at', 'ASC'],
             'orderByPriceDESC' => ['price', 'DESC'],
             'orderByPriceASC' => ['price', 'ASC'],

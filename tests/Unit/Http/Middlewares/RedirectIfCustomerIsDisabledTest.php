@@ -18,7 +18,7 @@ class RedirectIfCustomerIsDisabledTest extends TestCase
     {
         $customer = User::factory()->customer()->inactivated()->create([
             'email' => 'customer@test.com',
-            'password' => bcrypt('12345678')
+            'password' => bcrypt('12345678'),
         ]);
 
         Passport::actingAs($customer, [], 'web');

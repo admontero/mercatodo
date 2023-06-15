@@ -72,6 +72,4 @@ class ProductServiceTest extends TestCase
 
         (new ProductService())->getProductById(2);
     }
-
-
 }

@@ -12,7 +12,6 @@ abstract class ProductState extends State
         return parent::config()
             ->default(Activated::class)
             ->allowTransition(Activated::class, Inactivated::class)
-            ->allowTransition(Inactivated::class, Activated::class)
-        ;
+            ->allowTransition(Inactivated::class, Activated::class);
     }
 }

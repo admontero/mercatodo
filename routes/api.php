@@ -27,7 +27,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/logout', [App\Api\Auth\Controllers\AuthController::class, 'logout'])
         ->name('api.logout');
 });
-/** */
 
 Route::get('/countries', App\Api\Country\Controllers\CountryController::class)
     ->name('api.countries');
@@ -45,7 +44,6 @@ Route::group(['middleware' => ['cache_product']], function () {
     Route::get('/products/categories', App\Api\Category\Controllers\ProductCategoryController::class)
         ->name('api.products.categories');
 });
-/** */
 
 /** Rutas protegidas del Administrador */
 Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
@@ -85,7 +83,6 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
     Route::post('/admin/products/{product:slug}/inactivate', App\ApiAdmin\Product\Controllers\ProductInactivationController::class)
         ->name('api.admin.products.inactivate');
 });
-/** */
 
 /** Rutas protegidas del Cliente */
 Route::group(['middleware' => ['auth:api', 'role:customer', 'verified']], function () {
@@ -102,4 +99,3 @@ Route::group(['middleware' => ['auth:api', 'role:customer', 'verified']], functi
     Route::get('/customer/orders', [App\ApiCustomer\Order\Controllers\OrderController::class, 'index'])
         ->name('api.customer.orders.index');
 });
-/** */

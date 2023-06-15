@@ -16,19 +16,19 @@ class GetProductRangePriceTest extends TestCase
     public function user_can_get_the_product_range_price(): void
     {
         Product::factory()->create([
-            'price' => 158500
+            'price' => 158500,
         ]);
 
         Product::factory()->create([
-            'price' => 52000
+            'price' => 52000,
         ]);
 
         Product::factory()->create([
-            'price' => 389000
+            'price' => 389000,
         ]);
 
         Product::factory()->create([
-            'price' => 256200
+            'price' => 256200,
         ]);
 
         $response = $this->getJson(route('api.products.range-price'));
@@ -36,7 +36,7 @@ class GetProductRangePriceTest extends TestCase
         $response
             ->assertSuccessful()
             ->assertJsonStructure([
-                'min_price', 'max_price'
+                'min_price', 'max_price',
             ])
             ->assertJsonFragment(
                 [

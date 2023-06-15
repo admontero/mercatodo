@@ -19,7 +19,7 @@ class ListStatesTest extends TestCase
         $country = Country::factory()->create();
 
         $states = State::factory(10)->create([
-            'country_id' => $country->id
+            'country_id' => $country->id,
         ]);
 
         $response = $this->getJson(route('api.countries.states', $country->id));

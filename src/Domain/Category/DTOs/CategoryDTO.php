@@ -12,14 +12,14 @@ class CategoryDTO
     ) {
     }
 
-    public static function fromStoreRequest(StoreCategoryRequest $request): CategoryDTO
+    public static function fromStoreRequest(StoreCategoryRequest $request): self
     {
         return new self(
             name: $request->validated('name'),
         );
     }
 
-    public static function fromUpdateRequest(UpdateCategoryRequest $request): CategoryDTO
+    public static function fromUpdateRequest(UpdateCategoryRequest $request): self
     {
         return new self(
             name: $request->validated('name'),

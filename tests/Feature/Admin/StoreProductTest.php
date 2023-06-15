@@ -64,7 +64,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'name' => ''
+            'name' => '',
         ]);
 
         Passport::actingAs($admin);
@@ -83,7 +83,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'name' => 3897438
+            'name' => 3897438,
         ]);
 
         Passport::actingAs($admin);
@@ -102,7 +102,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'name' => 'ok'
+            'name' => 'ok',
         ]);
 
         Passport::actingAs($admin);
@@ -121,7 +121,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'name' => $this->getRandomStringOnlyLetters(121)
+            'name' => $this->getRandomStringOnlyLetters(121),
         ]);
 
         Passport::actingAs($admin);
@@ -140,7 +140,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'code' => ''
+            'code' => '',
         ]);
 
         Passport::actingAs($admin);
@@ -159,7 +159,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'code' => 3897438
+            'code' => 3897438,
         ]);
 
         Passport::actingAs($admin);
@@ -178,7 +178,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'code' => $this->getRandomStringOnlyLetters(31)
+            'code' => $this->getRandomStringOnlyLetters(31),
         ]);
 
         Passport::actingAs($admin);
@@ -197,11 +197,11 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         Product::factory()->create([
-            'code' => 'XAS-2393'
+            'code' => 'XAS-2393',
         ]);
 
         $data = $this->getProductValidData([
-            'code' => 'XAS-2393'
+            'code' => 'XAS-2393',
         ]);
 
         Passport::actingAs($admin);
@@ -220,7 +220,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'description' => 123456789
+            'description' => 123456789,
         ]);
 
         Passport::actingAs($admin);
@@ -240,7 +240,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'description' => 'hola'
+            'description' => 'hola',
         ]);
 
         Passport::actingAs($admin);
@@ -260,7 +260,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'price' => ''
+            'price' => '',
         ]);
 
         Passport::actingAs($admin);
@@ -279,7 +279,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'price' => 'Doscientos'
+            'price' => 'Doscientos',
         ]);
 
         Passport::actingAs($admin);
@@ -298,7 +298,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'stock' => 'Tres'
+            'stock' => 'Tres',
         ]);
 
         Passport::actingAs($admin);
@@ -317,7 +317,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'stock' => -8
+            'stock' => -8,
         ]);
 
         Passport::actingAs($admin);
@@ -336,7 +336,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'image' => ''
+            'image' => '',
         ]);
 
         Passport::actingAs($admin);
@@ -355,7 +355,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'image' => UploadedFile::fake()->create('document.pdf')
+            'image' => UploadedFile::fake()->create('document.pdf'),
         ]);
 
         Passport::actingAs($admin);
@@ -374,7 +374,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'image' => UploadedFile::fake()->image('image.jpg', 500, 480)
+            'image' => UploadedFile::fake()->image('image.jpg', 500, 480),
         ]);
 
         Passport::actingAs($admin);
@@ -393,7 +393,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'image' => UploadedFile::fake()->image('image.jpg', 640, 320)
+            'image' => UploadedFile::fake()->image('image.jpg', 640, 320),
         ]);
 
         Passport::actingAs($admin);
@@ -431,7 +431,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'category_id' => ''
+            'category_id' => '',
         ]);
 
         Passport::actingAs($admin);
@@ -450,7 +450,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'category_id' => 'Deportes'
+            'category_id' => 'Deportes',
         ]);
 
         Passport::actingAs($admin);
@@ -469,7 +469,7 @@ class StoreProductTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $data = $this->getProductValidData([
-            'category_id' => 8
+            'category_id' => 8,
         ]);
 
         Passport::actingAs($admin);

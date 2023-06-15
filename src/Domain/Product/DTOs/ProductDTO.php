@@ -18,7 +18,7 @@ class ProductDTO
     ) {
     }
 
-    public static function fromStoreRequest(StoreProductRequest $request, ?string $image): ProductDTO
+    public static function fromStoreRequest(StoreProductRequest $request, ?string $image): self
     {
         return new self(
             name: $request->validated('name'),
@@ -31,7 +31,7 @@ class ProductDTO
         );
     }
 
-    public static function fromUpdateRequest(UpdateProductRequest $request, ?string $image): ProductDTO
+    public static function fromUpdateRequest(UpdateProductRequest $request, ?string $image): self
     {
         return new self(
             name: $request->validated('name'),

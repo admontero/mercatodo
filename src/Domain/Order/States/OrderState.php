@@ -12,7 +12,6 @@ abstract class OrderState extends State
         return parent::config()
             ->default(Pending::class)
             ->allowTransition(Pending::class, Completed::class)
-            ->allowTransition(Pending::class, Canceled::class)
-        ;
+            ->allowTransition(Pending::class, Canceled::class);
     }
 }
