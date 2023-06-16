@@ -72,6 +72,10 @@ Ejecuta todos los seeders configurados para la aplicación
 
     php artisan migrate:refresh
 
+## Configuración de variables de entorno
+
+Recuerda configurar las variables de entorno relacionadas al envío de correos electrónicos y las de la integración con la plataforma de pagos PlaceToPay.
+
 ------------
 
 ## Resumen del código
