@@ -32,7 +32,7 @@ class PlaceToPayPayment extends PaymentBase
             );
 
             if (! $result->ok()) {
-                Log::channel('placetopay')->info('[PAY]: Error en la respuesta del servicio de PlaceToPay', [
+                Log::channel('placetopay')->info("[PAY]: Error en la respuesta del servicio de PlaceToPay de la orden #{$order->code}", [
                     'result' => $result,
                 ]);
                 throw new \Exception('Hubo un error al crear el pago.', 500);
@@ -58,24 +58,24 @@ class PlaceToPayPayment extends PaymentBase
 
     public function sendNotification(Order $order): void
     {
-        Log::channel('placetopay')->info('[PAY]: Enviamos la notificacion PlaceToPay');
+        Log::channel('placetopay')->info("[PAY]: Enviamos la notificacion del pago de la orden #{$order->code}");
         (new OrderService())->sendOrderProcessedNotification($order);
     }
 
     public function getRequestInformation(string $code): View
     {
-        Log::channel('placetopay')->info('[PAY]: Consultamos el estado del pago de la orden');
+        Log::channel('placetopay')->info("[PAY]: Consultamos el estado del pago de la orden #{$code}");
 
         $order = (new OrderService())->getOrderByCode($code);
 
         if (! $order) {
-            Log::channel('placetopay')->info('[PAY]: Error, la orden no fue encontrada en el sistema');
+            Log::channel('placetopay')->info("[PAY]: Error, la orden con el #{$code} no fue encontrada en el sistema");
 
             return view('payment.error');
         }
 
         if ($order->state->getValue() !== Pending::class) {
-            Log::channel('placetopay')->info('[PAY]: Error, la orden ya ha actualizado su estado');
+            Log::channel('placetopay')->info("[PAY]: Error, la orden #{$order->code} ya ha actualizado su estado");
 
             return view('payment.success', compact('order'));
         }
@@ -86,7 +86,7 @@ class PlaceToPayPayment extends PaymentBase
             ]);
 
             if (! $result->ok()) {
-                Log::channel('placetopay')->info('[PAY]: Error en la respuesta del servicio de PlaceToPay', [
+                Log::channel('placetopay')->info("[PAY]: Error en la respuesta del servicio de PlaceToPay en la orden #{$order->code}", [
                     'result' => $result,
                 ]);
                 throw new \Exception('Hubo un error en la consulta del pago.', 500);
@@ -102,7 +102,7 @@ class PlaceToPayPayment extends PaymentBase
 
             return view('payment.success', compact('order'));
         } catch (\Exception $e) {
-            Log::channel('placetopay')->info('[PAY]: Error al consultar el pago de la orden');
+            Log::channel('placetopay')->info("[PAY]: Error al consultar el pago de la orden #{$order->code}");
 
             return view('payment.error', compact('order'));
         }
