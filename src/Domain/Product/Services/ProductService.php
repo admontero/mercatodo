@@ -66,17 +66,10 @@ class ProductService
         return null;
     }
 
-    public function checkStockAvailable(int $id, int $qty): void
+    public function checkStockAvailable(Product $product, int $qty): void
     {
-        $product = Product::find($id);
-
-        if (! $product) {
-            Log::channel('placetopay')->info('[PAY]: Producto de la orden no encontrado');
-            throw new \Exception('El producto a comprar no existe.', 500);
-        }
-
         if ($product->stock < $qty) {
-            Log::channel('placetopay')->info('[PAY]: Existencia insuficiente en el stock de productos');
+            Log::channel('placetopay')->info("[PAY]: Existencias insuficientes del producto {$product->code}");
             throw new \Exception('No hay existencias suficientes para crear la orden.', 500);
         }
     }

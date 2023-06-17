@@ -21,10 +21,9 @@ class SubtractProductStock
      */
     public function handle(OrderCreated $event): void
     {
-        Log::channel('placetopay')->info('[PAY]: Restamos el stock a los productos de la orden');
-        foreach ($event->order->products as $p) {
-            $product = (new ProductService())->getProductById($p->id);
-            $product->stock -= $p->getRelationValue('pivot')->quantity;
+        Log::channel('placetopay')->info("[PAY]: Restamos el stock a los productos de la orden #{$event->order->code}");
+        foreach ($event->order->products as $product) {
+            $product->stock -= $product->getRelationValue('pivot')->quantity;
             $product->save();
         }
     }

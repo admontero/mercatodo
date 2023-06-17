@@ -44,20 +44,7 @@ class ProductServiceTest extends TestCase
 
         $product = Product::factory()->create(['stock' => 5]);
 
-        (new ProductService())->checkStockAvailable($product->id, 7);
-    }
-
-    /**
-     * @test
-     */
-    public function it_throws_an_exception_when_check_the_stock_and_it_not_exists(): void
-    {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('El producto a comprar no existe.');
-
-        Product::factory()->create(['id' => 1, 'stock' => 5]);
-
-        (new ProductService())->checkStockAvailable(2, 7);
+        (new ProductService())->checkStockAvailable($product, 7);
     }
 
     /**

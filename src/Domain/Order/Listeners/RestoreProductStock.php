@@ -21,10 +21,9 @@ class RestoreProductStock
      */
     public function handle(OrderCanceled $event): void
     {
-        foreach ($event->order->products as $p) {
-            Log::channel('placetopay')->info('[PAY]: Restauramos el stock de los productos');
-            $product = (new ProductService())->getProductById($p->id);
-            $product->stock += $p->getRelationValue('pivot')->quantity;
+        foreach ($event->order->products as $product) {
+            Log::channel('placetopay')->info("[PAY]: Restauramos el stock de los productos de la orden #{$event->order->code}");
+            $product->stock += $product->getRelationValue('pivot')->quantity;
             $product->save();
         }
     }

@@ -26,9 +26,9 @@ class OrderService
             ]);
 
             foreach ($dto->products as $item) {
-                (new ProductService())->checkStockAvailable($item['id'], $item['quantity']);
-
                 $product = (new ProductService())->getProductById($item['id']);
+
+                (new ProductService())->checkStockAvailable($product, $item['quantity']);
 
                 $order->products()->attach($item['id'], ['price' => $product->price, 'quantity' => $item['quantity']]);
             }
@@ -52,7 +52,7 @@ class OrderService
 
     public function updateToCompleted(Order $order): Order
     {
-        Log::channel('placetopay')->info('[PAY]: Orden pagada');
+        Log::channel('placetopay')->info("[PAY]: Orden #{$order->code} pagada");
 
         $order->state->transitionTo(Completed::class);
 
@@ -63,7 +63,7 @@ class OrderService
 
     public function updateToCanceled(Order $order): Order
     {
-        Log::channel('placetopay')->info('[PAY]: Orden cancelada');
+        Log::channel('placetopay')->info("[PAY]: Orden #{$order->code} cancelada");
 
         $order->state->transitionTo(Canceled::class);
 
