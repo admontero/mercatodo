@@ -135,5 +135,10 @@
     "unt": "und",
     "There are no orders to display": "No hay pedidos para mostrar",
     "Retry Purchase": "Reintentar Compra",
-    "Reorder": "Hacer Pedido de Nuevo"
+    "Reorder": "Hacer Pedido de Nuevo",
+    "Export": "Exportar",
+    "Import": "Importar",
+    "File": "Archivo",
+    "Close": "Cerrar",
+    "Import Started": "Importación Iniciada"
 }
