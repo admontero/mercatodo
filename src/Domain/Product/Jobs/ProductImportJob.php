@@ -24,7 +24,8 @@ class ProductImportJob implements ShouldQueue
         private readonly string $path,
         private readonly User|null $user,
         protected ProductService $service,
-    ) {}
+    ) {
+    }
 
     /**
      * Execute the job.
@@ -32,15 +33,12 @@ class ProductImportJob implements ShouldQueue
     public function handle(): void
     {
         try {
-
             $this->service->readExcelFile($this->path);
 
             Mail::to($this->user)
                 ->send((new ProductImportMail('The import of products has been successfully completed'))
                     ->subject('Products Import Completed'));
-
         } catch (\Exception $e) {
-
             Mail::to($this->user)
                 ->send((new ProductImportMail('Products import failed, please try again later'))
                     ->subject('Products Import Failed'));

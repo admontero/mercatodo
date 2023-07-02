@@ -35,6 +35,7 @@ class ExportProductTest extends TestCase
 
         Bus::assertDispatched(ProductExportJob::class, function (ProductExportJob $job) {
             $job->handle();
+
             return true;
         });
 
@@ -74,12 +75,14 @@ class ExportProductTest extends TestCase
 
         Bus::assertDispatched(ProductExportJob::class, function (ProductExportJob $job) {
             $job->handle();
+
             return true;
         });
 
         Mail::assertSent(ProductExportMail::class, function ($mail) {
             $this->assertIsArray($mail->attachments());
             $this->assertEquals($mail->attachments(), []);
+
             return true;
         });
 

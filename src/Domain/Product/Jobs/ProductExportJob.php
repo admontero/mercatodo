@@ -27,7 +27,8 @@ class ProductExportJob implements ShouldQueue
     public function __construct(
         private readonly User|null $user,
         protected ProductService $service,
-    ) {}
+    ) {
+    }
 
     /**
      * Execute the job.
@@ -35,15 +36,12 @@ class ProductExportJob implements ShouldQueue
     public function handle(): void
     {
         try {
-
             $csvFile = $this->service->createExcelFile();
 
             Mail::to($this->user)
                 ->send((new ProductExportMail($csvFile, 'The export of products has been successfully completed'))
                     ->subject('Products Export Completed'));
-
         } catch (\Exception $e) {
-
             Mail::to($this->user)
                 ->send((new ProductExportMail('', 'Products export failed, please try again later'))
                     ->subject('Products Export Failed'));

@@ -104,7 +104,7 @@ class ProductService
 
         $file = $this->openFile($fileName, 'w');
 
-        if (!$file) {
+        if (! $file) {
             throw new \Exception('Error al abrir el archivo.', 500);
         }
 

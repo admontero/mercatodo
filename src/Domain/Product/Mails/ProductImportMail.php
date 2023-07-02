@@ -16,7 +16,8 @@ class ProductImportMail extends Mailable
      */
     public function __construct(
         public string $content = '',
-    ) {}
+    ) {
+    }
 
     /**
      * Get the message content definition.

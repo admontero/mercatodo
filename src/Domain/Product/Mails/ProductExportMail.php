@@ -18,7 +18,8 @@ class ProductExportMail extends Mailable
     public function __construct(
         public string|null $path = '',
         public string $content = '',
-    ) {}
+    ) {
+    }
 
     /**
      * Get the message content definition.
@@ -37,7 +38,7 @@ class ProductExportMail extends Mailable
      */
     public function attachments(): array
     {
-        if (!$this->path) {
+        if (! $this->path) {
             return [];
         }
 

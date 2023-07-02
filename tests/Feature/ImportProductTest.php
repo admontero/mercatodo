@@ -41,11 +41,12 @@ class ImportProductTest extends TestCase
         $file = UploadedFile::fake()->createWithContent('archivo.csv', $content);
 
         $response = $this->postJson(route('api.admin.products.import'), [
-            'file' => $file
+            'file' => $file,
         ]);
 
         Bus::assertDispatched(ProductImportJob::class, function (ProductImportJob $job) {
             $job->handle();
+
             return true;
         });
 
@@ -95,11 +96,12 @@ class ImportProductTest extends TestCase
         $file = UploadedFile::fake()->createWithContent('archivo.csv', $content);
 
         $response = $this->postJson(route('api.admin.products.import'), [
-            'file' => $file
+            'file' => $file,
         ]);
 
         Bus::assertDispatched(ProductImportJob::class, function (ProductImportJob $job) {
             $job->handle();
+
             return true;
         });
 
@@ -108,6 +110,7 @@ class ImportProductTest extends TestCase
             $this->assertEquals($mail->subject, 'Products Import Failed');
             $this->assertIsArray($mail->attachments());
             $this->assertEquals($mail->attachments(), []);
+
             return true;
         });
 
