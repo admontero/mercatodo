@@ -2,6 +2,7 @@
 
 namespace Domain\Product\Services;
 
+use Domain\Category\Models\Category;
 use Domain\Product\DTOs\ProductDTO;
 use Domain\Product\Models\Product;
 use Illuminate\Http\Request;
@@ -84,5 +85,112 @@ class ProductService
         }
 
         return $product;
+    }
+
+    public function createExcelFile(): ?string
+    {
+        $headers = [
+            'name',
+            'code',
+            'description',
+            'price',
+            'stock',
+            'category',
+        ];
+
+        $fileName = 'exports/products.csv';
+
+        $this->createFile($fileName);
+
+        $file = $this->openFile($fileName, 'w');
+
+        if (! $file) {
+            throw new \Exception('Error al abrir el archivo.', 500);
+        }
+
+        fputcsv($file, $headers);
+
+        Product::with('category')->chunk(100, function ($products) use ($file) {
+            foreach ($products as $product) {
+                fputcsv($file, [
+                    'name' => $product->name,
+                    'code' => $product->code,
+                    'description' => $product->description,
+                    'price' => $product->price,
+                    'stock' => $product->stock,
+                    'category' => $product->category?->name,
+                ]);
+            }
+        });
+
+        fclose($file);
+
+        return Storage::disk(config()->get('filesystem.default'))->path($fileName);
+    }
+
+    public function readExcelFile(string $pathFile): void
+    {
+        $file = $this->openFile($pathFile, 'r');
+
+        if (! $file) {
+            throw new \Exception('Error al abrir el archivo.', 500);
+        }
+
+        fgetcsv($file);
+
+        while (($row = fgetcsv($file)) !== false) {
+            $this->processRow($row);
+        }
+
+        fclose($file);
+    }
+
+    public function createFile(string $fileName): void
+    {
+        Storage::disk(config()->get('filesystem.default'))->put($fileName, '');
+    }
+
+    /**
+     * @param string $fileName
+     * @param string $mode
+     * @return resource|false
+     */
+    public function openFile(string $fileName, string $mode)
+    {
+        return fopen(Storage::disk(config()->get('filesystem.default'))->path($fileName), $mode);
+    }
+
+    private const HEADERS = [
+        'name' => 0,
+        'code' => 1,
+        'description' => 2,
+        'price' => 3,
+        'stock' => 4,
+        'category' => 5,
+    ];
+
+    /** @param array<int, string> $row */
+    private function processRow(array $row): void
+    {
+        Product::query()->updateOrCreate([
+            'code' => trim($row[self::HEADERS['code']]),
+        ], [
+            'name' => trim($row[self::HEADERS['name']]),
+            'description' => trim($row[self::HEADERS['description']]),
+            'price' => trim($row[self::HEADERS['price']]),
+            'stock' => trim($row[self::HEADERS['stock']]),
+            'category_id' => $this->getCategoryId(trim($row[self::HEADERS['category']])),
+        ]);
+    }
+
+    private function getCategoryId(string $categoryName): int
+    {
+        $category = Category::query()->firstOrCreate([
+            'name' => $categoryName,
+        ], [
+            'name' => $categoryName,
+        ]);
+
+        return $category->id;
     }
 }
