@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Admin;
 
-use Domain\Product\Jobs\ProductExportJob;
+use App\ApiAdmin\Product\Jobs\ProductExportJob;
 use Domain\Product\Mails\ProductExportMail;
 use Domain\Product\Services\ProductService;
 use Domain\User\Models\User;

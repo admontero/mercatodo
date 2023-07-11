@@ -2,8 +2,8 @@
 
 namespace App\ApiAdmin\Product\Controllers;
 
+use App\ApiAdmin\Product\Jobs\ProductImportJob;
 use App\Controller;
-use Domain\Product\Jobs\ProductImportJob;
 use Domain\Product\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

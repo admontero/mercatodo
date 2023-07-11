@@ -1,9 +1,9 @@
 <?php
 
-namespace Domain\Product\Jobs;
+namespace App\ApiAdmin\Shared\Jobs;
 
-use Domain\Product\Mails\ProductExportMail;
-use Domain\Product\Services\ProductService;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Domain\Shared\Mails\ReportMail;
 use Domain\User\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -13,7 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class ProductExportJob implements ShouldQueue
+class GenerateReportJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -23,10 +23,13 @@ class ProductExportJob implements ShouldQueue
 
     /**
      * Create a new job instance.
+     *
+     * @param array<string, mixed> $data
      */
     public function __construct(
         private readonly User|null $user,
-        protected ProductService $service,
+        protected array $data,
+        protected string $view,
     ) {
     }
 
@@ -36,15 +39,15 @@ class ProductExportJob implements ShouldQueue
     public function handle(): void
     {
         try {
-            $csvFile = $this->service->createExcelFile();
+            $pdf = Pdf::loadView($this->view, ['data' => $this->data]);
 
             Mail::to($this->user)
-                ->send((new ProductExportMail($csvFile, 'The export of products has been successfully completed'))
-                    ->subject('Products Export Completed'));
+                ->send((new ReportMail($pdf, 'The report has been generated successfully'))
+                    ->subject('Report Completed'));
         } catch (\Exception $e) {
             Mail::to($this->user)
-                ->send((new ProductExportMail('', 'Products export failed, please try again later'))
-                    ->subject('Products Export Failed'));
+                ->send((new ReportMail(null, 'Report generation has failed, please try again later'))
+                    ->subject('Report Failed'));
         }
     }
 }

@@ -28,11 +28,9 @@ class CacheProductResponseMiddleware
      */
     public function terminate(Request $request, Response $response): void
     {
-        if (Cache::has($this->cacheKey($request))) {
-            return;
+        if (! Cache::has($this->cacheKey($request))) {
+            Cache::put($this->cacheKey($request), $response->getContent(), now()->addDay());
         }
-
-        Cache::put($this->cacheKey($request), $response->getContent(), now()->addDay());
     }
 
     private function cacheKey(Request $request): string

@@ -71,6 +71,14 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
+        Gate::define('access-report-views', function (User $user) {
+            if ($user->hasRole(RoleEnum::ADMIN->value)) {
+                return true;
+            }
+
+            return false;
+        });
+
         /** Customer Gates */
         Gate::define('access-profile-edit', function (User $user) {
             if ($user->hasRole(RoleEnum::CUSTOMER->value)) {

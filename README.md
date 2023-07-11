@@ -82,6 +82,7 @@ Recuerda configurar las variables de entorno relacionadas al envío de correos e
 
 ## Dependencias
 
+- [dompdf/dompdf](https://github.com/dompdf/dompdf) - Para generar archivos PDF.
 - [intervention/image](https://github.com/Intervention/image) - Para manipular (redimensionar, cortar, ajustar) las imágenes.
 - [larastan](https://github.com/nunomaduro/larastan) - Para analizar y mejorar la calidad del código.
 - [laravel-debugbar](https://github.com/barryvdh/laravel-debugbar) - Para monitorizar el rendimiento de la aplicación.

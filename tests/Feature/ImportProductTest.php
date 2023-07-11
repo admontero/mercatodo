@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use Domain\Product\Jobs\ProductImportJob;
+use App\ApiAdmin\Product\Jobs\ProductImportJob;
 use Domain\Product\Mails\ProductImportMail;
 use Domain\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;

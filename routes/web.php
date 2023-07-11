@@ -28,6 +28,10 @@ Route::get('verify-email/{id}/{hash}', [App\Web\Auth\Controllers\VerificationCon
     ->name('verification.verify');
 Route::post('email/verification-notification', [App\Web\Auth\Controllers\VerificationController::class, 'resend'])
     ->name('verification.resend');
+Route::get('/confirm-password', [App\Web\Auth\Controllers\ConfirmPasswordController::class, 'showConfirmForm'])
+    ->name('password.showConfirmForm');
+Route::post('/confirm-password', [App\Web\Auth\Controllers\ConfirmPasswordController::class, 'confirm'])
+    ->name('password.confirm');
 
 /** Rutas públicas de productos */
 Route::get('/', [App\Web\Product\Controllers\ProductController::class, 'index'])
@@ -78,4 +82,8 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'admin'], func
         ->name('admin.products.create');
     Route::get('/products/{product:slug}/edit', [App\WebAdmin\Product\Controllers\ProductController::class, 'edit'])
         ->name('admin.products.edit');
+
+    //Reports
+    Route::get('/reports', [App\WebAdmin\Shared\Controllers\ReportController::class, 'index'])
+        ->name('admin.reports.index');
 });
