@@ -140,5 +140,14 @@
     "Import": "Importar",
     "File": "Archivo",
     "Close": "Cerrar",
-    "Import Started": "Importación Iniciada"
+    "Import Started": "Importación Iniciada",
+    "Generate": "Generar",
+    "Report Completed": "Informe Completado",
+    "Best Selling Product": "Producto Más Vendido",
+    "Best Buyer": "Mejor Comprador",
+    "Records": "Registros",
+    "Date": "Fecha",
+    "Orders Completed": "Ordenes Completadas",
+    "Email": "Correo Electrónico",
+    "Units Purchased": "Unidades Compradas"
 }

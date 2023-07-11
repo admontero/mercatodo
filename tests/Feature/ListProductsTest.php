@@ -5,7 +5,10 @@ namespace Tests\Feature;
 use Domain\Product\Models\Product;
 use Domain\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Passport\Passport;
+use Support\Middlewares\CacheProductResponseMiddleware;
 use Tests\TestCase;
 
 class ListProductsTest extends TestCase
@@ -74,6 +77,10 @@ class ListProductsTest extends TestCase
             ]);
 
         $this->assertEquals($response['data'][0]['code'], $this->product6->code);
+
+        $response2 = $this->getJson(route('api.products.index'));
+
+        $this->assertEquals(Cache::get(md5(route('api.products.index').'?')), $response2->getContent());
     }
 
     /**

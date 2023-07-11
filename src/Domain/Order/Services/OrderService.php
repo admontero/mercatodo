@@ -9,6 +9,7 @@ use Domain\Order\Notifications\OrderProcessedNotification;
 use Domain\Order\States\Canceled;
 use Domain\Order\States\Completed;
 use Domain\Product\Services\ProductService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -103,6 +104,28 @@ class OrderService
     public function sendOrderProcessedNotification(Order $order): void
     {
         $order->user?->notify(new OrderProcessedNotification($order));
+    }
+
+    /** @return array<string, mixed> */
+    public function getBestBuyer(Request $request): array
+    {
+        return Order::select([
+            DB::raw('users.email AS email'),
+            DB::raw('COUNT(*) AS orders_completed'),
+            DB::raw('SUM(orders.total) AS total'),
+        ])
+                    ->join('users', 'users.id', '=', 'orders.user_id')
+                    ->where('orders.state', 'Domain\\Order\\States\\Completed')
+                    ->groupBy('orders.user_id')
+                    ->orderBy('orders_completed', 'DESC')
+                    ->orderBy('total', 'DESC')
+                    ->when($request->records, function ($q) use ($request) {
+                        $q->take($request->records);
+                    }, function ($q) {
+                        $q->take(10);
+                    })
+                    ->get()
+                    ->toArray();
     }
 
     private function generateOrderCode(): string

@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Product\Jobs;
+namespace App\ApiAdmin\Product\Jobs;
 
 use Domain\Product\Mails\ProductImportMail;
 use Domain\Product\Services\ProductService;

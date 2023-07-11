@@ -17,6 +17,7 @@ import CartDropdown from '@/components/CartDropdown.vue';
 import CartOffCanvas from '@/components/CartOffCanvas.vue';
 import Checkout from '@/components/Checkout.vue';
 import CustomerOrderList from '@/components/CustomerOrderList.vue';
+import ReportList from '@/components/ReportList.vue';
 
 import store from './store.js';
 
@@ -43,6 +44,7 @@ window.app = createApp({
         CartOffCanvas,
         Checkout,
         CustomerOrderList,
+        ReportList,
     },
 });
 

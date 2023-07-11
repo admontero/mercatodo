@@ -86,6 +86,12 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
         ->name('api.admin.products.activate');
     Route::post('/admin/products/{product:slug}/inactivate', App\ApiAdmin\Product\Controllers\ProductInactivationController::class)
         ->name('api.admin.products.inactivate');
+
+    //Report Routes
+    Route::get('/admin/reports/best-selling-product', [App\ApiAdmin\Shared\Controllers\ReportController::class, 'bestSellingProduct'])
+        ->name('api.admin.reports.best-selling-product');
+    Route::get('/admin/reports/best-buyer', [App\ApiAdmin\Shared\Controllers\ReportController::class, 'bestBuyer'])
+        ->name('api.admin.reports.best-buyer');
 });
 
 /** Rutas protegidas del Cliente */
