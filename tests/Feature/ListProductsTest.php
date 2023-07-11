@@ -80,7 +80,7 @@ class ListProductsTest extends TestCase
 
         $response2 = $this->getJson(route('api.products.index'));
 
-        $this->assertEquals(Cache::get(md5(route('api.products.index'). '?')), $response2->getContent());
+        $this->assertEquals(Cache::get(md5(route('api.products.index').'?')), $response2->getContent());
     }
 
     /**

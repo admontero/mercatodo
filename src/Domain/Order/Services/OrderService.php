@@ -110,11 +110,11 @@ class OrderService
     public function getBestBuyer(Request $request): array
     {
         return Order::select([
-                        DB::raw('users.email AS email'),
-                        DB::raw('COUNT(*) AS orders_completed'),
-                        DB::raw('SUM(orders.total) AS total'),
-                    ])
-                    ->join( 'users', 'users.id', '=', 'orders.user_id')
+            DB::raw('users.email AS email'),
+            DB::raw('COUNT(*) AS orders_completed'),
+            DB::raw('SUM(orders.total) AS total'),
+        ])
+                    ->join('users', 'users.id', '=', 'orders.user_id')
                     ->where('orders.state', 'Domain\\Order\\States\\Completed')
                     ->groupBy('orders.user_id')
                     ->orderBy('orders_completed', 'DESC')
