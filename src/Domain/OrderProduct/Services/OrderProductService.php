@@ -17,18 +17,18 @@ class OrderProductService
             DB::raw('COUNT(*) AS orders_completed'),
             DB::raw('SUM(quantity) AS units_purchased'),
         ])
-                ->join('products', 'products.id', '=', 'order_product.product_id')
-                ->join('orders', 'orders.id', '=', 'order_product.order_id')
-                ->where('orders.state', 'Domain\\Order\\States\\Completed')
-                ->groupBy('order_product.product_id')
-                ->orderBy('orders_completed', 'DESC')
-                ->orderBy('units_purchased', 'DESC')
-                ->when($request->records, function ($q) use ($request) {
-                    $q->take($request->records);
-                }, function ($q) {
-                    $q->take(10);
-                })
-                ->get()
-                ->toArray();
+            ->join('products', 'products.id', '=', 'order_product.product_id')
+            ->join('orders', 'orders.id', '=', 'order_product.order_id')
+            ->where('orders.state', 'Domain\\Order\\States\\Completed')
+            ->groupBy('order_product.product_id')
+            ->orderBy('orders_completed', 'DESC')
+            ->orderBy('units_purchased', 'DESC')
+            ->when($request->records, function ($q) use ($request) {
+                $q->take($request->records);
+            }, function ($q) {
+                $q->take(10);
+            })
+            ->get()
+            ->toArray();
     }
 }

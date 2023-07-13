@@ -149,5 +149,9 @@
     "Date": "Fecha",
     "Orders Completed": "Ordenes Completadas",
     "Email": "Correo Electrónico",
-    "Units Purchased": "Unidades Compradas"
+    "Units Purchased": "Unidades Compradas",
+    "Completed Orders And Users By State": "Ordenes Completadas Y Usuarios Por Estado",
+    "Number of Users": "Número de Usuarios",
+    "Completed Orders By Month": "Ordenes Completadas Por Mes",
+    "Accumulated Total": "Total Acumulado"
 }

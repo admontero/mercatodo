@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Domain\Order\Models\Order;
 use Domain\Order\States\Canceled;
 use Domain\Order\States\Completed;
@@ -20,7 +21,7 @@ class OrderSeeder extends Seeder
     public function run(): void
     {
         Order::factory()
-            ->count(200)
+            ->count(400)
             ->state(new Sequence(
                 fn (Sequence $sequence) => ['user_id' => User::customer()->inRandomOrder()->first()],
             ))
@@ -42,11 +43,15 @@ class OrderSeeder extends Seeder
 
                 $states = [Pending::class, Canceled::class, Completed::class];
 
+                $date = Carbon::createFromTimestamp(rand(now()->subYears(2)->timestamp, now()->timestamp));
+
                 $order->update([
                     'total' => $order->products->map(function ($p) {
                         return $p->pivot->price * $p->pivot->quantity;
                     })->sum(),
                     'state' => $states[array_rand($states)],
+                    'created_at' => $date,
+                    'updated_at' => $date,
                 ]);
             });
     }

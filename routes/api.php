@@ -92,6 +92,10 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
         ->name('api.admin.reports.best-selling-product');
     Route::get('/admin/reports/best-buyer', [App\ApiAdmin\Shared\Controllers\ReportController::class, 'bestBuyer'])
         ->name('api.admin.reports.best-buyer');
+    Route::get('/admin/reports/completed-orders-and-users-by-state', [App\ApiAdmin\Shared\Controllers\ReportController::class, 'CompletedOrdersAndUsersByState'])
+        ->name('api.admin.reports.completed-orders-and-users-by-state');
+    Route::get('/admin/reports/completed-orders-by-month', [App\ApiAdmin\Shared\Controllers\ReportController::class, 'CompletedOrdersByMonth'])
+        ->name('api.admin.reports.completed-orders-by-month');
 });
 
 /** Rutas protegidas del Cliente */

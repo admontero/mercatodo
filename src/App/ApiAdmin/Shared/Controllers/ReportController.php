@@ -28,4 +28,22 @@ class ReportController extends Controller
 
         return response()->json(['message' => 'Report Completed'], 200);
     }
+
+    public function CompletedOrdersAndUsersByState(ReportRequest $request, OrderService $orderService): JsonResponse
+    {
+        $data = $orderService->getCompletedOrdersAndUsersByState();
+
+        dispatch(new GenerateReportJob($request->user(), $data, 'pdf.reports.completed-orders-and-users-by-state'));
+
+        return response()->json(['message' => 'Report Completed'], 200);
+    }
+
+    public function CompletedOrdersByMonth(ReportRequest $request, OrderService $orderService): JsonResponse
+    {
+        $data = $orderService->getCompletedOrdersByMonth();
+
+        dispatch(new GenerateReportJob($request->user(), $data, 'pdf.reports.completed-orders-by-month'));
+
+        return response()->json(['message' => 'Report Completed'], 200);
+    }
 }

@@ -15,11 +15,13 @@ use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
-    public function createOrder(OrderDTO $dto): Order
+    public function createOrder(OrderDTO $dto): ?Order
     {
         Log::channel('placetopay')->info('[PAY]: Creamos la orden con los datos requeridos');
 
-        $order = DB::transaction(function () use ($dto) {
+        try {
+            DB::beginTransaction();
+
             $order = Order::create([
                 'code' => $this->generateOrderCode(),
                 'provider' => $dto->provider,
@@ -36,10 +38,14 @@ class OrderService
 
             $this->updateOrderTotal($order);
 
-            return $order;
-        });
+            DB::commit();
 
-        return $order;
+            return $order;
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return null;
+        }
     }
 
     public function updateOrder(Order $order): Order
@@ -75,11 +81,9 @@ class OrderService
         return $order;
     }
 
-    public function deleteOrder(Order $order = null): void
+    public function deleteOrder(Order $order): void
     {
-        if ($order) {
-            $order->delete();
-        }
+        $order->delete();
     }
 
     public function getOrderByCode(string $code): ?Order
@@ -114,18 +118,52 @@ class OrderService
             DB::raw('COUNT(*) AS orders_completed'),
             DB::raw('SUM(orders.total) AS total'),
         ])
-                    ->join('users', 'users.id', '=', 'orders.user_id')
-                    ->where('orders.state', 'Domain\\Order\\States\\Completed')
-                    ->groupBy('orders.user_id')
-                    ->orderBy('orders_completed', 'DESC')
-                    ->orderBy('total', 'DESC')
-                    ->when($request->records, function ($q) use ($request) {
-                        $q->take($request->records);
-                    }, function ($q) {
-                        $q->take(10);
-                    })
-                    ->get()
-                    ->toArray();
+            ->join('users', 'users.id', '=', 'orders.user_id')
+            ->where('orders.state', 'Domain\\Order\\States\\Completed')
+            ->groupBy('orders.user_id')
+            ->orderBy('orders_completed', 'DESC')
+            ->orderBy('total', 'DESC')
+            ->when($request->records, function ($q) use ($request) {
+                $q->take($request->records);
+            }, function ($q) {
+                $q->take(10);
+            })
+            ->get()
+            ->toArray();
+    }
+
+    /** @return array<string, mixed> */
+    public function getCompletedOrdersAndUsersByState(): array
+    {
+        return Order::select([
+            DB::raw('states.name'),
+            DB::raw('COUNT(*) AS orders_completed'),
+            DB::raw('(SELECT COUNT(*) FROM customer_profiles WHERE state_id = states.id) AS users_num'),
+        ])
+            ->join('users', 'users.id', '=', 'orders.user_id')
+            ->join('customer_profiles', 'customer_profiles.id', '=', 'users.profileable_id')
+            ->join('states', 'states.id', '=', 'customer_profiles.state_id')
+            ->where('orders.state', 'Domain\\Order\\States\\Completed')
+            ->groupBy('customer_profiles.state_id')
+            ->orderBy('orders_completed', 'DESC')
+            ->orderBy('users_num', 'DESC')
+            ->get()
+            ->toArray();
+    }
+
+    /** @return array<string, mixed> */
+    public function getCompletedOrdersByMonth(): array
+    {
+        return Order::select([
+            DB::raw('COUNT(id) AS orders_completed'),
+            DB::raw(env('DB_CONNECTION') === 'sqlite' ? 'strftime("%m", created_at) AS month' : 'MONTH(created_at) AS month'),
+            DB::raw(env('DB_CONNECTION') === 'sqlite' ? 'strftime("%Y", created_at) AS year' : 'YEAR(created_at) AS year'),
+            DB::raw('SUM(total) AS total'),
+        ])
+            ->where('orders.state', 'Domain\\Order\\States\\Completed')
+            ->groupBy(['year', 'month'])
+            ->get()
+            ->toArray();
     }
 
     private function generateOrderCode(): string

@@ -2,11 +2,13 @@
 
 namespace Tests\Feature\Customer;
 
+use Domain\Order\DTOs\OrderDTO;
 use Domain\Order\Events\OrderCanceled;
 use Domain\Order\Events\OrderCreated;
 use Domain\Order\Listeners\RestoreProductStock;
 use Domain\Order\Listeners\SubtractProductStock;
 use Domain\Order\Models\Order;
+use Domain\Order\Services\OrderService;
 use Domain\Order\States\Canceled;
 use Domain\Order\States\Completed;
 use Domain\Order\States\Pending;
@@ -18,6 +20,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 use Laravel\Passport\Passport;
+use Mockery;
 use Tests\TestCase;
 
 class StoreOrderTest extends TestCase
@@ -34,6 +37,31 @@ class StoreOrderTest extends TestCase
             ->customer()
             ->withCustomerProfile()
             ->create();
+    }
+
+    /** @test */
+    public function it_throws_an_exception_if_order_is_not_created(): void
+    {
+        Product::factory()->create(['id' => 1, 'name' => 'Balon', 'code' => '12345678', 'price' => '100000.00', 'stock' => 40]);
+        Product::factory()->create(['id' => 2, 'name' => 'Celular', 'code' => '87654321', 'price' => '700000.00', 'stock' => 21]);
+
+        Passport::actingAs($this->customer);
+
+        $data = $this->getOrderValidData();
+
+        $serviceMock = Mockery::mock(OrderService::class);
+        $serviceMock->shouldReceive('createOrder')
+                    ->once()
+                    ->andReturn(null);
+
+        $this->app->instance(OrderService::class, $serviceMock);
+
+        $this->postJson(route('api.customer.payments.processPayment'), $data)
+            ->assertStatus(500)
+            ->assertJsonStructure(['message'])
+            ->assertJsonFragment(['message' => 'Hubo un error al crear la orden']);
+
+        $this->assertDatabaseEmpty('orders');
     }
 
     /** @test */
