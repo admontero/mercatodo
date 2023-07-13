@@ -20,7 +20,7 @@ class OrderServiceTest extends TestCase
             [
                 'id' => 1,
                 'quantity' => -20,
-            ]
+            ],
         ];
 
         $order = (new OrderService())->createOrder(new OrderDTO('PlaceToPay', $products));

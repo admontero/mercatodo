@@ -25,7 +25,7 @@ class PaymentController extends Controller
         $order = $this->orderService->createOrder(OrderDTO::fromStoreRequest($request));
 
         if (! $order) {
-            Log::channel('placetopay')->info("[PAY]: Error, la orden no ha sido creada en el sistema");
+            Log::channel('placetopay')->info('[PAY]: Error, la orden no ha sido creada en el sistema');
 
             return response()->json(['message' => 'Hubo un error al crear la orden'], 500);
         }
