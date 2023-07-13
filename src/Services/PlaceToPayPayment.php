@@ -4,7 +4,6 @@ namespace Services;
 
 use App\ApiCustomer\Order\Requests\StoreOrderRequest;
 use Carbon\Carbon;
-use Domain\Order\DTOs\OrderDTO;
 use Domain\Order\Events\OrderCreated;
 use Domain\Order\Models\Order;
 use Domain\Order\Services\OrderService;
@@ -19,11 +18,9 @@ class PlaceToPayPayment extends PaymentBase
 {
     use OrderTrait;
 
-    public function pay(StoreOrderRequest $request): JsonResponse
+    public function pay(StoreOrderRequest $request, Order $order): JsonResponse
     {
         Log::channel('placetopay')->info('[PAY]: Pago con PlaceToPay');
-
-        $order = (new OrderService())->createOrder(OrderDTO::fromStoreRequest($request));
 
         try {
             $result = Http::post(
@@ -49,8 +46,9 @@ class PlaceToPayPayment extends PaymentBase
 
             return response()->json(['url' => $order->url], 200);
         } catch (\Exception $e) {
-            (new OrderService())->deleteOrder($order);
             Log::channel('placetopay')->info('[PAY]: Error al generar la orden');
+
+            (new OrderService())->deleteOrder($order);
 
             return response()->json(['message' => $e->getMessage()], 500);
         }

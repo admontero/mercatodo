@@ -4,17 +4,13 @@ namespace Tests\Feature\Admin;
 
 use App\ApiAdmin\Shared\Jobs\GenerateReportJob;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Domain\Product\Mails\ProductExportMail;
-use Domain\Product\Services\ProductService;
 use Domain\Shared\Mails\ReportMail;
 use Domain\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Passport\Passport;
-use Mockery;
 use Tests\TestCase;
 
 class GenerateReportTest extends TestCase
@@ -136,6 +132,72 @@ class GenerateReportTest extends TestCase
         Passport::actingAs($admin);
 
         $response = $this->getJson(route('api.admin.reports.best-buyer'));
+
+        Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
+            $job->handle();
+
+            return true;
+        });
+
+        Mail::assertSent(ReportMail::class, function ($mail) {
+            $this->assertIsArray($mail->attachments());
+            $this->assertInstanceOf(Attachment::class, $mail->attachments()[0]);
+            $this->assertEquals('emails.report', $mail->content()->markdown);
+
+            return true;
+        });
+
+        $response
+            ->assertOk()
+            ->assertJsonStructure(['message']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_generate_completed_orders_and_users_by_state_report(): void
+    {
+        Bus::fake();
+        Mail::fake();
+
+        $admin = User::factory()->admin()->create();
+
+        Passport::actingAs($admin);
+
+        $response = $this->getJson(route('api.admin.reports.completed-orders-and-users-by-state'));
+
+        Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
+            $job->handle();
+
+            return true;
+        });
+
+        Mail::assertSent(ReportMail::class, function ($mail) {
+            $this->assertIsArray($mail->attachments());
+            $this->assertInstanceOf(Attachment::class, $mail->attachments()[0]);
+            $this->assertEquals('emails.report', $mail->content()->markdown);
+
+            return true;
+        });
+
+        $response
+            ->assertOk()
+            ->assertJsonStructure(['message']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_generate_completed_orders_by_month_report(): void
+    {
+        Bus::fake();
+        Mail::fake();
+
+        $admin = User::factory()->admin()->create();
+
+        Passport::actingAs($admin);
+
+        $response = $this->getJson(route('api.admin.reports.completed-orders-by-month'));
 
         Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
             $job->handle();

@@ -56,6 +56,44 @@
                 </div>
             </div>
         </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    {{ $t('Completed Orders And Users By State') }}
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" style="">
+                <div class="accordion-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center gap-2"></div>
+                        <div>
+                            <button class="btn btn-primary" @click.prevent="generateReport('completed-orders-and-users-by-state')">
+                                {{ $t('Generate') }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    {{ $t('Completed Orders By Month') }}
+                </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" style="">
+                <div class="accordion-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center gap-2"></div>
+                        <div>
+                            <button class="btn btn-primary" @click.prevent="generateReport('completed-orders-by-month')">
+                                {{ $t('Generate') }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
