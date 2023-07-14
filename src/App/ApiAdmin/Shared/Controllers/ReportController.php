@@ -7,12 +7,15 @@ use App\ApiAdmin\Shared\Requests\ReportRequest;
 use App\Controller;
 use Domain\Order\Services\OrderService;
 use Domain\OrderProduct\Services\OrderProductService;
+use Domain\User\Models\User;
 use Illuminate\Http\JsonResponse;
 
 class ReportController extends Controller
 {
     public function bestSellingProduct(ReportRequest $request, OrderProductService $orderProductService): JsonResponse
     {
+        $this->authorize('generateReport', new User());
+
         $data = $orderProductService->getBestSellingProduct($request);
 
         dispatch(new GenerateReportJob($request->user(), $data, 'pdf.reports.best-selling-product'));
@@ -22,6 +25,8 @@ class ReportController extends Controller
 
     public function BestBuyer(ReportRequest $request, OrderService $orderService): JsonResponse
     {
+        $this->authorize('generateReport', new User());
+
         $data = $orderService->getBestBuyer($request);
 
         dispatch(new GenerateReportJob($request->user(), $data, 'pdf.reports.best-buyer'));
@@ -31,6 +36,8 @@ class ReportController extends Controller
 
     public function CompletedOrdersAndUsersByState(ReportRequest $request, OrderService $orderService): JsonResponse
     {
+        $this->authorize('generateReport', new User());
+
         $data = $orderService->getCompletedOrdersAndUsersByState();
 
         dispatch(new GenerateReportJob($request->user(), $data, 'pdf.reports.completed-orders-and-users-by-state'));
@@ -40,6 +47,8 @@ class ReportController extends Controller
 
     public function CompletedOrdersByMonth(ReportRequest $request, OrderService $orderService): JsonResponse
     {
+        $this->authorize('generateReport', new User());
+
         $data = $orderService->getCompletedOrdersByMonth();
 
         dispatch(new GenerateReportJob($request->user(), $data, 'pdf.reports.completed-orders-by-month'));

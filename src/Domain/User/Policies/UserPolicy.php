@@ -70,4 +70,16 @@ class UserPolicy
 
         return false;
     }
+
+    /**
+     * Determine whether the user can generate a report.
+     */
+    public function generateReport(User $user, User $model): bool
+    {
+        if ($user->hasRole(RoleEnum::ADMIN->value)) {
+            return true;
+        }
+
+        return false;
+    }
 }

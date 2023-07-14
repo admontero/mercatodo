@@ -100,4 +100,20 @@ class UserPolicyTest extends TestCase
 
         $this->assertFalse($canUpdateCustomerProfile);
     }
+
+    /**
+     * @test
+     */
+    public function a_customer_cannot_generate_a_report(): void
+    {
+        $customer = User::factory()->customer()->withCustomerProfile()->create();
+
+        Passport::actingAs($this->customer);
+
+        $policy = new UserPolicy();
+
+        $canGenerateAReport = $policy->generateReport($this->customer, $customer);
+
+        $this->assertFalse($canGenerateAReport);
+    }
 }

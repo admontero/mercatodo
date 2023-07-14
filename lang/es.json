@@ -141,6 +141,7 @@
     "File": "Archivo",
     "Close": "Cerrar",
     "Import Started": "Importación Iniciada",
+    "Export Completed": "Exportación Completada",
     "Generate": "Generar",
     "Report Completed": "Informe Completado",
     "Best Selling Product": "Producto Más Vendido",
@@ -153,5 +154,6 @@
     "Completed Orders And Users By State": "Ordenes Completadas Y Usuarios Por Estado",
     "Number of Users": "Número de Usuarios",
     "Completed Orders By Month": "Ordenes Completadas Por Mes",
-    "Accumulated Total": "Total Acumulado"
+    "Accumulated Total": "Total Acumulado",
+    "Failed Report Generation": "Generación de Reporte Fallada"
 }

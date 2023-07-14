@@ -63,4 +63,28 @@ class ProductPolicyTest extends TestCase
 
         $this->assertFalse(auth()->user()->can('updateStatus', $product));
     }
+
+    /**
+     * @test
+     */
+    public function a_product_cannot_be_imported_by_a_customer(): void
+    {
+        $product = Product::factory()->create();
+
+        $this->be($this->customer);
+
+        $this->assertFalse(auth()->user()->can('import', $product));
+    }
+
+    /**
+     * @test
+     */
+    public function a_product_cannot_be_exported_by_a_customer(): void
+    {
+        $product = Product::factory()->create();
+
+        $this->be($this->customer);
+
+        $this->assertFalse(auth()->user()->can('export', $product));
+    }
 }
