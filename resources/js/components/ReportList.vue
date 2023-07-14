@@ -136,7 +136,7 @@
 
                         this.resetQueries();
                     }).catch(err => {
-                        this.toast.error(trans(err.response.data.message), {
+                        this.toast.error(trans('Failed Report Generation'), {
                             position: "bottom-left",
                             timeout: 3000,
                             closeOnClick: true,

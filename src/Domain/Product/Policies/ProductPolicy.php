@@ -55,4 +55,28 @@ class ProductPolicy
 
         return false;
     }
+
+    /**
+     * Determine whether the user can import the model status.
+     */
+    public function import(User $user, Product $product): bool
+    {
+        if ($user->hasRole(RoleEnum::ADMIN->value)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine whether the user can export the model status.
+     */
+    public function export(User $user, Product $product): bool
+    {
+        if ($user->hasRole(RoleEnum::ADMIN->value)) {
+            return true;
+        }
+
+        return false;
+    }
 }
