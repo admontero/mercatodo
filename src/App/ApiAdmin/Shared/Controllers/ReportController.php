@@ -23,6 +23,17 @@ class ReportController extends Controller
         return response()->json(['message' => 'Report Completed'], 200);
     }
 
+    public function bestSellingCategory(ReportRequest $request, OrderProductService $orderProductService): JsonResponse
+    {
+        $this->authorize('generateReport', new User());
+
+        $data = $orderProductService->getBestSellingCategory($request);
+
+        dispatch(new GenerateReportJob($request->user(), $data, 'pdf.reports.best-selling-category'));
+
+        return response()->json(['message' => 'Report Completed'], 200);
+    }
+
     public function BestBuyer(ReportRequest $request, OrderService $orderService): JsonResponse
     {
         $this->authorize('generateReport', new User());
@@ -40,7 +51,7 @@ class ReportController extends Controller
 
         $data = $orderService->getCompletedOrdersAndUsersByState();
 
-        dispatch(new GenerateReportJob($request->user(), $data, 'pdf.reports.completed-orders-and-users-by-state'));
+        dispatch(new GenerateReportJob($request->user(), $data, 'pdf.reports.sales-and-users-by-state'));
 
         return response()->json(['message' => 'Report Completed'], 200);
     }
@@ -51,7 +62,7 @@ class ReportController extends Controller
 
         $data = $orderService->getCompletedOrdersByMonth();
 
-        dispatch(new GenerateReportJob($request->user(), $data, 'pdf.reports.completed-orders-by-month'));
+        dispatch(new GenerateReportJob($request->user(), $data, 'pdf.reports.sales-by-month'));
 
         return response()->json(['message' => 'Report Completed'], 200);
     }

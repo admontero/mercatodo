@@ -1,0 +1,44 @@
+{
+  "lang/es.json": {
+    "file": "assets/es-c3e7411f.js",
+    "isDynamicEntry": true,
+    "src": "lang/es.json"
+  },
+  "lang/php_en.json": {
+    "file": "assets/php_en-71f8ebfa.js",
+    "isDynamicEntry": true,
+    "src": "lang/php_en.json"
+  },
+  "lang/php_es.json": {
+    "file": "assets/php_es-c2ffea1f.js",
+    "isDynamicEntry": true,
+    "src": "lang/php_es.json"
+  },
+  "resources/js/app.css": {
+    "file": "assets/app-f67bb78a.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/js/app.js": {
+    "css": [
+      "assets/app-f67bb78a.css"
+    ],
+    "dynamicImports": [
+      "lang/es.json",
+      "lang/php_en.json",
+      "lang/php_es.json"
+    ],
+    "file": "assets/app-b9fe9c6c.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/sass/admin.scss": {
+    "file": "assets/admin-f51a49ae.css",
+    "isEntry": true,
+    "src": "resources/sass/admin.scss"
+  },
+  "resources/sass/app.scss": {
+    "file": "assets/app-a69e8c81.css",
+    "isEntry": true,
+    "src": "resources/sass/app.scss"
+  }
+}
