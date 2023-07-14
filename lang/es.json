@@ -145,15 +145,17 @@
     "Generate": "Generar",
     "Report Completed": "Informe Completado",
     "Best Selling Product": "Producto Más Vendido",
+    "Best Selling Category": "Categoría Más Vendida",
     "Best Buyer": "Mejor Comprador",
     "Records": "Registros",
     "Date": "Fecha",
     "Orders Completed": "Ordenes Completadas",
     "Email": "Correo Electrónico",
     "Units Purchased": "Unidades Compradas",
-    "Completed Orders And Users By State": "Ordenes Completadas Y Usuarios Por Estado",
+    "Sales And Users By State": "Ventas Y Usuarios Por Estado",
     "Number of Users": "Número de Usuarios",
-    "Completed Orders By Month": "Ordenes Completadas Por Mes",
+    "Sales By Month": "Ventas Por Mes",
     "Accumulated Total": "Total Acumulado",
-    "Failed Report Generation": "Generación de Reporte Fallada"
+    "Failed Report Generation": "Generación de Reporte Fallada",
+    "Sales": "Ventas"
 }

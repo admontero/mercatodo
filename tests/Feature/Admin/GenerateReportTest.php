@@ -53,7 +53,40 @@ class GenerateReportTest extends TestCase
     /**
      * @test
      */
-    public function it_sends_an_email_without_attachment_when_the_report_fail(): void
+    public function it_can_generate_best_selling_category_report(): void
+    {
+        Bus::fake();
+        Mail::fake();
+
+        $admin = User::factory()->admin()->create();
+
+        Passport::actingAs($admin);
+
+        $response = $this->getJson(route('api.admin.reports.best-selling-category', ['records' => 25]));
+
+        Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
+            $job->handle();
+
+            return true;
+        });
+
+        Mail::assertSent(ReportMail::class, function ($mail) {
+            $this->assertIsArray($mail->attachments());
+            $this->assertInstanceOf(Attachment::class, $mail->attachments()[0]);
+            $this->assertEquals('emails.report', $mail->content()->markdown);
+
+            return true;
+        });
+
+        $response
+            ->assertOk()
+            ->assertJsonStructure(['message']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_sends_an_email_without_attachment_when_the_best_selling_product_report_fail(): void
     {
         Bus::fake();
         Mail::fake();
@@ -67,6 +100,42 @@ class GenerateReportTest extends TestCase
             ->andThrow(new \Exception());
 
         $response = $this->getJson(route('api.admin.reports.best-selling-product'));
+
+        Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
+            $job->handle();
+
+            return true;
+        });
+
+        Mail::assertSent(ReportMail::class, function ($mail) {
+            $this->assertIsArray($mail->attachments());
+            $this->assertEquals($mail->attachments(), []);
+
+            return true;
+        });
+
+        $response
+            ->assertOk()
+            ->assertJsonStructure(['message']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_sends_an_email_without_attachment_when_the_best_selling_category_report_fail(): void
+    {
+        Bus::fake();
+        Mail::fake();
+
+        $admin = User::factory()->admin()->create();
+
+        Passport::actingAs($admin);
+
+        Pdf::shouldReceive('loadView')
+            ->once()
+            ->andThrow(new \Exception());
+
+        $response = $this->getJson(route('api.admin.reports.best-selling-category'));
 
         Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
             $job->handle();
@@ -164,7 +233,7 @@ class GenerateReportTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->getJson(route('api.admin.reports.completed-orders-and-users-by-state'));
+        $response = $this->getJson(route('api.admin.reports.sales-and-users-by-state'));
 
         Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
             $job->handle();
@@ -197,7 +266,7 @@ class GenerateReportTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->getJson(route('api.admin.reports.completed-orders-by-month'));
+        $response = $this->getJson(route('api.admin.reports.sales-by-month'));
 
         Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
             $job->handle();

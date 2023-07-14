@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ __('Completed Orders And Users By State') }}</title>
+    <title>{{ __('Sales And Users By State') }}</title>
     <style>
         .bg-gray-200 {
             background-color: rgb(229 231 235);
@@ -60,7 +60,7 @@
     </style>
 </head>
 <body>
-    <h1 class="text-center">{{ __('Completed Orders And Users By State') }}</h1>
+    <h1 class="text-center">{{ __('Sales And Users By State') }}</h1>
     <p class="text-sm">
         <strong>{{ __('Date') }}:</strong>
         <span class="capitalize">{{ now()->isoFormat('MMMM D YYYY hh:mm:ss a') }}</span>

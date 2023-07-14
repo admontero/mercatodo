@@ -29,6 +29,34 @@
             </div>
         </div>
         <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFive">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                    {{ $t('Best Selling Category') }}
+                </button>
+            </h2>
+            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" style="">
+                <div class="accordion-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center gap-2">
+                            <select class="form-select" v-model="queries.records">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="75">75</option>
+                                <option value="100">100</option>
+                            </select>
+                            {{ $t('Records') }}
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" @click.prevent="generateReport('best-selling-category')">
+                                {{ $t('Generate') }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
             <h2 class="accordion-header" id="headingTwo">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                     {{ $t('Best Buyer') }}
@@ -59,7 +87,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingThree">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    {{ $t('Completed Orders And Users By State') }}
+                    {{ $t('Sales And Users By State') }}
                 </button>
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" style="">
@@ -67,7 +95,7 @@
                     <div class="d-flex justify-content-between">
                         <div class="d-flex align-items-center gap-2"></div>
                         <div>
-                            <button class="btn btn-primary" @click.prevent="generateReport('completed-orders-and-users-by-state')">
+                            <button class="btn btn-primary" @click.prevent="generateReport('sales-and-users-by-state')">
                                 {{ $t('Generate') }}
                             </button>
                         </div>
@@ -78,7 +106,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingFour">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                    {{ $t('Completed Orders By Month') }}
+                    {{ $t('Sales By Month') }}
                 </button>
             </h2>
             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" style="">
@@ -86,7 +114,7 @@
                     <div class="d-flex justify-content-between">
                         <div class="d-flex align-items-center gap-2"></div>
                         <div>
-                            <button class="btn btn-primary" @click.prevent="generateReport('completed-orders-by-month')">
+                            <button class="btn btn-primary" @click.prevent="generateReport('sales-by-month')">
                                 {{ $t('Generate') }}
                             </button>
                         </div>

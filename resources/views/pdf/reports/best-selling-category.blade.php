@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ __('Completed Orders By Month') }}</title>
+    <title>{{ __('Best Selling Category') }}</title>
     <style>
         .bg-gray-200 {
             background-color: rgb(229 231 235);
@@ -60,7 +60,7 @@
     </style>
 </head>
 <body>
-    <h1 class="text-center">{{ __('Completed Orders By Month') }}</h1>
+    <h1 class="text-center">{{ __('Best Selling Category') }}</h1>
     <p class="text-sm">
         <strong>{{ __('Date') }}:</strong>
         <span class="capitalize">{{ now()->isoFormat('MMMM D YYYY hh:mm:ss a') }}</span>
@@ -70,18 +70,20 @@
         <thead>
             <tr class="bg-gray-200 text-gray-600 text-sm leading-normal">
                 <th class="py-1 px-6">#</th>
-                <th class="py-1 px-6">{{ __('Month') }}</th>
-                <th class="py-1 px-6">{{ __('Orders Completed') }}</th>
-                <th class="py-1 px-6">{{ __('Accumulated Total') }}</th>
+                <th class="py-1 px-6">{{ __('Name') }}</th>
+                <th class="py-1 px-6">{{ __('Sales') }}</th>
+                <th class="py-1 px-6">{{ __('Products') }}</th>
+                <th class="py-1 px-6">{{ __('Total') }}</th>
             </tr>
         </thead>
         <tbody class="text-gray-600 text-sm">
-            @foreach ($data as $d)
+            @foreach ($data as $category)
                 <tr class="border-b border-gray-200">
                     <td class="py-1 px-6"><strong>{{ $loop->iteration }}</strong></td>
-                    <td class="py-1 px-6 capitalize">{{ Carbon\Carbon::createFromFormat('m', $d['month'])->isoFormat('MMMM') }} {{ $d['year'] }}</td>
-                    <td class="py-1 px-6 text-center">{{ $d['orders_completed'] }}</td>
-                    <td class="py-1 px-6 text-center">${{ number_format($d['total'], 2, ',', '.') }}</td>
+                    <td class="py-1 px-6">{{ $category['name'] }}</td>
+                    <td class="py-1 px-6 text-center">{{ $category['sales'] }}</td>
+                    <td class="py-1 px-6 text-center">{{ $category['products'] }}</td>
+                    <td class="py-1 px-6 text-center">${{ number_format($category['total'], 2, ',', '.') }}</td>
                 </tr>
             @endforeach
         </tbody>

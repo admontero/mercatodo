@@ -90,12 +90,14 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
     //Report Routes
     Route::get('/admin/reports/best-selling-product', [App\ApiAdmin\Shared\Controllers\ReportController::class, 'bestSellingProduct'])
         ->name('api.admin.reports.best-selling-product');
+    Route::get('/admin/reports/best-selling-category', [App\ApiAdmin\Shared\Controllers\ReportController::class, 'bestSellingCategory'])
+        ->name('api.admin.reports.best-selling-category');
     Route::get('/admin/reports/best-buyer', [App\ApiAdmin\Shared\Controllers\ReportController::class, 'bestBuyer'])
         ->name('api.admin.reports.best-buyer');
-    Route::get('/admin/reports/completed-orders-and-users-by-state', [App\ApiAdmin\Shared\Controllers\ReportController::class, 'CompletedOrdersAndUsersByState'])
-        ->name('api.admin.reports.completed-orders-and-users-by-state');
-    Route::get('/admin/reports/completed-orders-by-month', [App\ApiAdmin\Shared\Controllers\ReportController::class, 'CompletedOrdersByMonth'])
-        ->name('api.admin.reports.completed-orders-by-month');
+    Route::get('/admin/reports/sales-and-users-by-state', [App\ApiAdmin\Shared\Controllers\ReportController::class, 'CompletedOrdersAndUsersByState'])
+        ->name('api.admin.reports.sales-and-users-by-state');
+    Route::get('/admin/reports/sales-by-month', [App\ApiAdmin\Shared\Controllers\ReportController::class, 'CompletedOrdersByMonth'])
+        ->name('api.admin.reports.sales-by-month');
 });
 
 /** Rutas protegidas del Cliente */

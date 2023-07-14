@@ -62,6 +62,12 @@ Ahora puedes acceder al servidor desde http://localhost:8000
     npm run dev
     php artisan serve
 
+## Crear Personal Access Client
+
+    php artisan passport:client --personal
+
+**Al ejecutar este comando se le pedirá el nombre que quiera para el personal access client, posterior a eso le retornarán dos valores que deberá poner en las variables correspondientes del archivo .env**
+
 ## Seeding de la base de datos
 
 Ejecuta todos los seeders configurados para la aplicación
