@@ -509,7 +509,7 @@ class UpdateProductTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $this->putJson(config('app.url') . 'api//admin/products/dummy-product', $data)
+        $this->putJson(config('app.url').'api//admin/products/dummy-product', $data)
             ->assertStatus(404)
             ->assertJsonFragment(['status' => 'error', 'errors' => 'Resource Not Found.']);
     }

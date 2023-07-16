@@ -52,7 +52,7 @@ class Handler extends ExceptionHandler
             if ($e instanceof \Illuminate\Validation\ValidationException) {
                 return response()->json([
                     'status' => 'error',
-                    'errors' => $e->errors()
+                    'errors' => $e->errors(),
                 ], 422);
             }
 
@@ -60,7 +60,7 @@ class Handler extends ExceptionHandler
                 $e instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
                 return response()->json([
                     'status' => 'error',
-                    'errors' => $e->getMessage()
+                    'errors' => $e->getMessage(),
                 ], 403);
             }
 
@@ -68,27 +68,27 @@ class Handler extends ExceptionHandler
                 $e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
                 return response()->json([
                     'status' => 'error',
-                    'errors' => 'Resource Not Found.'
+                    'errors' => 'Resource Not Found.',
                 ], 404);
             }
 
             if ($e instanceof \Illuminate\Auth\AuthenticationException) {
                 return response()->json([
                     'status' => 'error',
-                    'errors' => $e->getMessage()
+                    'errors' => $e->getMessage(),
                 ], 401);
             }
 
             if ($e instanceof \Illuminate\Http\Exceptions\ThrottleRequestsException) {
                 return response()->json([
                     'status' => 'error',
-                    'errors' => 'API Limit Reached.'
+                    'errors' => 'API Limit Reached.',
                 ], 429);
             }
 
             return response()->json([
                 'status' => 'error',
-                'errors' => 'Something went wrong.'
+                'errors' => 'Something went wrong.',
             ], 500);
         }
 
