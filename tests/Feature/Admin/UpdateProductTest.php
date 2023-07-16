@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
+use Mockery;
 use Tests\TestCase;
 
 class UpdateProductTest extends TestCase
@@ -497,6 +498,20 @@ class UpdateProductTest extends TestCase
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('category_id');
+    }
+
+    /** @test */
+    public function it_returns_an_error_404_if_the_resource_not_exists(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $data = $this->getProductValidData();
+
+        Passport::actingAs($admin);
+
+        $this->putJson(config('app.url').'api//admin/products/dummy-product', $data)
+            ->assertStatus(404)
+            ->assertJsonFragment(['status' => 'error', 'errors' => 'Resource Not Found.']);
     }
 
     /**

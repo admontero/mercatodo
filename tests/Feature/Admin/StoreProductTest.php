@@ -4,11 +4,15 @@ namespace Tests\Feature\Admin;
 
 use Domain\Category\Models\Category;
 use Domain\Product\Models\Product;
+use Domain\Product\Services\ProductService;
 use Domain\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
+use Mockery;
 use Tests\TestCase;
 
 class StoreProductTest extends TestCase
@@ -478,6 +482,48 @@ class StoreProductTest extends TestCase
 
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor('category_id');
+    }
+
+    /** @test */
+    public function it_returns_an_error_500_if_the_server_fail(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $data = $this->getProductValidData();
+
+        Passport::actingAs($admin);
+
+        $serviceMock = Mockery::mock(ProductService::class);
+        $serviceMock->shouldReceive('uploadImage')
+                    ->once()
+                    ->andThrow(new \Exception());
+
+        $this->app->instance(ProductService::class, $serviceMock);
+
+        $this->postJson(route('api.admin.products.store'), $data)
+            ->assertStatus(500)
+            ->assertJsonFragment(['status' => 'error', 'errors' => 'Something went wrong.']);
+    }
+
+    /** @test */
+    public function it_returns_an_error_429_if_the_rate_limit_is_exceeded(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $data = $this->getProductValidData();
+
+        Passport::actingAs($admin);
+
+        $serviceMock = Mockery::mock(ProductService::class);
+        $serviceMock->shouldReceive('uploadImage')
+                    ->once()
+                    ->andThrow(new \Illuminate\Http\Exceptions\ThrottleRequestsException());
+
+        $this->app->instance(ProductService::class, $serviceMock);
+
+        $this->postJson(route('api.admin.products.store'), $data)
+            ->assertStatus(429)
+            ->assertJsonFragment(['status' => 'error', 'errors' => 'API Limit Reached.']);
     }
 
     protected function getProductValidData(array $invalidData = []): array

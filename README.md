@@ -66,7 +66,7 @@ Ahora puedes acceder al servidor desde http://localhost:8000
 
     php artisan passport:client --personal
 
-**Al ejecutar este comando se le pedirá el nombre que quiera para el personal access client, posterior a eso le retornarán dos valores que deberá poner en las variables correspondientes del archivo .env**
+Al ejecutar este comando se le pedirá el nombre que quiera para el personal access client, posterior a eso le retornarán dos valores que deberá poner en las variables correspondientes del archivo .env
 
 ## Seeding de la base de datos
 
@@ -100,6 +100,10 @@ Recuerda configurar las variables de entorno relacionadas al envío de correos e
 - [predis/predis](https://github.com/predis/predis) - Para interactuar con Redis.
 - [spatie/laravel-model-states](https://github.com/spatie/laravel-model-states) - Para gestionar los cambios de estado de los modelos, implementando el patrón state y máquinas de estado.
 - [spatie/laravel-permission](https://github.com/spatie/laravel-permission) - Para la gestión de roles y permisos.
+
+## Documentación API
+
+[MercaTodo API](https://documenter.getpostman.com/view/9609007/2s946fdsFX#c2cec13f-d4c4-4399-8dd5-a4aa1b219b6f)
 
 ## Autor
 

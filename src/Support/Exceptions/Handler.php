@@ -45,4 +45,53 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request, Throwable $e)
+    {
+        if ($request->wantsJson()) {
+            if ($e instanceof \Illuminate\Validation\ValidationException) {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => $e->errors(),
+                ], 422);
+            }
+
+            if ($e instanceof \Illuminate\Auth\Access\AuthorizationException ||
+                $e instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => $e->getMessage(),
+                ], 403);
+            }
+
+            if ($e instanceof \Illuminate\Database\Eloquent\ModelNotFoundException ||
+                $e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => 'Resource Not Found.',
+                ], 404);
+            }
+
+            if ($e instanceof \Illuminate\Auth\AuthenticationException) {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => $e->getMessage(),
+                ], 401);
+            }
+
+            if ($e instanceof \Illuminate\Http\Exceptions\ThrottleRequestsException) {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => 'API Limit Reached.',
+                ], 429);
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'errors' => 'Something went wrong.',
+            ], 500);
+        }
+
+        return parent::render($request, $e);
+    }
 }
