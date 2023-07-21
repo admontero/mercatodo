@@ -24,6 +24,8 @@ Genera una key para la aplicación
 
     php artisan key:generate
 
+**Antes de ejecutar las migraciones asegurate de crear la base datos y de usar la información correspondiente para conectarla desde el archivo .env**
+
 Ejecuta las migraciones de la base de datos
 
     php artisan migrate
@@ -31,6 +33,16 @@ Ejecuta las migraciones de la base de datos
 Prepara Laravel Passport para su uso
 
     php artisan passport:install
+
+Crear Personal Access Client
+
+    php artisan passport:client --personal
+
+**Al ejecutar este comando se le pedirá el nombre que quiera para el personal access client, posterior a eso le retornarán dos valores que deberá poner en las variables correspondientes del archivo .env**
+
+Ejecuta todos los seeders configurados para la aplicación
+
+    php artisan db:seed
 
 Instalar las dependencias de JavaScript usando npm
 
@@ -46,45 +58,11 @@ Levanta el servidor de desarrollo
 
 Ahora puedes acceder al servidor desde http://localhost:8000
 
-**Listado de comandos**
-
-    git clone https://github.com/admontero/mercatodo.git
-    cd mercatodo
-    composer install
-    cp .env.example .env
-    php artisan key:generate
-
-**Antes de ejecutar las migraciones asegurate de crear la base datos y de usar la información correspondiente para conectarla desde el archivo .env**
-
-    php artisan migrate
-    php artisan passport:install
-    npm install
-    npm run dev
-    php artisan serve
-
-## Crear Personal Access Client
-
-    php artisan passport:client --personal
-
-Al ejecutar este comando se le pedirá el nombre que quiera para el personal access client, posterior a eso le retornarán dos valores que deberá poner en las variables correspondientes del archivo .env
-
-## Seeding de la base de datos
-
-Ejecuta todos los seeders configurados para la aplicación
-
-    php artisan db:seed
-
-***Nota*** : Se recomienda que la base de datos esté limpia antes de ejecutar los seeders de la aplicación, para ello puedes ejecutar el siguiente comando
-
-    php artisan migrate:refresh
-
 ## Configuración de variables de entorno
 
 Recuerda configurar las variables de entorno relacionadas al envío de correos electrónicos y las de la integración con la plataforma de pagos PlaceToPay.
 
 ------------
-
-## Resumen del código
 
 ## Dependencias
 
