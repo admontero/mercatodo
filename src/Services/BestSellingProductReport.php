@@ -9,7 +9,8 @@ class BestSellingProductReport extends ReportBase
 {
     public function __construct(
         public readonly string $view = 'pdf.reports.best-selling-product'
-    ) {}
+    ) {
+    }
 
     /** @return array<int, mixed> */
     public function generate(ReportDTO $dto): array

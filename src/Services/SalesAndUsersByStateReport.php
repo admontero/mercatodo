@@ -9,7 +9,8 @@ class SalesAndUsersByStateReport extends ReportBase
 {
     public function __construct(
         public readonly string $view = 'pdf.reports.sales-and-users-by-state'
-    ) {}
+    ) {
+    }
 
     /** @return array<int, mixed> */
     public function generate(ReportDTO $dto): array

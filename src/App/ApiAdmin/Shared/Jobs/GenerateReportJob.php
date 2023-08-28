@@ -25,13 +25,13 @@ class GenerateReportJob implements ShouldQueue
 
     /**
      * Create a new job instance.
-     *
      */
     public function __construct(
         private readonly User|null $user,
         private readonly ReportDTO $dto,
         protected ReportFactoryInterface $reportFactory,
-    ) {}
+    ) {
+    }
 
     /**
      * Execute the job.

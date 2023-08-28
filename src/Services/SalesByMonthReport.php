@@ -9,7 +9,8 @@ class SalesByMonthReport extends ReportBase
 {
     public function __construct(
         public readonly string $view = 'pdf.reports.sales-by-month'
-    ) {}
+    ) {
+    }
 
     /** @return array<int, mixed> */
     public function generate(ReportDTO $dto): array
