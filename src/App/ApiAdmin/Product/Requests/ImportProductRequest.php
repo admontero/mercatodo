@@ -1,10 +1,10 @@
 <?php
 
-namespace App\ApiAdmin\Shared\Requests;
+namespace App\ApiAdmin\Product\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ReportRequest extends FormRequest
+class ImportProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,7 @@ class ReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'records' => 'nullable|integer',
+            'file' => 'required|file|mimes:csv,txt,xls,xlsx|max:2048',
         ];
     }
 }

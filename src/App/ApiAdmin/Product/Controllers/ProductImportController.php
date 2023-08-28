@@ -3,24 +3,20 @@
 namespace App\ApiAdmin\Product\Controllers;
 
 use App\ApiAdmin\Product\Jobs\ProductImportJob;
+use App\ApiAdmin\Product\Requests\ImportProductRequest;
 use App\Controller;
 use Domain\Product\Models\Product;
 use Domain\Product\Services\ProductService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ProductImportController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request, ProductService $service): JsonResponse
+    public function __invoke(ImportProductRequest $request, ProductService $service): JsonResponse
     {
         $this->authorize('import', new Product());
-
-        $request->validate([
-            'file' => 'required|file|mimes:csv|max:2048',
-        ]);
 
         $path = $request->file->storeAS('imports', 'products.csv');
 

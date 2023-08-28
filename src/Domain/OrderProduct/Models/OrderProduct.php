@@ -4,6 +4,7 @@ namespace Domain\OrderProduct\Models;
 
 use Database\Factories\OrderProductFactory;
 use Domain\Order\Models\Order;
+use Domain\OrderProduct\QueryBuilders\OrderProductBuilder;
 use Domain\Product\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,5 +47,16 @@ class OrderProduct extends Pivot
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    /**
+     * Create a new Eloquent query builder for the model.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @return \Domain\OrderProduct\QueryBuilders\OrderProductBuilder<\Domain\OrderProduct\Models\OrderProduct>
+     */
+    public function newEloquentBuilder($query): OrderProductBuilder
+    {
+        return new OrderProductBuilder($query);
     }
 }

@@ -1,17 +1,23 @@
 <?php
 
-namespace Domain\OrderProduct\Services;
+namespace Domain\OrderProduct\QueryBuilders;
 
-use Domain\OrderProduct\Models\OrderProduct;
-use Illuminate\Http\Request;
+use Domain\Shared\DTOs\ReportDTO;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
-class OrderProductService
+/**
+ * @template TModelClass of \Domain\OrderProduct\Models\OrderProduct
+ * @extends Builder<TModelClass>
+ */
+class OrderProductBuilder extends Builder
 {
-    /** @return array<string, mixed> */
-    public function getBestSellingProduct(Request $request): array
+    /**
+     * @return \Domain\OrderProduct\QueryBuilders\OrderProductBuilder<\Domain\OrderProduct\Models\OrderProduct>
+     */
+    public function getBestSellingProduct(ReportDTO $dto): self
     {
-        return OrderProduct::select([
+        return $this->select([
             DB::raw('products.code AS code'),
             DB::raw('products.name AS name'),
             DB::raw('COUNT(*) AS orders_completed'),
@@ -21,21 +27,19 @@ class OrderProductService
             ->join('orders', 'orders.id', '=', 'order_product.order_id')
             ->where('orders.state', 'Domain\\Order\\States\\Completed')
             ->groupBy('order_product.product_id')
-            ->orderBy('orders_completed', 'DESC')
-            ->orderBy('units_purchased', 'DESC')
-            ->when($request->records, function ($q) use ($request) {
-                $q->take($request->records);
-            }, function ($q) {
-                $q->take(10);
-            })
-            ->get()
-            ->toArray();
+            ->when($dto->records, function ($query) use ($dto) {
+                $query->take((int) $dto->records);
+            }, function ($query) {
+                $query->take(10);
+            });
     }
 
-    /** @return array<string, mixed> */
-    public function getBestSellingCategory(Request $request): array
+    /**
+     * @return \Domain\OrderProduct\QueryBuilders\OrderProductBuilder<\Domain\OrderProduct\Models\OrderProduct>
+     */
+    public function getBestSellingCategory(ReportDTO $dto): self
     {
-        return OrderProduct::select([
+        return $this->select([
             DB::raw('categories.name AS name'),
             DB::raw('COUNT(order_product.id) AS sales'),
             DB::raw('SUM(order_product.quantity) AS products'),
@@ -46,15 +50,10 @@ class OrderProductService
             ->join('categories', 'categories.id', '=', 'products.category_id')
             ->where('orders.state', 'Domain\\Order\\States\\Completed')
             ->groupBy('categories.id')
-            ->orderBy('sales', 'DESC')
-            ->orderBy('products', 'DESC')
-            ->orderBy('total', 'DESC')
-            ->when($request->records, function ($q) use ($request) {
-                $q->take($request->records);
-            }, function ($q) {
-                $q->take(10);
-            })
-            ->get()
-            ->toArray();
+            ->when($dto->records, function ($query) use ($dto) {
+                $query->take((int) $dto->records);
+            }, function ($query) {
+                $query->take(10);
+            });
     }
 }
