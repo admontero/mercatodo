@@ -3,6 +3,8 @@
 namespace App\ApiAdmin\Shared\Jobs;
 
 use Barryvdh\DomPDF\Facade\Pdf;
+use Domain\Shared\Contracts\ReportFactoryInterface;
+use Domain\Shared\DTOs\ReportDTO;
 use Domain\Shared\Mails\ReportMail;
 use Domain\User\Models\User;
 use Illuminate\Bus\Queueable;
@@ -23,13 +25,11 @@ class GenerateReportJob implements ShouldQueue
 
     /**
      * Create a new job instance.
-     *
-     * @param array<string, mixed> $data
      */
     public function __construct(
         private readonly User|null $user,
-        protected array $data,
-        protected string $view,
+        private readonly ReportDTO $dto,
+        protected ReportFactoryInterface $reportFactory,
     ) {
     }
 
@@ -39,7 +39,11 @@ class GenerateReportJob implements ShouldQueue
     public function handle(): void
     {
         try {
-            $pdf = Pdf::loadView($this->view, ['data' => $this->data]);
+            $processor = $this->reportFactory->initializeReport($this->dto->name);
+
+            [$data, $view] = $processor->generate($this->dto);
+
+            $pdf = Pdf::loadView($view, ['data' => $data]);
 
             Mail::to($this->user)
                 ->send((new ReportMail($pdf, 'The report has been generated successfully'))

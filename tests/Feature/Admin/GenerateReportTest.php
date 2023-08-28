@@ -29,7 +29,7 @@ class GenerateReportTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->getJson(route('api.admin.reports.best-selling-product', ['records' => 10]));
+        $response = $this->postJson(route('api.admin.reports.store', ['name' => 'BestSellingProduct', 'records' => 10]));
 
         Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
             $job->handle();
@@ -62,7 +62,7 @@ class GenerateReportTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->getJson(route('api.admin.reports.best-selling-category', ['records' => 25]));
+        $response = $this->postJson(route('api.admin.reports.store', ['name' => 'BestSellingCategory', 'records' => 25]));
 
         Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
             $job->handle();
@@ -99,7 +99,7 @@ class GenerateReportTest extends TestCase
             ->once()
             ->andThrow(new \Exception());
 
-        $response = $this->getJson(route('api.admin.reports.best-selling-product'));
+        $response = $this->postJson(route('api.admin.reports.store', ['name' => 'BestSellingProduct']));
 
         Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
             $job->handle();
@@ -135,7 +135,7 @@ class GenerateReportTest extends TestCase
             ->once()
             ->andThrow(new \Exception());
 
-        $response = $this->getJson(route('api.admin.reports.best-selling-category'));
+        $response = $this->postJson(route('api.admin.reports.store', ['name' => 'BestSellingCategory']));
 
         Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
             $job->handle();
@@ -167,7 +167,7 @@ class GenerateReportTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->getJson(route('api.admin.reports.best-buyer', ['records' => 50]));
+        $response = $this->postJson(route('api.admin.reports.store', ['name' => 'BestBuyer', 'records' => 50]));
 
         Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
             $job->handle();
@@ -200,7 +200,7 @@ class GenerateReportTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->getJson(route('api.admin.reports.best-buyer'));
+        $response = $this->postJson(route('api.admin.reports.store', ['name' => 'BestBuyer']));
 
         Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
             $job->handle();
@@ -233,7 +233,7 @@ class GenerateReportTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->getJson(route('api.admin.reports.sales-and-users-by-state'));
+        $response = $this->postJson(route('api.admin.reports.store', ['name' => 'SalesAndUsersByState']));
 
         Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
             $job->handle();
@@ -266,7 +266,7 @@ class GenerateReportTest extends TestCase
 
         Passport::actingAs($admin);
 
-        $response = $this->getJson(route('api.admin.reports.sales-by-month'));
+        $response = $this->postJson(route('api.admin.reports.store', ['name' => 'SalesByMonth']));
 
         Bus::assertDispatched(GenerateReportJob::class, function (GenerateReportJob $job) {
             $job->handle();

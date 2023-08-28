@@ -3,6 +3,7 @@
 namespace Domain\Order\Models;
 
 use Database\Factories\OrderFactory;
+use Domain\Order\QueryBuilders\OrderBuilder;
 use Domain\Order\States\OrderState;
 use Domain\Product\Models\Product;
 use Domain\User\Models\User;
@@ -65,5 +66,16 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Create a new Eloquent query builder for the model.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @return \Domain\Order\QueryBuilders\OrderBuilder<\Domain\Order\Models\Order>
+     */
+    public function newEloquentBuilder($query): OrderBuilder
+    {
+        return new OrderBuilder($query);
     }
 }
