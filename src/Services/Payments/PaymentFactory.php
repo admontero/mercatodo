@@ -1,6 +1,6 @@
 <?php
 
-namespace Services;
+namespace Services\Payments;
 
 use Domain\Shared\Contracts\PaymentFactoryInterface;
 use Exception;

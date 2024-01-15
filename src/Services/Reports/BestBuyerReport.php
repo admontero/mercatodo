@@ -1,6 +1,6 @@
 <?php
 
-namespace Services;
+namespace Services\Reports;
 
 use Domain\Order\Models\Order;
 use Domain\Shared\DTOs\ReportDTO;

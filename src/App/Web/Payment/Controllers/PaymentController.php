@@ -4,7 +4,7 @@ namespace App\Web\Payment\Controllers;
 
 use App\Controller;
 use Illuminate\View\View;
-use Services\PlaceToPayPayment;
+use Services\Payments\PlaceToPayPayment;
 
 class PaymentController extends Controller
 {

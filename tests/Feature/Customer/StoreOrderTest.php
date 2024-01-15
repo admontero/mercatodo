@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Customer;
 
-use Domain\Order\DTOs\OrderDTO;
 use Domain\Order\Events\OrderCanceled;
 use Domain\Order\Events\OrderCreated;
 use Domain\Order\Listeners\RestoreProductStock;
