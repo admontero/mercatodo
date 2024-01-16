@@ -1,6 +1,6 @@
 <?php
 
-namespace Services;
+namespace Services\Payments;
 
 use App\ApiCustomer\Order\Requests\StoreOrderRequest;
 use Domain\Order\Models\Order;

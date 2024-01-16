@@ -5,8 +5,8 @@ namespace Support\Providers;
 use Domain\Shared\Contracts\PaymentFactoryInterface;
 use Domain\Shared\Contracts\ReportFactoryInterface;
 use Illuminate\Support\ServiceProvider;
-use Services\PaymentFactory;
-use Services\ReportFactory;
+use Services\Payments\PaymentFactory;
+use Services\Reports\ReportFactory;
 use Support\Middlewares\CacheProductResponseMiddleware;
 
 class AppServiceProvider extends ServiceProvider

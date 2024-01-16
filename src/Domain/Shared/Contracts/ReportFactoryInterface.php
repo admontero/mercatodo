@@ -2,7 +2,7 @@
 
 namespace Domain\Shared\Contracts;
 
-use Services\ReportBase;
+use Services\Reports\ReportBase;
 
 interface ReportFactoryInterface
 {

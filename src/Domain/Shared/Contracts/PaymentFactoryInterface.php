@@ -2,7 +2,7 @@
 
 namespace Domain\Shared\Contracts;
 
-use Services\PaymentBase;
+use Services\Payments\PaymentBase;
 
 interface PaymentFactoryInterface
 {
